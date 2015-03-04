@@ -345,35 +345,41 @@
 
 
 % correct bad hyphenation here
-\hyphenation{op-tical net-works semi-conduc-tor}
+\hyphenation{}
 
 
 \begin{document}
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Bare Demo of IEEEtran.cls for Conferences}
+\title{Constellation Rearrangement in Cooperative Relay-HARQ Network}
 
 
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{Michael Shell}
-\IEEEauthorblockA{School of Electrical and\\Computer Engineering\\
-Georgia Institute of Technology\\
-Atlanta, Georgia 30332--0250\\
-Email: http://www.michaelshell.org/contact.html}
-\and
-\IEEEauthorblockN{Homer Simpson}
-\IEEEauthorblockA{Twentieth Century Fox\\
-Springfield, USA\\
-Email: homer@thesimpsons.com}
-\and
-\IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
-\IEEEauthorblockA{Starfleet Academy\\
-San Francisco, California 96678-2391\\
-Telephone: (800) 555--1212\\
-Fax: (888) 555--1212}}
+\author{
+%     \IEEEauthorblockN{Michael Shell}
+%     \IEEEauthorblockA{
+%         School of Electrical and\\Computer Engineering\\
+%         Georgia Institute of Technology\\
+%         Atlanta, Georgia 30332--0250\\
+%         Email: http://www.michaelshell.org/contact.html
+%     }
+%     \and
+%     \IEEEauthorblockN{Homer Simpson}
+%     \IEEEauthorblockA{Twentieth Century Fox\\
+%         Springfield, USA\\
+%         Email: homer@thesimpsons.com
+%     }
+%     \and
+%     \IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
+%     \IEEEauthorblockA{Starfleet Academy\\
+%         San Francisco, California 96678-2391\\
+%         Telephone: (800) 555--1212\\
+%         Fax: (888) 555--1212
+%     }
+}
 
 % conference papers do not typically use \thanks and this command
 % is locked out in conference mode. If really needed, such as for
@@ -404,15 +410,25 @@ Fax: (888) 555--1212}}
 %\IEEEspecialpapernotice{(Invited Paper)}
 
 
-
+% 6 + 1 page policy for globecom
 
 % make the title area
 \maketitle
 
 
 \begin{abstract}
-%\boldmath
-The abstract goes here.
+    %\boldmath
+    % (what we do)
+    We study the constellation rearrangement (CoRe) problem in a relay-HARQ
+    network to achieve symbol mapping diversity for reliable communication.
+    % (how they do)
+    % (how we do)
+    Specifically, we formulate the bit error rate (BER) maximization into a
+    quadratic three-dimensional assignment problem (Q3AP) and make use of the
+    recent development of numerical method to find the optimal CoRe solution.
+    % (main results)
+    Performance gains on various channel settings are demonstrated with
+    simulations.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -440,23 +456,26 @@ The abstract goes here.
 
 \section{Introduction}
 % no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
+
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
-I wish you the best of success.
+% Why are we interested in the cooperative relay-HARQ channel? Why CoRe?
 
-\hfill mds
- 
-\hfill January 11, 2007
+% Survey of existing works on CoRe/relay channel
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+% Q3AP/QAP solution for HARQ model
+
+% Our contribution: apply QAP/Q3AP to the relay-HARQ model for near-optimal
+% rearrangement.
 
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+%\hfill mds
+
+\section{System Model and Problem Formulation}
+% Cooperative relay-HARQ channel 
+
+
+% ML demodulator
 
 
 % An example of a floating figure using the graphicx package.
@@ -541,10 +560,31 @@ Subsubsection text here.
 % footnotes above bottom floats. This can be corrected via the \fnbelowfloat
 % command of the stfloats package.
 
+\section{Optimal Constellation Rearrangement}
+\cite{koch1955some}
+\subsection{BER Maximization via Q3AP solution}
+% Q3AP formulation 
 
+\subsection{Computation of the Pair-wise Symbol Rate}
+% serial expansion method
+
+% special case of Rayleigh fading
+
+\subsection{Q3AP Solution}
+% Description of the Q3AP solution methods
+
+\section{Numerical Results}
+% BER-SNR different amplitude, K = 10
+
+% BER-SNR different amplitude, K = 1
+
+% BER-SNR different phase, K = 10
+
+% BER-SNR different phase, K = 1
+
+% BER mismatch
 
 \section{Conclusion}
-The conclusion goes here.
 
 
 
@@ -553,10 +593,8 @@ The conclusion goes here.
 
 
 % use section* for acknowledgement
-\section*{Acknowledgment}
-
-
-The authors would like to thank...
+%\section*{Acknowledgment}
+%The authors would like to thank...
 
 
 
@@ -577,20 +615,18 @@ The authors would like to thank...
 % http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
 % The IEEEtran BibTeX style support page is at:
 % http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
+\bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
+\bibliography{IEEEabrv,mybibfile}
 %
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
-
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
+%\begin{thebibliography}{1}
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%\end{thebibliography}
 
 
 
