@@ -455,19 +455,35 @@
 
 
 \section{Introduction}
-% no \IEEEPARstart
-
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
 % Why are we interested in the cooperative relay-HARQ channel? Why CoRe?
+In modern wireless communication systems, Automatic Repeat reQuest (ARQ) or
+Hybrid ARQ (HARQ) are recognized as key technologies for reliable transmission.
+HARQ comined with relay networks has attracted great research interest in recent
+years~\cite{}. Since in practice the transmitted symbols are modulated from a
+finite-size constellation (e.g., PSK, QAM), the performance of cooperative
+relay-HARQ system can be further enhanced with Constellation Rearrangement
+(CoRe)~\cite{}.
 
 % Survey of existing works on CoRe/relay channel
+There are a wide variety of works on CoRe for cooperative relay-HARQ
+systems with different channel settings and design criteria.
+
+Nevertheless, since the CoRe problem is usually formulated into a binary linear
+programming (BIP) problem, which is known to be one of Karp's 21 NP-complete
+problems~\cite{}, the abovementioned problems are usually solved with
+very heuristic approaches~\cite{}, or by impractically dropping the binary
+constellation mapping constraints~\cite{}.
 
 % Q3AP/QAP solution for HARQ model
+Historically, various CoRe problem for HARQ system fall within the realm of
+Quadratic Assignment Problem (QAP) or its extensions like Quadratic
+3-dimensional Assignment Problem (Q3AP)~\cite{}. Recent development in the
+numerical approaches to QAP/Q3AP~\cite{} has enbaled us to efficiently derive
+CoRe schemes with high quality.
 
 % Our contribution: apply QAP/Q3AP to the relay-HARQ model for near-optimal
 % rearrangement.
-
+In this work, we
 
 %\hfill mds
 
