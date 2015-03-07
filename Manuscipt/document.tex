@@ -127,7 +127,7 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+   %\usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -342,8 +342,8 @@
 % There should be no need to do such things with IEEEtran.cls V1.6 and later.
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
-
-
+\usepackage{graphicx}
+\usepackage{float}
 % correct bad hyphenation here
 \hyphenation{}
 
@@ -459,35 +459,85 @@
 In modern wireless communication systems, Automatic Repeat reQuest (ARQ) or
 Hybrid ARQ (HARQ) are recognized as key technologies for reliable transmission.
 HARQ comined with relay networks has attracted great research interest in recent
-years~\cite{}. Since in practice the transmitted symbols are modulated from a
-finite-size constellation (e.g., PSK, QAM), the performance of cooperative
+years~\cite{ngo2014hybrid}. Since in practice the transmitted symbols are modulated
+from a finite-size constellation (e.g., PSK, QAM), the performance of cooperative
 relay-HARQ system can be further enhanced with Constellation Rearrangement
-(CoRe)~\cite{}.
+(CoRe)~\cite{benelli1992new, wengerter2002advanced}, in which a same series of
+bits are mapped to different constellation points across different links.
 
-% Survey of existing works on CoRe/relay channel
-There are a wide variety of works on CoRe for cooperative relay-HARQ
+% Survey of existing works on CoRe/relay channel. Shortcomings: 1. orthogonal
+% links assumption leads to low bandwidth efficiency; 2. Heuristic algorithms
+% performance not guaranteed
+There are a wide variety of works on CoRe for cooperative relay
 systems with different channel settings and design criteria.
+For the simple three-node single hop relay network, CoRe is designed to minimize
+symbol error rate (SER) in~\cite{seddik2008trans} and the bit error rate (BER)
+in~\cite{khormuji2007improving}. The rate optimized CoRe is studied
+in~\cite{khormuji2008rate}. For relay-HARQ systems, CoRe is designed based
+on BER maximization in~\cite{kim2009design}. CoRe is also studied in
+Nakagami-$m$ channel~\cite{ryu2011ber} and in combination with power
+allocation~\cite{yu2012power}. Nevertheless, all the abovementioned
+works assume cooperative relay-HARQ schemes with orthogonality between the
+source-to-destination (S-D) link and the relay-to-destination (R-D) links, i.e.
+the (re)transmissions on the S-D link and the R-D links can not be on a same
+time slot or band, resulting in low bandwidth efficiency. Moreover, since the
+CoRe problem is usually formulated into a NP-complete binary linear programming
+(BIP) problem, existing CoRe implementation are mostly based on fixed
+rearrangement~\cite{seddik2008trans, yu2012power}, heurisitc approaches such as
+simulated annealing~\cite{khormuji2008rate} and genetic
+algorithm~\cite{kim2009design}, or by impractically dropping the binary
+constellation mapping constraints~\cite{sediq2011optimized}.
 
-Nevertheless, since the CoRe problem is usually formulated into a binary linear
-programming (BIP) problem, which is known to be one of Karp's 21 NP-complete
-problems~\cite{}, the abovementioned problems are usually solved with
-very heuristic approaches~\cite{}, or by impractically dropping the binary
-constellation mapping constraints~\cite{}.
-
-% Q3AP/QAP solution for HARQ model
+% Q3AP/QAP solution for HARQ model (going to add more references and
+% descriptions)
 Historically, various CoRe problem for HARQ system fall within the realm of
 Quadratic Assignment Problem (QAP) or its extensions like Quadratic
-3-dimensional Assignment Problem (Q3AP)~\cite{}. Recent development in the
-numerical approaches to QAP/Q3AP~\cite{} has enbaled us to efficiently derive
-CoRe schemes with high quality.
+3-dimensional Assignment Problem (Q3AP)~\cite{harvind2005symbol}. Recent
+development in the numerical approaches to QAP/Q3AP~\cite{mittelmann2013solving}
+has enbaled us to efficiently derive CoRe schemes with high quality.
 
-% Our contribution: apply QAP/Q3AP to the relay-HARQ model for near-optimal
-% rearrangement.
-In this work, we
+% Our contribution: 1. CoRe in new cooperative relay-HARQ settings; 2. apply
+% QAP/Q3AP for near-optimal rearrangement.
+In this work, we study the CoRe for cooperative relay-HARQ channel based on BER
+maximization. The main contributions of this paper are as follows:
+\begin{itemize}
+    \item We propose to use CoRe for the relay-HARQ scheme similar
+    to~\cite{qi2011h2arq}. As depicted in Fig~\ref{fig:system_model}, the source
+    and the relay jointly perform the retransmission to the destination
+    simultaneously, practically forming a 2-by-1 MIMO system.
+    \item In our cooperative relay-HARQ settings, we formulate the CoRe design
+    into a Q3AP problem. By taking advantage of the latest numerical solvers, we
+    demonstrate significant performance gain of the optimized CoRe over non-CoRe
+    and simple CoRe schemes for various channel settings.
+\end{itemize}
 
+% \begin{figure}[!h]
+%     \begin{minipage}[b]{0.48\linewidth}
+%       \centering
+%       \centerline{\includegraphics[width=4.0cm]{relaymodel1.eps}}
+%       \centerline{(a) Phase 1}\medskip
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[b]{.48\linewidth}
+%       \centering
+%       \centerline{\includegraphics[width=4.0cm]{relaymodel2.eps}}
+%       \centerline{(b) Phase 2}\medskip
+%     \end{minipage}
+% 
+%     \caption{}
+%     \label{fig:system_model}
+% \end{figure}
+
+The rest of this paper is organized as follows. Section~\ref{sec:model}
+describes the cooperative relay-HARQ system model. Section~\ref{sec:core}
+formulates the CoRe design into a Q3AP solution and provides a brief description
+of the numerical algorithm. The numerical results are presented in
+Section~\ref{sec:simulation}. Finally, Section~\ref{sec:conclusion} concludes
+the paper.
 %\hfill mds
 
 \section{System Model and Problem Formulation}
+\label{sec:model}
 % Cooperative relay-HARQ channel 
 
 
@@ -577,7 +627,7 @@ In this work, we
 % command of the stfloats package.
 
 \section{Optimal Constellation Rearrangement}
-\cite{koch1955some}
+\label{sec:core}
 \subsection{BER Maximization via Q3AP solution}
 % Q3AP formulation 
 
@@ -590,6 +640,7 @@ In this work, we
 % Description of the Q3AP solution methods
 
 \section{Numerical Results}
+\label{sec:simulation}
 % BER-SNR different amplitude, K = 10
 
 % BER-SNR different amplitude, K = 1
@@ -601,6 +652,7 @@ In this work, we
 % BER mismatch
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 
 
