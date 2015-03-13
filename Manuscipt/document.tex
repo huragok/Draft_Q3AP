@@ -799,12 +799,34 @@ as~\cite{schwartz1995communication}
 
 
 % special case of Rayleigh fading
-
+When the Rician-fading channel reduces to Rayleigh-fading channel, i.e.
+when $\mu_{h_m}=0, m = 0, 1, 2$ there is a simple upperbound of
+$P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$ similar
+to~\cite{seddik2008trans}. Note that
+\begin{align}
+    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}  \notag \\
+    & = \mathbb{E}_{h_0,h_1,h_2}
+    \left\{Q\left(\sqrt{\frac{\left|h_0e_{pq}\right|^2
+    + \left|h_1e_{ik} + h_2e_{jl}\right|^2}
+    {2\sigma_v^2}}\right)\right\}
+\end{align}
+Applying the same relaxation as in~\cite{seddik2008trans}, we have
+\begin{align}
+    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
+    & \leq \frac{3\sigma_v^4}{\sigma_{h_0}^2|e_{pq}|^2 (\sigma_{h_1}^2|e_{ik}|^2
+    +\sigma_{h_2}^2|e_{jl}|^2)}
+    \label{eq:PEP_UB}
+\end{align}
+which is tight in high-SNR regime.
 \subsection{Q3AP Solution}
 % Description of the Q3AP solution methods
 
 \section{Numerical Results}
 \label{sec:simulation}
+% Simulation settings
+In this section we present the numerical results of CoRe under various channel
+settings. 
+
 % BER-SNR different amplitude, K = 10
 
 % BER-SNR different amplitude, K = 1
