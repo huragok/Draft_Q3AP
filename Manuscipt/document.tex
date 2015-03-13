@@ -170,7 +170,9 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage[cmex10]{amsmath}
+\usepackage[cmex10]{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics. If using
 % it, be sure to load this package with the cmex10 option to ensure that
@@ -502,8 +504,8 @@ In this work, we study the CoRe for cooperative relay-HARQ channel based on BER
 maximization. The main contributions of this paper are as follows:
 \begin{itemize}
     \item We propose to use CoRe for the relay-HARQ scheme similar
-    to~\cite{qi2011h2arq}. As depicted in Fig~\ref{fig:system_model}, the source
-    and the relay jointly perform the retransmission to the destination
+    to~\cite{qi2011h2arq}. As depicted in Fig.~\ref{fig:system_model}, the
+    source and the relay jointly perform the retransmission to the destination
     simultaneously, practically forming a 2-by-1 MIMO system.
     \item In our cooperative relay-HARQ settings, we formulate the CoRe design
     into a Q3AP problem. By taking advantage of the latest numerical solvers, we
@@ -511,22 +513,21 @@ maximization. The main contributions of this paper are as follows:
     and simple CoRe schemes for various channel settings.
 \end{itemize}
 
-% \begin{figure}[!h]
-%     \begin{minipage}[b]{0.48\linewidth}
-%       \centering
-%       \centerline{\includegraphics[width=4.0cm]{relaymodel1.eps}}
-%       \centerline{(a) Phase 1}\medskip
-%     \end{minipage}
-%     \hfill
-%     \begin{minipage}[b]{.48\linewidth}
-%       \centering
-%       \centerline{\includegraphics[width=4.0cm]{relaymodel2.eps}}
-%       \centerline{(b) Phase 2}\medskip
-%     \end{minipage}
-% 
-%     \caption{}
-%     \label{fig:system_model}
-% \end{figure}
+\begin{figure}[!t]
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ1.eps}}
+      \centerline{(a) Phase 1}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2.eps}}
+      \centerline{(b) Phase 2}\medskip
+    \end{minipage}
+    \caption{Cooperative relay-HARQ networks.}
+    \label{fig:system_model}
+\end{figure}
 
 The rest of this paper is organized as follows. Section~\ref{sec:model}
 describes the cooperative relay-HARQ system model. Section~\ref{sec:core}
@@ -539,10 +540,42 @@ the paper.
 \section{System Model and Problem Formulation}
 \label{sec:model}
 % Cooperative relay-HARQ channel 
-
+We consider the cooperative relay-HARQ network depicted in
+Fig.~\ref{fig:system_model}. Denote $\mathcal{C}$ as the constellation used by
+this relay network. In the first phase, the source convert a bit
+sequence of length $\log_2|\mathcal{C}|$ into symbols with Gray
+mapping $\psi_0:
+\{0,\ldots,|\mathcal{C}| - 1\}\rightarrow \mathcal{C}$. The bit sequence is
+indexed by its decimal equivalence $p\in \{0,\ldots,|\mathcal{C}| - 1\}$.
+Then the source transmit $\psi_0[p]$ to the destination via channel $h_0$
+which is also overheard by the decode-and-forward (DF) relay.
+We assume that relay is placed strategically so that it has
+negligible decoding error rate as in~\cite{}. Upon receiving a request for
+retransmission, the second phase is started. This time the source and the relay
+adop remap $p$ into $\psi_1[p]$ and $\psi_2[p]$, respectively, where potentially
+$\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The remapped symbols are
+transmitted simultaneously on the same band to the destination via channel $h_1$
+and $h_2$. In summary, the received signal at the destination
+during the 2 phases are
+\begin{subequations}
+    \begin{align}
+       y_1 & = h_0\psi_0[p] + v_1 \\
+       y_2 & = h_1\psi_1[p] + h_2\psi_2[p] + v_2
+    \end{align}
+\end{subequations}
+where $v_1\sim\mathcal{CN}(0,\sigma_v^2)$ and
+$v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are the additive noise. Thoughout this work,
+we assume the channels $h_0$, $h_1$ and $h_2$ follows independent Rician
+distribution.
 
 % ML demodulator
-
+Assuming that the destination has perfect channel state information (CSI), it
+decides the index $p$ with the maximum likelihood (ML) rule
+\begin{align}
+    \min_{\hat{p}} |y_1 - \hat{h}_0\psi_0[\hat{p}]|^2 + |y_2-
+    \hat{h}_1\psi_1[\hat{p}] - \hat{h}_2\psi_2[\hat{p}]|^2.
+    \label{eq:ML}
+\end{align}
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -628,11 +661,142 @@ the paper.
 
 \section{Optimal Constellation Rearrangement}
 \label{sec:core}
+In this section we first formulate the min-BER CoRe design into a Q3AP problem,
+and explain the numerical approach to compute the input cost matrix to Q3AP
+problem. Then we provide an efficient algorithm to solve the Q3AP solution.
+
 \subsection{BER Maximization via Q3AP solution}
 % Q3AP formulation 
+Assume that the information-bearing index $p$ follows a uniform distribution,
+the BER can be upper-bounded using pair-wise error probability (PEP)~\cite{}
+\begin{align}
+    P_{BER} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
+    q]}{Q}P_{PEP}(q | p) \label{eq:P_BER}
+\end{align}
+where $B[p,q]$ is the Hamming distance between the binary representation of $p$
+and $q$ and $P_{PEP}(q | p)$ is the probability for the ML decoder to prefer $q$
+over $p$ when $p$ is actually transmitted. According to~(\ref{eq:ML}), we have
+\begin{align}
+    P_{PEP}(q | p) = P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,q,\psi_1,\psi_2) < 0\}
+    \label{eq:P_PEP}
+\end{align}
+i.e. given indices $p, q$ and the remapping scheme $\psi_1$, $\psi_2$, the
+probability of random variable $\delta<0$ evaluated over the random variables
+$h_0,h_1,h_2,v_0,v_1$, and $\delta$ is defined as
+\begin{align}
+    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_0|^2 - |v_0|^2 +\notag\\ 
+    &
+    |h_1(\psi_1[p] - \psi_1[q])+h_2(\psi_2[p] - \psi_2[q])+v_1|^2 -
+    |v_1|^2.
+    \label{eq:delta}
+\end{align}
+In order to formulate the Q3AP problem, we denote binary variable $x_{pij} = 1$
+if $\psi_1[p] = \psi_0[i]$ and $\psi_2[p] = \psi_0[j]$ and $x_{pij} = 0$
+otherwise.
+Denote $\mathbf{x} = \{x_{pij}|p,i,j=0,\ldots,Q-1\}$, and the
+constraint sets:
+\begin{subequations}
+    \begin{align}
+        \mathcal{P} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij} = 1,
+        x_{pij}\in\{0, 1\}\right\}
+        \\
+        \mathcal{I} & = \left\{\mathbf{x}:\,\sum_{i=0}^{Q-1}x_{pij} = 1,
+        x_{pij}\in\{0, 1\}\right\}
+        \\
+        \mathcal{J} & = \left\{\mathbf{x}:\,\sum_{j=0}^{Q-1}x_{pij} = 1,
+        x_{pij}\in\{0, 1\}\right\}.
+    \end{align}
+\end{subequations}
+Then from~(\ref{eq:P_BER})(\ref{eq:P_PEP})(\ref{eq:delta}), the BER-minimization
+CoRe scheme $\min_{\psi_1, \psi_2}P_{BER}$ can be reformulated as
+\begin{align}
+    & \min_{\mathbf{x}}\sum_{p=0}^{Q-1}\sum_{i=0}^{Q-1}\sum_{j=0}^{Q-1}
+    \sum_{q=0}^{Q-1}\sum_{k=0}^{Q-1}\sum_{l=0}^{Q-1}c_{pijqkl}x_{pij}x_{qkl}
+    \label{eq:Q3AP}\\
+    & \mbox{s.t. } \mathbf{x}\in \mathcal{P}\cap\mathcal{I}\cap\mathcal{J}
+    \notag
+\end{align}
+in which
+\begin{align}
+    c_{pijqkl} & = \frac{B[p, q]}{Q}P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)
+    < 0\}
+    \label{eq:cpijqkl}
+\end{align}
+\begin{align}
+    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_0|^2 - |v_0|^2 +\notag
+    \\
+    &
+    |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_1|^2 -
+    |v_1|^2.\label{eq:delta}
+\end{align}
 
 \subsection{Computation of the Pair-wise Symbol Rate}
+
 % serial expansion method
+In this section we focus on the computation of the parameters $\{c_{pijqkl}\}$
+of Q3AP problem. According to~\ref{eq:cpijqkl}, the key to compute $c_{pijqkl}$
+lies in the evaluation of $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)$, i.e.
+the CDF of random variable $\delta(p,i,j,q,k,l)$ as in~(\ref{eq:delta}). For the
+general Rician channel assumption
+$h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we extend the method
+in~\cite{} to compute $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$:
+\begin{align}
+    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
+    & \approx \frac{1}{2v}\sum_{t=1}^v \Re\left\{\Phi_{\delta}(\xi +
+    j\xi\tau_t)\right\} + \tau_t\Im\left\{\Phi_{\delta}(\xi +
+    j\xi\tau_t)\right\}
+    \label{eq:expansion}
+\end{align}
+where the moment generating function (MGF) $\Phi_{\delta}(\omega) =
+\mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_k = \tan((k - 1/2)\pi/v)$
+and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denotes the real and image part,
+respectively. Parameter $\xi$ is selected to ensure convergence of the
+integration and \cite{taricco2002exact} suggested to use $\xi = 1/4$. The size
+$u$ of the expansion~(\ref{eq:expansion}) needs to be larger when $
+P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$ is smaller in order to
+maintain an acceptable numerical accuracy.
+
+To compute $\Phi_{\delta}(\omega)$, denote Gaussian random vectors $\mathbf{z}_1
+= [h_0, v_0]^T$, $\mathbf{z}_{2} = [h_1, h_2, v_1]^T$, such
+that $\mathbf{z}_m\sim\mathcal{CN}(\bm{\mu}_m, \mathbf{\Sigma}_m)$, $m=1,2$,
+where
+\begin{align}
+    \bm{\mu}_1 = [\mu_{h_0}, 0]^T,& \; \bm{\mu}_{2} = [\mu_{h_1}, \mu_{h_2},
+    0]^T
+    \\
+    \mathbf{\Sigma}_1 = \mbox{diag}\left(\sigma_{h_0}^2, \sigma_v^2\right), & \;
+    \mathbf{\Sigma}_2 = \mbox{diag}\left(\sigma_{h_1}^2, \sigma_{h_2}^2,
+    \sigma_v^2\right)
+\end{align}
+Then~(\ref{eq:delta}) can be rewritten as $\delta = \mathbf{z}_1^H\mathbf{A}_1\mathbf{z}_1 + \mathbf{z}_{2}^H\mathbf{A}_{2}\mathbf{z}_{2}$, where
+\begin{subequations}
+    \begin{align}
+        \mathbf{A}_1 & = \left[
+            \begin{array}{cc}
+                |e_{pq}|^2  & e_{pq}^* \\
+                e_{pq} & 0
+            \end{array}
+        \right] \\
+        \mathbf{A}_2 & = \left[
+            \begin{array}{ccc}
+            |e_{ik}|^2 & e_{ik}^*e_{jl} & e_{ik}^*
+            \\
+            e_{ik}e_{jl}^* & |e_{jl}|^2 & e_{jl}^*
+            \\
+            e_{ik} & e_{jl} & 0
+        \end{array}
+        \right]
+    \end{align}
+\end{subequations}
+in which where $e_{ab} = \psi_0[a] - \psi_0[b]$. Then the MGF can be computed
+as~\cite{schwartz1995communication}
+\begin{align}
+    \Phi_{\delta}(\omega) & = \sum_{m=1,2}
+    \frac{\exp(-\omega\bm{\mu}_m^H\mathbf{A}_m(\mathbf{I} +
+    \omega\mathbf{\Sigma}_m\mathbf{A}_m)^{-1}\bm{\mu}_m)}{\det(\mathbf{I} +
+    \omega\mathbf{\Sigma}_m\mathbf{A}_m)}.
+\end{align}
+
 
 % special case of Rayleigh fading
 
