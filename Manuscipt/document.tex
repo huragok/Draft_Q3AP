@@ -825,16 +825,50 @@ which is tight in high-SNR regime.
 \label{sec:simulation}
 % Simulation settings
 In this section we present the numerical results of CoRe under various channel
-settings. In our simulation, all Rician channels are assume to have the same Rician parameter 
-$K$. Also we assume that during the second phase, the phase of channel $h_1$ and $h_2$ can be 
-aligned at the source and relay, respectively. Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$, $\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and $\sigma_{h_2}^2 = a^2/(K+1)$, where $a\in \mathbb{R}$ represents the ratio between the amplitude of the line of sight (LOS) components of the relay-to-destination and the source-to-destination link. Throughout the simulation we consider 16-QAM constellation thus $Q=16$.
+settings. In our simulation, all Rician channels are assume to have the same
+Rician parameter $K$. Also we assume that during the second phase, the phase of
+channel $h_1$ and $h_2$ can be aligned at the source and relay, respectively.
+Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$,
+$\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
+$\sigma_{h_2}^2 = a^2/(K+1)$, where $a\in \mathbb{R}$ represents the ratio
+between the amplitude of the line of sight (LOS) components of the
+relay-to-destination and the source-to-destination link. Throughout the
+simulation we consider 16-QAM constellation thus $Q=16$. The noise power is
+parameterized with $E_b/N0$ of the source-to-destination link.
+
+% Example of Q3AP mapping
+Firstly we provide an example of Q3AP optimized CoRe. When $E_b/N0 = dB$, $K =
+10$ and $a = 1$, the remapping scheme of $\psi_0$ (Gray-mapping), $\psi_1$ and
+$\psi_2$ is depicted in Fig.~\ref{fig:example}.
+
+\begin{figure}[!t]
+    \begin{minipage}[b]{1\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/psi0.eps}}
+      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
+    \end{minipage}
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/psi1.eps}}
+      \centerline{(b) $\psi_1$}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/psi2.eps}}
+      \centerline{(c) $\psi_2$}\medskip
+    \end{minipage}
+    \caption{Q3AP optimized CoRe schemes.}
+    \label{fig:example}
+\end{figure}
+
 % BER-SNR different amplitude, K = 10
 
-% BER-SNR different amplitude, K = 1
+% BER-SNR different amplitude, K = 5
 
 % BER-SNR different phase, K = 10
 
-% BER-SNR different phase, K = 1
+% BER-SNR different phase, K = 5
 
 % BER mismatch
 
