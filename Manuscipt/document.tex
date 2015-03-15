@@ -834,43 +834,100 @@ $\sigma_{h_2}^2 = a^2/(K+1)$, where $a\in \mathbb{R}$ represents the ratio
 between the amplitude of the line of sight (LOS) components of the
 relay-to-destination and the source-to-destination link. Throughout the
 simulation we consider 16-QAM constellation thus $Q=16$. The noise power is
-parameterized with $E_b/N0$ of the source-to-destination link.
+parameterized with $E_b/N_0$ of the source-to-destination link.
 
 % Example of Q3AP mapping
-Firstly we provide an example of Q3AP optimized CoRe. When $E_b/N0 = dB$, $K =
-10$ and $a = 1$, the remapping scheme of $\psi_0$ (Gray-mapping), $\psi_1$ and
-$\psi_2$ is depicted in Fig.~\ref{fig:example}.
+Firstly we provide an example of Q3AP optimized CoRe. When $E_b/N_0 =
+2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme of $\psi_0$
+(Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in Fig.~\ref{fig:example}. We
+note that for the chase combining HARQ scheme and the joint ML demodulator, the
+optimal $\psi_1$ and $\psi_2$ are no longer Gray mapping. A general pattern of
+$\psi_1$ and $\psi_2$ is that the indices whose constellation points are close
+to each other during the first phase are remapped to constellation points far
+away from each other during the second phase, and vice versa. Both $\psi_1$ and
+$\psi_2$ are essentially the same as Seddik's heuristic result
+in~\cite{seddik2008trans}, denoted as $\psi_S$. However, it is noted
+$\psi_1\not=\psi_2$.
+In this special example or Rician channel with strong LOS component, an explanation is
+that the cooperative transmission is equivalent to transmission from a single
+transmitter with mapping $\psi_1+\psi_2$. In this aspect, CoRe in effect results
+in a new constellation different from 16-QAM, while the individual
+constellations at the source and relay are kept unchanged.
 
 \begin{figure}[!t]
-    \begin{minipage}[b]{1\linewidth}
+    \begin{minipage}[b]{0.48\linewidth}
       \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/psi0.eps}}
+      \centerline{\includegraphics[width=4.0cm]{./figs/gray.eps}}
       \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/karim.eps}}
+      \centerline{(b) Heuristic remapping in~\cite{seddik2008trans}}\medskip
     \end{minipage}
     \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/psi1.eps}}
-      \centerline{(b) $\psi_1$}\medskip
+      \centerline{(c) $\psi_1$}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/psi2.eps}}
-      \centerline{(c) $\psi_2$}\medskip
+      \centerline{(d) $\psi_2$}\medskip
     \end{minipage}
     \caption{Q3AP optimized CoRe schemes.}
     \label{fig:example}
 \end{figure}
 
-% BER-SNR different amplitude, K = 10
+% BER Upper bound comparison
+Next we compare the BER upperbound $P_{BER}$, which is also the Q3AP objective
+function, for 3 mapping schemes: the Q3AP optimized CoRe, the extension of
+Seddik's remapping $\psi_1 = \psi_2 = \psi_S$, and no CoRe at all i.e. $\psi_1 =
+\psi_2 = \psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable
+performance gain for CoRe versus no CoRe at all. Moreover, the gain of Q3AP
+optimized CoRe over $\psi_1 = \psi_2 = \psi_S$ indicates that in cooperative
+relay-HARQ network, the BER performance can be further improved by using
+different rearrangement at the source and relay during the cooperative
+transmission. This gain increases as $K$ increase, i.e. when the channel becomes
+less random.
 
-% BER-SNR different amplitude, K = 5
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=2.5in]{./figs/BERupperbound.eps}
+    \caption{BER upper bounds of (1) Q3AP optimized CoRe (2) $\psi_1 = \psi_2 =
+    \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt(2),
+    2$.}
+    \label{fig:BERupperbound}
+\end{figure}
 
-% BER-SNR different phase, K = 10
+% Monte-Carlo BER comparison
+The performance gain of Q3AP optimized CoRe for the cooperative relay-HARQ
+system is further justified in Fig.~\ref{fig:montecarlo}, where we evaluate the
+actual BER by running a Monte-Carlo simulation. We implement the ML demodulator
+in~(\ref{eq:ML}) and evaluate the average BER of $M=10^7$ randomly generated
+indices $p$. The actual BER curves demonstrate a similar pattern as the BER
+upperbound curves in Fig.~\ref{fig:BERupperbound}.
 
-% BER-SNR different phase, K = 5
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=2.5in]{./figs/BERmontecarlo.eps}
+    \caption{Monte-Carlo simulated BER of (1) Q3AP optimized CoRe
+    (2) $\psi_1 = \psi_2 = \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5,
+    10$, $a = 1, \sqrt(2), 2$.}
+    \label{fig:montecarlo}
+\end{figure}
 
-% BER mismatch
+% Monte-Carlo BER mismatch comparison
+Finally, we test the robustness of the Q3AP CoRe solution. In practical
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=2.5in]{./figs/mismatch.eps}
+    \caption{.}
+    \label{fig:mismatch}
+\end{figure}
 
 \section{Conclusion}
 \label{sec:conclusion}
