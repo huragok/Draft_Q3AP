@@ -426,8 +426,9 @@
     % (how they do)
     % (how we do)
     Specifically, we formulate the bit error rate (BER) maximization into a
-    quadratic three-dimensional assignment problem (Q3AP) and make use of the
-    recent development of numerical method to find the optimal CoRe solution.
+    quadratic three-dimensional assignment problem (Q3AP) and solve it with an
+    efficient modified Iteratied Local Search (ILS) method to find the optimal
+    CoRe solution.
     % (main results)
     Performance gains on various channel settings are demonstrated with
     simulations.
@@ -830,7 +831,7 @@ Rician parameter $K$. Also we assume that during the second phase, the phase of
 channel $h_1$ and $h_2$ can be aligned at the source and relay, respectively.
 Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$,
 $\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
-$\sigma_{h_2}^2 = a^2/(K+1)$, where $a\in \mathbb{R}$ represents the ratio
+$\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ represents the ratio
 between the amplitude of the line of sight (LOS) components of the
 relay-to-destination and the source-to-destination link. Throughout the
 simulation we consider 16-QAM constellation thus $Q=16$. The noise power is
@@ -864,7 +865,7 @@ constellations at the source and relay are kept unchanged.
     \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/karim.eps}}
-      \centerline{(b) Heuristic remapping in~\cite{seddik2008trans}}\medskip
+      \centerline{(b) Seddik's heuristic remapping~\cite{seddik2008trans}}\medskip
     \end{minipage}
     \begin{minipage}[b]{0.48\linewidth}
       \centering
@@ -897,7 +898,7 @@ less random.
     \centering
     \includegraphics[width=2.5in]{./figs/BERupperbound.eps}
     \caption{BER upper bounds of (1) Q3AP optimized CoRe (2) $\psi_1 = \psi_2 =
-    \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt(2),
+    \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt{2},
     2$.}
     \label{fig:BERupperbound}
 \end{figure}
@@ -915,23 +916,40 @@ upperbound curves in Fig.~\ref{fig:BERupperbound}.
     \includegraphics[width=2.5in]{./figs/BERmontecarlo.eps}
     \caption{Monte-Carlo simulated BER of (1) Q3AP optimized CoRe
     (2) $\psi_1 = \psi_2 = \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5,
-    10$, $a = 1, \sqrt(2), 2$.}
+    10$, $a = 1, \sqrt{2}, 2$.}
     \label{fig:montecarlo}
 \end{figure}
 
 % Monte-Carlo BER mismatch comparison
-Finally, we test the robustness of the Q3AP CoRe solution. In practical
+Finally, we test the robustness of the Q3AP CoRe solution against mismatch in
+channel settings. The intuition is that in practical, the CSI may not be
+perfectly accurate. Also, Q3AP CoRe scheme can only be computed off-line for a
+finite number of channel settings. We deliberately test the BER performance of
+the Q3AP CoRe solution for $a=1$, $K=10$ in the actual channel settings $a =
+\sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upperbound and Monte-Carlo simulated
+BER are plotted in Fig.~\ref{fig:mismatch}. Apparently, the Q3AP CoRe solution
+is not sensitive in the relative amplitude and the phase alignment error between
+the relay-to-destination and source-to-destination link.
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=2.5in]{./figs/mismatch.eps}
-    \caption{.}
+    \includegraphics[width=3.8in]{./figs/mismatch.eps}
+    \caption{BER performance under channel mismatch. Q3AP CoRe solution for
+    $a=1$, $K=10$ in the actual channel settings $a = \sqrt{2}\exp(j\pi/12)$, $K
+    = 10$.}
     \label{fig:mismatch}
 \end{figure}
 
 \section{Conclusion}
 \label{sec:conclusion}
-
+In this work we investigated the constellation rearrangement (CoRe) problem in
+cooperative relay-HARQ system. Based on the maximization of bit error rate (BER)
+upper bound, the CoRe design was formulated into a quadratic three-dimensional
+assignment problem (Q3AP), then solved with an efficient modified iterative
+local search (ILS) method. Our numerical tests demonstrated the performance gain
+of the Q3AP-based CoRe which allows the source and relay to use different
+remapping schemes during the retransmission other than Gray mapping and
+verified its robustness against channel state information (CSI) imperfection.
 
 
 
