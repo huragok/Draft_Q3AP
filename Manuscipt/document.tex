@@ -421,17 +421,21 @@
 \begin{abstract}
     %\boldmath
     % (what we do)
-    We study the constellation rearrangement (CoRe) problem in a relay-HARQ
-    network to achieve symbol mapping diversity for reliable communication.
+    We study the constellation rearrangement (CoRe) problem in a
+    multi-relay-HARQ network to achieve symbol mapping diversity for reliable
+    communication.
     % (how they do)
     % (how we do)
-    Specifically, we formulate the bit error rate (BER) maximization into a
-    quadratic three-dimensional assignment problem (Q3AP) and solve it with an
-    efficient modified Iteratied Local Search (ILS) method to find the optimal
-    CoRe solution.
+    Specifically, we propose a framework of three relay-HARQ protocol
+    to be chosen from according to the channel settings and the
+    capability of cooperation of the relay network. The corresponding bit
+    error rate (BER) based CoRe can be formulated into a quadratic
+    three-dimensional assignment problem (Q3AP) or traditional quadratic
+    assignment problem (QAP) and can be numerically solved with an efficient
+    modified Iteratied Local Search (ILS) method.
     % (main results)
     Performance gains on various channel settings are demonstrated with
-    simulations.
+    comprehensive simulations.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -483,37 +487,63 @@ allocation~\cite{yu2012power}. Nevertheless, all the abovementioned
 works assume cooperative relay-HARQ schemes with orthogonality between the
 source-to-destination (S-D) link and the relay-to-destination (R-D) links, i.e.
 the (re)transmissions on the S-D link and the R-D links can not be on a same
-time slot or band, resulting in low bandwidth efficiency. Moreover, since the
-CoRe problem is usually formulated into a NP-complete binary linear programming
-(BIP) problem, existing CoRe implementation are mostly based on fixed
-rearrangement~\cite{seddik2008trans, yu2012power}, heurisitc approaches such as
-simulated annealing~\cite{khormuji2008rate} and genetic
-algorithm~\cite{kim2009design}, or by impractically dropping the binary
-constellation mapping constraints~\cite{sediq2011optimized}.
+time slot or band, resulting in low bandwidth efficiency. 
 
-% Q3AP/QAP solution for HARQ model (going to add more references and
-% descriptions)
+% Q3AP/QAP solution for HARQ model (need to rewrite this section since we used
+% a pretty naive approach)
 Historically, various CoRe problem for HARQ system fall within the realm of
 Quadratic Assignment Problem (QAP) or its extensions like Quadratic
-3-dimensional Assignment Problem (Q3AP)~\cite{harvind2005symbol}. Recent
-development in the numerical approaches to QAP/Q3AP~\cite{mittelmann2013solving}
-has enbaled us to efficiently derive CoRe schemes with high quality.
+3-dimensional Assignment Problem (Q3AP)~\cite{harvind2005symbol}. Since the
+CoRe problem is usually formulated into a NP-complete binary linear programming
+(BIP) problem, existing CoRe implementation are mostly based on fixed
+rearrangement~\cite{seddik2008trans, yu2012power}, or by impractically dropping
+the binary constellation mapping constraints~\cite{sediq2011optimized}.
+Other works apply heurisitc/metaheuristic approaches such as simulated
+annealing~\cite{khormuji2008rate} and genetic algorithm~\cite{kim2009design}.
+It has been reported that some heuristic QAP solvers~\cite{} provides very
+high-quality solutions over the cases in QAPLIB~\cite{burkard1997qaplib}.
 
 % Our contribution: 1. CoRe in new cooperative relay-HARQ settings; 2. apply
 % QAP/Q3AP for near-optimal rearrangement.
 In this work, we study the CoRe for cooperative relay-HARQ channel based on BER
 maximization. The main contributions of this paper are as follows:
 \begin{itemize}
-    \item We propose to use CoRe for the relay-HARQ scheme similar
-    to~\cite{qi2011h2arq}. As depicted in Fig.~\ref{fig:system_model}, the
-    source and the relay jointly perform the retransmission to the destination
-    simultaneously, practically forming a 2-by-1 MIMO system.
-    \item In our cooperative relay-HARQ settings, we formulate the CoRe design
-    into a Q3AP problem. By taking advantage of the latest numerical solvers, we
-    demonstrate significant performance gain of the optimized CoRe over non-CoRe
-    and simple CoRe schemes for various channel settings.
+    \item We propose a framework of three relay-HARQ protocol
+    to be chosen from according to the channel settings and the
+    capability of cooperation of the relay network. Similar to the relay-HARQ
+    scheme in~\cite{qi2011h2arq}, multiple-input single-output (MISO)
+    retransmission to the destination is allowed. As depicted in
+    Fig.~\ref{fig:system_model}, in a multi-relay networks, when the source and
+    the relay have joint transmission capability, different relays and the
+    source rearrange the constellation mapping differently for the Chase
+    Combining retransmission in order to provide additional signal-space gain.
+    The CoRe design based on BER maximization can be formulated into a Q3AP
+    problem. A simpler scheme where the relays and the source adopt a same constellation
+    rearrangement is also allowed when the performance loss compared with the
+    previous scheme is not significant. When the source and
+    the relay does not have joint transmission capability, a single relay or the
+    source with the best channel can be seleted for the retransmission. The
+    latter 2 schemes have a conventional QAP
+    formulation~\cite{harvind2005symbol}.
+    
+    \item Since Q3AP/QAP formulation is NP-complete, we adopt an efficient
+    iterated local search (ILS) method to solve it numerically. Simulation
+    results demonstrate that the optimized mapping rearrangement provides
+    significant performance gain by exploring the signal-space diversity.
 \end{itemize}
 
+
+The rest of this paper is organized as follows. Section~\ref{sec:model}
+describes the cooperative relay-HARQ system model. Section~\ref{sec:core}
+formulates the CoRe design into Q3AP/QAP problem and provides a brief
+description of the numerical algorithm. The numerical results are presented in
+Section~\ref{sec:simulation}. Finally, Section~\ref{sec:conclusion} concludes
+the paper.
+%\hfill mds
+
+\section{System Model and Problem Formulation}
+\label{sec:model}
+% Cooperative relay-HARQ channel
 \begin{figure}[!t]
     \begin{minipage}[b]{0.48\linewidth}
       \centering
@@ -523,61 +553,83 @@ maximization. The main contributions of this paper are as follows:
     \hfill
     \begin{minipage}[b]{.48\linewidth}
       \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2.eps}}
+      \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2_MISO_Q3AP.eps}}
       \centerline{(b) Phase 2}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2_MISO_QAP.eps}}
+      \centerline{(c) Phase 2}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2_SISO_QAP.eps}}
+      \centerline{(d) Phase 2}\medskip
     \end{minipage}
     \caption{Cooperative relay-HARQ networks.}
     \label{fig:system_model}
 \end{figure}
 
-The rest of this paper is organized as follows. Section~\ref{sec:model}
-describes the cooperative relay-HARQ system model. Section~\ref{sec:core}
-formulates the CoRe design into a Q3AP solution and provides a brief description
-of the numerical algorithm. The numerical results are presented in
-Section~\ref{sec:simulation}. Finally, Section~\ref{sec:conclusion} concludes
-the paper.
-%\hfill mds
-
-\section{System Model and Problem Formulation}
-\label{sec:model}
-% Cooperative relay-HARQ channel 
 We consider the cooperative relay-HARQ network depicted in
 Fig.~\ref{fig:system_model}. Denote $\mathcal{C}$ as the constellation used by
-this relay network. In the first phase, the source convert a bit
-sequence of length $\log_2|\mathcal{C}|$ into symbols with Gray
-mapping $\psi_0:
-\{0,\ldots,|\mathcal{C}| - 1\}\rightarrow \mathcal{C}$. The bit sequence is
-indexed by its decimal equivalence $p\in \{0,\ldots,|\mathcal{C}| - 1\}$.
-Then the source transmit $\psi_0[p]$ to the destination via channel $h_0$
-which is also overheard by the decode-and-forward (DF) relay.
-We assume that relay is placed strategically so that it has
-negligible decoding error rate as in~\cite{}. Upon receiving a request for
-retransmission, the second phase is started. This time the source and the relay
-adop remap $p$ into $\psi_1[p]$ and $\psi_2[p]$, respectively, where potentially
-$\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The remapped symbols are
-transmitted simultaneously on the same band to the destination via channel $h_1$
-and $h_2$. In summary, the received signal at the destination
-during the 2 phases are
+this relay network whose size is $Q=|\mathcal{C}|$. In
+the first phase, the source convert a bit sequence of length
+$\log_2|\mathcal{C}|$ into symbols with Gray mapping $\psi_0:
+\{0,\ldots,Q - 1\}\rightarrow \mathcal{C}$. The bit sequence is
+indexed by its decimal equivalence $p\in \{0,\ldots,Q - 1\}$.
+Then the source transmit $\psi_0[p]$ to the destination via channel $g$
+which is also received by $N$ decode-and-forward (DF) relays, as shown in
+Fig.~\ref{fig:system_model}(a).
+We assume that the relays are placed strategically so that it has
+negligible decoding error rate as in~\cite{}. 
+
+Upon receiving a request for retransmission, the second phase is started. We
+assume that source and the $N$ relays are capable of joint transmission and are
+considered a set $\mathcal{T} = \{t_0,t_1,\ldots,t_N\}$ as a
+whole, where $t_0$ represents the source and $t_n$ represents the
+$n$-th relay, $1\leq n\leq N$. To better explore the signal-space diversity
+during the retransmission, $\mathcal{T}$ is further partitioned into two subsets
+$\mathcal{T}_1$, $\mathcal{T}_2$, and nodes in $\mathcal{T}_1$, $\mathcal{T}_2$
+remap $p$ into $\psi_1[p]$ and $\psi_2[p]$, reszpectively. Potentially
+$\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The remapped symbols are then
+transmitted jointly on the same band to the destination via channel $h_0,
+h_1,\ldots, h_N$, as shown in Fig.~\ref{fig:system_model}(b). In summary, the
+received signal at the destination during the 2 phases are
 \begin{subequations}
     \begin{align}
-       y_1 & = h_0\psi_0[p] + v_1 \\
-       y_2 & = h_1\psi_1[p] + h_2\psi_2[p] + v_2
+       y_t & = g\psi_0[p] + v_t \\
+       y_r & = \left(\sum_{n:t_n\in\mathcal{T}_1}h_n\right)\psi_1[p] +
+       \left(\sum_{n:t_n\in\mathcal{T}_2}h_n\right)\psi_2[p] + v_r \notag \\
+       & = g_1\psi_1[p] + g_@\psi_2[p] + v_r,
     \end{align}
 \end{subequations}
-where $v_1\sim\mathcal{CN}(0,\sigma_v^2)$ and
-$v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are the additive noise. Thoughout this work,
-we assume the channels $h_0$, $h_1$ and $h_2$ follows independent Rician
-distribution.
-
-% ML demodulator
+respectively. where $v_t, v_r\sim\mathcal{CN}(0,\sigma_v^2)$ are the additive
+noise. Thoughout this work, we assume the channels $g$ and $h_n$, $n=0,\ldots,
+N$ follow independent Rician distribution, thus $g_1$ and $g_2$ are also Rician
+distributed.% ML demodulator
 Assuming that the destination has perfect channel state information (CSI), it
 decides the index $p$ with the maximum likelihood (ML) rule
 \begin{align}
-    \min_{\hat{p}} |y_1 - \hat{h}_0\psi_0[\hat{p}]|^2 + |y_2-
-    \hat{h}_1\psi_1[\hat{p}] - \hat{h}_2\psi_2[\hat{p}]|^2.
+    \min_{\hat{p}} |y_t - g\psi_0[\hat{p}]|^2 + |y_r-
+    g_1\psi_1[\hat{p}] - g_2\psi_2[\hat{p}]|^2.
     \label{eq:ML}
 \end{align}
 
+Note that theoretically $\mathcal{T}$ can be partitioned into $K$ subsets where
+$K>2$ and the nodes in each individual subset uses a specific mapping.
+However, the resulting formulation would be a Q$(K+1)$AP problem which is
+intractable for medium size constellation like 16-QAM. On the other hand, as we
+will show in Section~\ref{sec:core}, by setting $K = 1$, i.e. $\psi_1 =
+\psi_2$ as in Fig.~\ref{fig:system_model}(c), the CoRe design problem can be
+simplified from Q3AP to QAP, and our numerical results in
+Section~\ref{sec:simulation} will demonstrate that under certain channel
+conditions the performance loss is negligible compared to the case where $K =
+2$. When the multi-relay network is not capable of joint transmission, we can
+select a single node with the best channel for retransmission, the formulation
+of which is essentially the same as~\cite{} (Fig.~\ref{fig:system_model}(d)).
+% Mention how to do the partition.
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
 % For figures, \caption should occur after the \includegraphics.
