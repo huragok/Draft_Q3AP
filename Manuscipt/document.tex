@@ -548,27 +548,30 @@ the paper.
     \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ1.eps}}
-      \centerline{(a) Phase 1}\medskip
+      \centerline{(a)}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2_MISO_Q3AP.eps}}
-      \centerline{(b) Phase 2}\medskip
+      \centerline{(b)}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2_MISO_QAP.eps}}
-      \centerline{(c) Phase 2}\medskip
+      \centerline{(c)}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/relayHARQ2_SISO_QAP.eps}}
-      \centerline{(d) Phase 2}\medskip
+      \centerline{(d)}\medskip
     \end{minipage}
-    \caption{Cooperative relay-HARQ networks.}
+    \caption{Cooperative relay-HARQ networks. (a) Transmission in the first
+    phase. (b) Joint retransmission using 2 different remappings. (c) Joint
+    retransmission using 1 different remapping. (d) Selective retransmission
+    using 1 different remapping and 1 node only,}
     \label{fig:system_model}
 \end{figure}
 
@@ -602,7 +605,7 @@ received signal at the destination during the 2 phases are
        y_t & = g\psi_0[p] + v_t \\
        y_r & = \left(\sum_{n:t_n\in\mathcal{T}_1}h_n\right)\psi_1[p] +
        \left(\sum_{n:t_n\in\mathcal{T}_2}h_n\right)\psi_2[p] + v_r \notag \\
-       & = g_1\psi_1[p] + g_@\psi_2[p] + v_r,
+       & = g_1\psi_1[p] + g_2\psi_2[p] + v_r,
     \end{align}
 \end{subequations}
 respectively. where $v_t, v_r\sim\mathcal{CN}(0,\sigma_v^2)$ are the additive
@@ -714,14 +717,17 @@ of which is essentially the same as~\cite{} (Fig.~\ref{fig:system_model}(d)).
 
 \section{Optimal Constellation Rearrangement}
 \label{sec:core}
-In this section we first formulate the min-BER CoRe design into a Q3AP problem,
-and explain the numerical approach to compute the input cost matrix to Q3AP
-problem. Then we provide an efficient algorithm to solve the Q3AP solution.
+In this section we first present the the Q3AP/QAP formulations for the min-BER
+CoRe design, and explain the numerical approach to compute the Q3AP/QAP cost
+matrices. Then we outline an efficient ILS algorithm which provides very high
+quality solutions.
 
 \subsection{BER Maximization via Q3AP solution}
 % Q3AP formulation 
-Assume that the information-bearing index $p$ follows a uniform distribution,
-the BER can be upper-bounded using pair-wise error probability (PEP)~\cite{}
+Firstly we consider the joint retransmission using 2 different remappings
+as in Fig.~\ref{fig:system_model}(b). Assume that the information-bearing index
+$p$ follows a uniform distribution, the BER can be upper-bounded using
+pair-wise error probability (PEP)~\cite{}
 \begin{align}
     P_{BER} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
     q]}{Q}P_{PEP}(q | p) \label{eq:P_BER}
@@ -730,17 +736,17 @@ where $B[p,q]$ is the Hamming distance between the binary representation of $p$
 and $q$ and $P_{PEP}(q | p)$ is the probability for the ML decoder to prefer $q$
 over $p$ when $p$ is actually transmitted. According to~(\ref{eq:ML}), we have
 \begin{align}
-    P_{PEP}(q | p) = P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,q,\psi_1,\psi_2) < 0\}
+    P_{PEP}(q | p) = P_{g,g_1,g_2,v_t,v_r}\{\delta(p,q,\psi_1,\psi_2) < 0\}
     \label{eq:P_PEP}
 \end{align}
 i.e. given indices $p, q$ and the remapping scheme $\psi_1$, $\psi_2$, the
 probability of random variable $\delta<0$ evaluated over the random variables
-$h_0,h_1,h_2,v_0,v_1$, and $\delta$ is defined as
+$g,g_1,g_2,v_t,v_r$, and $\delta$ is defined as
 \begin{align}
-    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_0|^2 - |v_0|^2 +\notag\\ 
+    \delta & = |g(\psi_0[p] - \psi_0[q]) + v_t|^2 - |v_t|^2 +\notag\\ 
     &
-    |h_1(\psi_1[p] - \psi_1[q])+h_2(\psi_2[p] - \psi_2[q])+v_1|^2 -
-    |v_1|^2.
+    |g_1(\psi_1[p] - \psi_1[q])+g_2(\psi_2[p] - \psi_2[q])+v_r|^2 -
+    |v_r|^2.
     \label{eq:delta}
 \end{align}
 In order to formulate the Q3AP problem, we denote binary variable $x_{pij} = 1$
@@ -771,57 +777,84 @@ CoRe scheme $\min_{\psi_1, \psi_2}P_{BER}$ can be reformulated as
 \end{align}
 in which
 \begin{align}
-    c_{pijqkl} & = \frac{B[p, q]}{Q}P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)
+    c_{pijqkl} & = \frac{B[p, q]}{Q}P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l)
     < 0\}
     \label{eq:cpijqkl}
 \end{align}
 \begin{align}
-    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_0|^2 - |v_0|^2 +\notag
+    \delta & = |g(\psi_0[p] - \psi_0[q]) + v_t|^2 - |v_t|^2 +\notag
     \\
     &
-    |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_1|^2 -
-    |v_1|^2.\label{eq:delta}
+    |g_1(\psi_0[i] - \psi_0[k])+g_2(\psi_0[j] - \psi_0[l])+v_r|^2 -
+    |v_r|^2.\label{eq:delta}
 \end{align}
+The joint retransmission using 1 different remapping as in
+Fig.~\ref{fig:system_model}(c) has a QAP formulation exactly the same as
+in~\cite{}: Denote  $\mathbf{x} = \{x_{pi}|p,i=0,\ldots,Q-1\}$, and the
+constraint sets:
+\begin{subequations}
+    \begin{align}
+        \mathcal{P} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pi} = 1,
+        x_{pi}\in\{0, 1\}\right\}
+        \\
+        \mathcal{I} & = \left\{\mathbf{x}:\,\sum_{i=0}^{Q-1}x_{pi} = 1,
+        x_{pi}\in\{0, 1\}\right\}.
+    \end{align}
+\end{subequations}
+the BER-minimization $\min_{\psi_1}P_{BER}$ is
+\begin{align}
+    & \min_{\mathbf{x}}\sum_{p=0}^{Q-1}\sum_{i=0}^{Q-1}
+    \sum_{q=0}^{Q-1}\sum_{k=0}^{Q-1}c_{piqk}x_{pi}x_{qk}
+    \label{eq:QAP}\\
+    & \mbox{s.t. } \mathbf{x}\in \mathcal{P}\cap\mathcal{I}
+    \notag
+\end{align}
+where $c_{piqk}$ is defined exactly as in~(\ref{eq:cpijqkl}) by dropping the
+indeices $j$, $l$ and the random channel $g_2$, and $\delta$ is redefined as
+in~(\ref{eq:delta}) by setting $g_2 = 0$ and $g_1 = \sum_{n=0}^Nh_n$.
 
 \subsection{Computation of the Pair-wise Symbol Rate}
 
 % serial expansion method
-In this section we focus on the computation of the parameters $\{c_{pijqkl}\}$
-of Q3AP problem. According to~\ref{eq:cpijqkl}, the key to compute $c_{pijqkl}$
-lies in the evaluation of $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)$, i.e.
+In this section we focus on the computation of the parameters $c_{pijqkl}$
+of the Q3AP problem formulated from the joint retransmission using 2 different
+remappings. According to~(\ref{eq:cpijqkl}), the key to compute $c_{pijqkl}$ lies in the evaluation of $P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l)$, i.e.
 the CDF of random variable $\delta(p,i,j,q,k,l)$ as in~(\ref{eq:delta}). For the
 general Rician channel assumption
-$h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we extend the method
-in~\cite{} to compute $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$:
+$g\sim\mathcal{CN}(\mu_{g},\sigma_{g}^2)$,
+$g_m\sim\mathcal{CN}(\mu_{g_m},\sigma_{g_m}^2)$, $m=1, 2$, we extend the method
+in~\cite{} to compute $P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\}$:
 \begin{align}
-    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
+    & P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
     & \approx \frac{1}{2v}\sum_{t=1}^v \Re\left\{\Phi_{\delta}(\xi +
     j\xi\tau_t)\right\} + \tau_t\Im\left\{\Phi_{\delta}(\xi +
     j\xi\tau_t)\right\}
     \label{eq:expansion}
 \end{align}
 where the moment generating function (MGF) $\Phi_{\delta}(\omega) =
-\mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_k = \tan((k - 1/2)\pi/v)$
+\mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_t = \tan((t - 1/2)\pi/v)$
 and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denotes the real and image part,
 respectively. Parameter $\xi$ is selected to ensure convergence of the
 integration and \cite{taricco2002exact} suggested to use $\xi = 1/4$. The size
 $u$ of the expansion~(\ref{eq:expansion}) needs to be larger when $
-P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$ is smaller in order to
+P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\}$ is smaller in order to
 maintain an acceptable numerical accuracy.
 
 To compute $\Phi_{\delta}(\omega)$, denote Gaussian random vectors $\mathbf{z}_1
-= [h_0, v_0]^T$, $\mathbf{z}_{2} = [h_1, h_2, v_1]^T$, such
-that $\mathbf{z}_m\sim\mathcal{CN}(\bm{\mu}_m, \mathbf{\Sigma}_m)$, $m=1,2$,
-where
+= [g, v_t]^T$, $\mathbf{z}_{2} = [g_1, g_2, v_r]^T$, such
+that $\mathbf{z}_m\sim\mathcal{CN}(\bm{\mu}_m, \mathbf{\Sigma}_m)$,
+$m=1,2$, where
 \begin{align}
-    \bm{\mu}_1 = [\mu_{h_0}, 0]^T,& \; \bm{\mu}_{2} = [\mu_{h_1}, \mu_{h_2},
+    \bm{\mu}_1 = [\mu_{g}, 0]^T,& \; \bm{\mu}_{2} = [\mu_{g_1}, \mu_{g_2},
     0]^T
     \\
-    \mathbf{\Sigma}_1 = \mbox{diag}\left(\sigma_{h_0}^2, \sigma_v^2\right), & \;
-    \mathbf{\Sigma}_2 = \mbox{diag}\left(\sigma_{h_1}^2, \sigma_{h_2}^2,
+    \mathbf{\Sigma}_1 = \mbox{diag}\left(\sigma_{g}^2, \sigma_v^2\right), & \;
+    \mathbf{\Sigma}_2 = \mbox{diag}\left(\sigma_{g_1}^2, \sigma_{g_2}^2,
     \sigma_v^2\right)
 \end{align}
-Then~(\ref{eq:delta}) can be rewritten as $\delta = \mathbf{z}_1^H\mathbf{A}_1\mathbf{z}_1 + \mathbf{z}_{2}^H\mathbf{A}_{2}\mathbf{z}_{2}$, where
+Then~(\ref{eq:delta}) can be rewritten as $\delta =
+\mathbf{z}_1^H\mathbf{A}_1\mathbf{z}_1 +
+\mathbf{z}_{2}^H\mathbf{A}_{2}\mathbf{z}_{2}$, where
 \begin{subequations}
     \begin{align}
         \mathbf{A}_1 & = \left[
@@ -853,24 +886,28 @@ as~\cite{schwartz1995communication}
 
 % special case of Rayleigh fading
 When the Rician-fading channel reduces to Rayleigh-fading channel, i.e.
-when $\mu_{h_m}=0, m = 0, 1, 2$ there is a simple upperbound of
-$P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$ similar
+when $\mu_{g}=\mu_{g_1} = \mu_{g_2}$ there is a simple upperbound
+of $P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\}$ similar
 to~\cite{seddik2008trans}. Note that
 \begin{align}
-    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}  \notag \\
-    & = \mathbb{E}_{h_0,h_1,h_2}
-    \left\{Q\left(\sqrt{\frac{\left|h_0e_{pq}\right|^2
-    + \left|h_1e_{ik} + h_2e_{jl}\right|^2}
+    & P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\}  \notag \\
+    & = \mathbb{E}_{g,g_1,g_2}
+    \left\{Q\left(\sqrt{\frac{\left|ge_{pq}\right|^2
+    + \left|g_1e_{ik} + g_2e_{jl}\right|^2}
     {2\sigma_v^2}}\right)\right\}
 \end{align}
 Applying the same relaxation as in~\cite{seddik2008trans}, we have
 \begin{align}
-    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
-    & \leq \frac{3\sigma_v^4}{\sigma_{h_0}^2|e_{pq}|^2 (\sigma_{h_1}^2|e_{ik}|^2
-    +\sigma_{h_2}^2|e_{jl}|^2)}
+    & P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
+    & \leq \frac{3\sigma_v^4}{\sigma_{g}^2|e_{pq}|^2 (\sigma_{g_1}^2|e_{ik}|^2
+    +\sigma_{g_2}^2|e_{jl}|^2)}
     \label{eq:PEP_UB}
 \end{align}
 which is tight in high-SNR regime.
+
+The computation of the cost matrix $c_{piqk}$ for the joint
+retransmission using 1 different remapping is very similar to the above
+procedure and is thus omitted.
 \subsection{Q3AP Solution}
 % Description of the Q3AP solution methods
 
