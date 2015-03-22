@@ -15,11 +15,11 @@ delta_y_min = min(d_y(d_y > 1e-5));
 h = figure('name', figureName);
 for q = 1 : Q
     plot(real(X(map(q))), imag(X(map(q))), 'bo', 'LineWidth', 2), hold on;
-    text(real(X(map(q))) + 0.2 * delta_x_min, imag(X(map(q))) + 0.2 * delta_y_min, num2str(q - 1), 'fontsize', 12);
+    text(real(X(map(q))) + 0.2 * delta_x_min, imag(X(map(q))) + 0.2 * delta_y_min, num2str(q - 1), 'fontsize', 18);
 end
 
 axis equal;
-xlim([x_min - 0.4 * delta_x_min, x_max + 0.4 * delta_x_min]), ylim([y_min - 0.4 * delta_y_min, y_max + 0.4 * delta_y_min]);
+xlim([x_min - 1 * delta_x_min, x_max + 1 * delta_x_min]), ylim([y_min - 1 * delta_y_min, y_max + 1 * delta_y_min]);
 grid on
 set(gca, 'fontsize', 16);
 xlabel('real'), ylabel('image')

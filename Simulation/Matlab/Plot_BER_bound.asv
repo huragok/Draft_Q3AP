@@ -1,0 +1,35 @@
+clear all;
+close all;
+clc;
+
+load('Rician_16QAM_K10_amp.mat');
+BER_bound_uniform_10 = BER_upperbound_uniform;
+BER_bound_seddik_10 = BER_upperbound_karim;
+BER_bound_Q3AP_10 = BER_upperbound_hans;
+
+load('Rician_16QAM_K5_amp.mat');
+BER_bound_uniform_5 = BER_upperbound_uniform;
+BER_bound_seddik_5 = BER_upperbound_karim;
+BER_bound_Q3AP_5 = BER_upperbound_hans;
+
+amp = [1, sqrt(2), 2];
+Eb2N0 = [-2 : 4];
+
+figure;
+figure('Name','bound')
+semilogy(Eb2N0, BER_bound_uniform_10(1 : 7), 'bo:', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_bound_seddik_10(1 : 7), 'bs--', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_bound_Q3AP_10(1 : 7), 'b^-', 'linewidth', 2), hold on;
+
+semilogy(Eb2N0, BER_bound_uniform_10(8 : 14), 'ro:', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_bound_seddik_10(8 : 14), 'rs--', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_bound_Q3AP_10(8 : 14), 'r^-', 'linewidth', 2), hold on;
+
+semilogy(Eb2N0, BER_bound_uniform_10(15 : 21), 'mo:', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_bound_seddik_10(15 : 21), 'ms--', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_bound_Q3AP_10(15 : 21), 'm^-', 'linewidth', 2), hold on;
+grid on;
+set(gca, 'Fontsize', 16);
+xlabel('E_b/N_0(dB)'), ylabel('BER'),
+legend('Gray, a = 1', 'Seddik, a = 1', 'Q3AP, a = 1',...
+    'Gray, a = \sqrt{2}', 'Seddik, a = 1', 'Q3AP, a = 1');
