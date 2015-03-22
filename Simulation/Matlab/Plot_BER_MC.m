@@ -16,15 +16,15 @@ amp = [1, sqrt(2), 2];
 Eb2N0 = [-2 : 4];
 
 figure;
-semilogy(Eb2N0, BER_uniform_10(1 : 7), 'bo:', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_uniform_10(1 : 7), 'bo-.', 'linewidth', 2), hold on;
 semilogy(Eb2N0, BER_seddik_10(1 : 7), 'bs--', 'linewidth', 2), hold on;
 semilogy(Eb2N0, BER_Q3AP_10(1 : 7), 'b^-', 'linewidth', 2), hold on;
 
-semilogy(Eb2N0, BER_uniform_10(8 : 14), 'ro:', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_uniform_10(8 : 14), 'ro-.', 'linewidth', 2), hold on;
 semilogy(Eb2N0, BER_seddik_10(8 : 14), 'rs--', 'linewidth', 2), hold on;
 semilogy(Eb2N0, BER_Q3AP_10(8 : 14), 'r^-', 'linewidth', 2), hold on;
 
-semilogy(Eb2N0, BER_uniform_10(15 : 21), 'mo:', 'linewidth', 2), hold on;
+semilogy(Eb2N0, BER_uniform_10(15 : 21), 'mo-.', 'linewidth', 2), hold on;
 semilogy(Eb2N0, BER_seddik_10(15 : 21), 'ms--', 'linewidth', 2), hold on;
 semilogy(Eb2N0, BER_Q3AP_10(15 : 21), 'm^-', 'linewidth', 2), hold on;
 grid on;
