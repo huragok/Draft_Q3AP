@@ -500,7 +500,8 @@ rearrangement~\cite{seddik2008trans, yu2012power}, or by impractically dropping
 the binary constellation mapping constraints~\cite{sediq2011optimized}.
 Other works apply heurisitc/metaheuristic approaches such as simulated
 annealing~\cite{khormuji2008rate} and genetic algorithm~\cite{kim2009design}.
-It has been reported that some heuristic QAP solvers~\cite{} provides very
+It has been reported that some heuristic QAP solvers~\cite{stutzle2006iterated,
+drezner2008extensive, james2009multistart, benlic2015memetic} provides very
 high-quality solutions over the cases in QAPLIB~\cite{burkard1997qaplib}.
 
 % Our contribution: 1. CoRe in new cooperative relay-HARQ settings; 2. apply
@@ -586,7 +587,7 @@ Then the source transmit $\psi_0[p]$ to the destination via channel $g$
 which is also received by $N$ decode-and-forward (DF) relays, as shown in
 Fig.~\ref{fig:system_model}(a).
 We assume that the relays are placed strategically so that it has
-negligible decoding error rate as in~\cite{}. 
+negligible decoding error rate as in~\cite{ryu2011ber}. 
 
 Upon receiving a request for retransmission, the second phase is started. We
 assume that source and the $N$ relays are capable of joint transmission and are
@@ -631,7 +632,8 @@ Section~\ref{sec:simulation} will demonstrate that under certain channel
 conditions the performance loss is negligible compared to the case where $K =
 2$. When the multi-relay network is not capable of joint transmission, we can
 select a single node with the best channel for retransmission, the formulation
-of which is essentially the same as~\cite{} (Fig.~\ref{fig:system_model}(d)).
+of which is essentially the same as~\cite{ryu2011ber}
+(Fig.~\ref{fig:system_model}(d)).
 % Mention how to do the partition.
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -727,7 +729,7 @@ quality solutions.
 Firstly we consider the joint retransmission using 2 different remappings
 as in Fig.~\ref{fig:system_model}(b). Assume that the information-bearing index
 $p$ follows a uniform distribution, the BER can be upper-bounded using
-pair-wise error probability (PEP)~\cite{}
+pair-wise error probability (PEP)~\cite{harvind2005symbol}
 \begin{align}
     P_{BER} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
     q]}{Q}P_{PEP}(q | p) \label{eq:P_BER}
@@ -786,12 +788,12 @@ in which
     \\
     &
     |g_1(\psi_0[i] - \psi_0[k])+g_2(\psi_0[j] - \psi_0[l])+v_r|^2 -
-    |v_r|^2.\label{eq:delta}
+    |v_r|^2.\label{eq:delta_pijqkl}
 \end{align}
 The joint retransmission using 1 different remapping as in
 Fig.~\ref{fig:system_model}(c) has a QAP formulation exactly the same as
-in~\cite{}: Denote  $\mathbf{x} = \{x_{pi}|p,i=0,\ldots,Q-1\}$, and the
-constraint sets:
+in~\cite{harvind2005symbol}: Denote  $\mathbf{x} = \{x_{pi}|p,i=0,\ldots,Q-1\}$,
+and the constraint sets:
 \begin{subequations}
     \begin{align}
         \mathcal{P} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pi} = 1,
@@ -823,7 +825,8 @@ the CDF of random variable $\delta(p,i,j,q,k,l)$ as in~(\ref{eq:delta}). For the
 general Rician channel assumption
 $g\sim\mathcal{CN}(\mu_{g},\sigma_{g}^2)$,
 $g_m\sim\mathcal{CN}(\mu_{g_m},\sigma_{g_m}^2)$, $m=1, 2$, we extend the method
-in~\cite{} to compute $P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\}$:
+in~\cite{harvind2005symbol, taricco2002exact} to compute
+$P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\}$:
 \begin{align}
     & P_{g,g_1,g_2,v_t,v_r}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
     & \approx \frac{1}{2v}\sum_{t=1}^v \Re\left\{\Phi_{\delta}(\xi +
@@ -914,131 +917,30 @@ procedure and is thus omitted.
 \section{Numerical Results}
 \label{sec:simulation}
 % Simulation settings
-In this section we present the numerical results of CoRe under various channel
-settings. In our simulation, all Rician channels are assume to have the same
-Rician parameter $K$. Also we assume that during the second phase, the phase of
-channel $h_1$ and $h_2$ can be aligned at the source and relay, respectively.
-Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$,
-$\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
-$\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ represents the ratio
-between the amplitude of the line of sight (LOS) components of the
-relay-to-destination and the source-to-destination link. Throughout the
-simulation we consider 16-QAM constellation thus $Q=16$. The noise power is
-parameterized with $E_b/N_0$ of the source-to-destination link.
+
 
 % Example of Q3AP mapping
-Firstly we provide an example of Q3AP optimized CoRe. When $E_b/N_0 =
-2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme of $\psi_0$
-(Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in Fig.~\ref{fig:example}. We
-note that for the chase combining HARQ scheme and the joint ML demodulator, the
-optimal $\psi_1$ and $\psi_2$ are no longer Gray mapping. A general pattern of
-$\psi_1$ and $\psi_2$ is that the indices whose constellation points are close
-to each other during the first phase are remapped to constellation points far
-away from each other during the second phase, and vice versa. Both $\psi_1$ and
-$\psi_2$ are essentially the same as Seddik's heuristic result
-in~\cite{seddik2008trans}, denoted as $\psi_S$. However, it is noted
-$\psi_1\not=\psi_2$.
-In this special example or Rician channel with strong LOS component, an explanation is
-that the cooperative transmission is equivalent to transmission from a single
-transmitter with mapping $\psi_1+\psi_2$. In this aspect, CoRe in effect results
-in a new constellation different from 16-QAM, while the individual
-constellations at the source and relay are kept unchanged.
-
-\begin{figure}[!t]
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/gray.eps}}
-      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/karim.eps}}
-      \centerline{(b) Seddik's heuristic remapping~\cite{seddik2008trans}}\medskip
-    \end{minipage}
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/psi1.eps}}
-      \centerline{(c) $\psi_1$}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/psi2.eps}}
-      \centerline{(d) $\psi_2$}\medskip
-    \end{minipage}
-    \caption{Q3AP optimized CoRe schemes.}
-    \label{fig:example}
-\end{figure}
 
 % BER Upper bound comparison
-Next we compare the BER upperbound $P_{BER}$, which is also the Q3AP objective
-function, for 3 mapping schemes: the Q3AP optimized CoRe, the extension of
-Seddik's remapping $\psi_1 = \psi_2 = \psi_S$, and no CoRe at all i.e. $\psi_1 =
-\psi_2 = \psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable
-performance gain for CoRe versus no CoRe at all. Moreover, the gain of Q3AP
-optimized CoRe over $\psi_1 = \psi_2 = \psi_S$ indicates that in cooperative
-relay-HARQ network, the BER performance can be further improved by using
-different rearrangement at the source and relay during the cooperative
-transmission. This gain increases as $K$ increase, i.e. when the channel becomes
-less random.
-
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=2.5in]{./figs/BERupperbound.eps}
-    \caption{BER upper bounds of (1) Q3AP optimized CoRe (2) $\psi_1 = \psi_2 =
-    \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt{2},
-    2$.}
-    \label{fig:BERupperbound}
-\end{figure}
 
 % Monte-Carlo BER comparison
-The performance gain of Q3AP optimized CoRe for the cooperative relay-HARQ
-system is further justified in Fig.~\ref{fig:montecarlo}, where we evaluate the
-actual BER by running a Monte-Carlo simulation. We implement the ML demodulator
-in~(\ref{eq:ML}) and evaluate the average BER of $M=10^7$ randomly generated
-indices $p$. The actual BER curves demonstrate a similar pattern as the BER
-upperbound curves in Fig.~\ref{fig:BERupperbound}.
-
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=2.5in]{./figs/BERmontecarlo.eps}
-    \caption{Monte-Carlo simulated BER of (1) Q3AP optimized CoRe
-    (2) $\psi_1 = \psi_2 = \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5,
-    10$, $a = 1, \sqrt{2}, 2$.}
-    \label{fig:montecarlo}
-\end{figure}
 
 % Monte-Carlo BER mismatch comparison
-Finally, we test the robustness of the Q3AP CoRe solution against mismatch in
-channel settings. The intuition is that in practical, the CSI may not be
-perfectly accurate. Also, Q3AP CoRe scheme can only be computed off-line for a
-finite number of channel settings. We deliberately test the BER performance of
-the Q3AP CoRe solution for $a=1$, $K=10$ in the actual channel settings $a =
-\sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upperbound and Monte-Carlo simulated
-BER are plotted in Fig.~\ref{fig:mismatch}. Apparently, the Q3AP CoRe solution
-is not sensitive in the relative amplitude and the phase alignment error between
-the relay-to-destination and source-to-destination link.
 
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=3.8in]{./figs/mismatch.eps}
-    \caption{BER performance under channel mismatch. Q3AP CoRe solution for
-    $a=1$, $K=10$ in the actual channel settings $a = \sqrt{2}\exp(j\pi/12)$, $K
-    = 10$.}
-    \label{fig:mismatch}
-\end{figure}
 
 \section{Conclusion}
 \label{sec:conclusion}
 In this work we investigated the constellation rearrangement (CoRe) problem in
-cooperative relay-HARQ system. Based on the maximization of bit error rate (BER)
-upper bound, the CoRe design was formulated into a quadratic three-dimensional
-assignment problem (Q3AP), then solved with an efficient modified iterative
-local search (ILS) method. Our numerical tests demonstrated the performance gain
-of the Q3AP-based CoRe which allows the source and relay to use different
-remapping schemes during the retransmission other than Gray mapping and
-verified its robustness against channel state information (CSI) imperfection.
+cooperative relay-HARQ system. Based on the capacity of coordination of the
+relay network and the channel settings, three retransmission schemes can be
+chosen from. The corresponding maximimum bit error rate (BER) based CoRe design
+problems can formulated into either quadratic three-dimensional assignment
+problem (Q3AP) or quadratic assignment problem (QAP), then solved with an
+efficient modified iterative local search (ILS) method. Our numerical tests
+demonstrated the performance gain of the Q3AP/QAP-based CoRe which allows the
+source and relay to use different remapping schemes during the retransmission other
+than Gray mapping and verified its robustness against channel state information
+(CSI) imperfection.
 
 
 
