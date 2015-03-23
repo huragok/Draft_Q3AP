@@ -895,8 +895,17 @@ transmission. This gain increases as $K$ increase, i.e. when the channel becomes
 less random.
 
 \begin{figure}[!t]
-    \centering
-    \includegraphics[width=2.5in]{./figs/BERupperbound.eps}
+    \begin{minipage}[b]{0.49\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/bound_10.eps}}
+      \centerline{(a) $ K = 10$}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/bound_5.eps}}
+      \centerline{(b) $K=5$}\medskip
+    \end{minipage}
     \caption{BER upper bounds of (1) Q3AP optimized CoRe (2) $\psi_1 = \psi_2 =
     \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt{2},
     2$.}
@@ -912,8 +921,17 @@ indices $p$. The actual BER curves demonstrate a similar pattern as the BER
 upperbound curves in Fig.~\ref{fig:BERupperbound}.
 
 \begin{figure}[!t]
-    \centering
-    \includegraphics[width=2.5in]{./figs/BERmontecarlo.eps}
+    \begin{minipage}[b]{0.49\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/MC_10.eps}}
+      \centerline{(a) $ K = 10$}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.0cm]{./figs/MC_5.eps}}
+      \centerline{(b) $K=5$}\medskip
+    \end{minipage}
     \caption{Monte-Carlo simulated BER of (1) Q3AP optimized CoRe
     (2) $\psi_1 = \psi_2 = \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5,
     10$, $a = 1, \sqrt{2}, 2$.}
@@ -925,7 +943,7 @@ Finally, we test the robustness of the Q3AP CoRe solution against mismatch in
 channel settings. The intuition is that in practical, the CSI may not be
 perfectly accurate. Also, Q3AP CoRe scheme can only be computed off-line for a
 finite number of channel settings. We deliberately test the BER performance of
-the Q3AP CoRe solution for $a=1$, $K=10$ in the actual channel settings $a =
+the Q3AP CoRe solution for $a=1$, $K=5$ in the actual channel settings $a =
 \sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upperbound and Monte-Carlo simulated
 BER are plotted in Fig.~\ref{fig:mismatch}. Apparently, the Q3AP CoRe solution
 is not sensitive in the relative amplitude and the phase alignment error between
@@ -933,9 +951,9 @@ the relay-to-destination and source-to-destination link.
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=3.8in]{./figs/mismatch.eps}
+    \includegraphics[width=3.0in]{./figs/mismatch.eps}
     \caption{BER performance under channel mismatch. Q3AP CoRe solution for
-    $a=1$, $K=10$ in the actual channel settings $a = \sqrt{2}\exp(j\pi/12)$, $K
+    $a=1$, $K=5$ in the actual channel settings $a = \sqrt{2}\exp(j\pi/12)$, $K
     = 10$.}
     \label{fig:mismatch}
 \end{figure}
