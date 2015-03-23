@@ -483,21 +483,22 @@ allocation~\cite{yu2012power}. Nevertheless, all the abovementioned
 works assume cooperative relay-HARQ schemes with orthogonality between the
 source-to-destination (S-D) link and the relay-to-destination (R-D) links, i.e.
 the (re)transmissions on the S-D link and the R-D links can not be on a same
-time slot or band, resulting in low bandwidth efficiency. Moreover, since the
-CoRe problem is usually formulated into a NP-complete binary linear programming
-(BIP) problem, existing CoRe implementation are mostly based on fixed
-rearrangement~\cite{seddik2008trans, yu2012power}, heurisitc approaches such as
-simulated annealing~\cite{khormuji2008rate} and genetic
-algorithm~\cite{kim2009design}, or by impractically dropping the binary
-constellation mapping constraints~\cite{sediq2011optimized}.
-
+time slot or band, resulting in low bandwidth efficiency.
 % Q3AP/QAP solution for HARQ model (going to add more references and
 % descriptions)
+
 Historically, various CoRe problem for HARQ system fall within the realm of
 Quadratic Assignment Problem (QAP) or its extensions like Quadratic
-3-dimensional Assignment Problem (Q3AP)~\cite{harvind2005symbol}. Recent
-development in the numerical approaches to QAP/Q3AP~\cite{mittelmann2013solving}
-has enbaled us to efficiently derive CoRe schemes with high quality.
+3-dimensional Assignment Problem (Q3AP)~\cite{harvind2005symbol}. Since the
+CoRe problem is usually formulated into a NP-complete binary linear programming
+(BIP) problem, existing CoRe implementation are mostly based on fixed
+rearrangement~\cite{seddik2008trans, yu2012power}, or by impractically dropping
+the binary constellation mapping constraints~\cite{sediq2011optimized}.
+Other works apply heurisitc/metaheuristic approaches such as simulated
+annealing~\cite{khormuji2008rate} and genetic algorithm~\cite{kim2009design}.
+It has been reported that some heuristic QAP
+solvers~\cite{stutzle2006iterated, drezner2008extensive, james2009multistart,
+benlic2015memetic} provides very high-quality solutions over the cases in QAPLIB~\cite{burkard1997qaplib}.
 
 % Our contribution: 1. CoRe in new cooperative relay-HARQ settings; 2. apply
 % QAP/Q3AP for near-optimal rearrangement.
@@ -506,12 +507,14 @@ maximization. The main contributions of this paper are as follows:
 \begin{itemize}
     \item We propose to use CoRe for the relay-HARQ scheme similar
     to~\cite{qi2011h2arq}. As depicted in Fig.~\ref{fig:system_model}, the
-    source and the relay jointly perform the retransmission to the destination
-    simultaneously, practically forming a 2-by-1 MIMO system.
+    source and the relay jointly perform the Chase Combining retransmission to
+    the destination coordinatedly, practically forming a 2-by-1 multiple-input single-   
+    output MISO system.
     \item In our cooperative relay-HARQ settings, we formulate the CoRe design
-    into a Q3AP problem. By taking advantage of the latest numerical solvers, we
-    demonstrate significant performance gain of the optimized CoRe over non-CoRe
-    and simple CoRe schemes for various channel settings.
+    into a Q3AP problem. Since Q3AP/QAP formulation is NP-complete, we adopt an efficient
+    iterated local search (ILS) method to solve it numerically. Simulation
+    results demonstrate that the optimized mapping rearrangement provides
+    significant performance gain by exploring the signal-space diversity.
 \end{itemize}
 
 \begin{figure}[!t]
@@ -543,16 +546,16 @@ the paper.
 % Cooperative relay-HARQ channel 
 We consider the cooperative relay-HARQ network depicted in
 Fig.~\ref{fig:system_model}. Denote $\mathcal{C}$ as the constellation used by
-this relay network. In the first phase, the source convert a bit
-sequence of length $\log_2|\mathcal{C}|$ into symbols with Gray
-mapping $\psi_0:
-\{0,\ldots,|\mathcal{C}| - 1\}\rightarrow \mathcal{C}$. The bit sequence is
-indexed by its decimal equivalence $p\in \{0,\ldots,|\mathcal{C}| - 1\}$.
+this relay network whose size is $Q = |\mathcal{C}|$. In the first phase, the
+source convert a bit sequence of length $\log_2Q$ into symbols with
+Gray mapping $\psi_0:
+\{0,\ldots,Q - 1\}\rightarrow \mathcal{C}$. The bit sequence is
+indexed by its decimal equivalence $p\in \{0,\ldots,Q - 1\}$.
 Then the source transmit $\psi_0[p]$ to the destination via channel $h_0$
 which is also overheard by the decode-and-forward (DF) relay.
 We assume that relay is placed strategically so that it has
-negligible decoding error rate as in~\cite{}. Upon receiving a request for
-retransmission, the second phase is started. This time the source and the relay
+negligible decoding error rate as in~\cite{ryu2011ber, kim2009design}. Upon
+receiving a request for retransmission, the second phase is started. This time the source and the relay
 adop remap $p$ into $\psi_1[p]$ and $\psi_2[p]$, respectively, where potentially
 $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The remapped symbols are
 transmitted simultaneously on the same band to the destination via channel $h_1$
@@ -669,7 +672,8 @@ problem. Then we provide an efficient algorithm to solve the Q3AP solution.
 \subsection{BER Maximization via Q3AP solution}
 % Q3AP formulation 
 Assume that the information-bearing index $p$ follows a uniform distribution,
-the BER can be upper-bounded using pair-wise error probability (PEP)~\cite{}
+the BER can be upper-bounded using pair-wise error probability
+(PEP)~\cite{harvind2005symbol}
 \begin{align}
     P_{BER} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
     q]}{Q}P_{PEP}(q | p) \label{eq:P_BER}
@@ -728,7 +732,7 @@ in which
     \\
     &
     |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_1|^2 -
-    |v_1|^2.\label{eq:delta}
+    |v_1|^2.\label{eq:delta_pijqkl}
 \end{align}
 
 \subsection{Computation of the Pair-wise Symbol Rate}
@@ -740,7 +744,8 @@ lies in the evaluation of $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)$, i.e.
 the CDF of random variable $\delta(p,i,j,q,k,l)$ as in~(\ref{eq:delta}). For the
 general Rician channel assumption
 $h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we extend the method
-in~\cite{} to compute $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$:
+in~\cite{harvind2005symbol, taricco2002exact} to compute
+$P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$:
 \begin{align}
     & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
     & \approx \frac{1}{2v}\sum_{t=1}^v \Re\left\{\Phi_{\delta}(\xi +
@@ -749,7 +754,7 @@ in~\cite{} to compute $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$:
     \label{eq:expansion}
 \end{align}
 where the moment generating function (MGF) $\Phi_{\delta}(\omega) =
-\mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_k = \tan((k - 1/2)\pi/v)$
+\mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_t = \tan((t- 1/2)\pi/v)$
 and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denotes the real and image part,
 respectively. Parameter $\xi$ is selected to ensure convergence of the
 integration and \cite{taricco2002exact} suggested to use $\xi = 1/4$. The size
