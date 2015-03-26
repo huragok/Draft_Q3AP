@@ -824,9 +824,44 @@ Applying the same relaxation as in~\cite{seddik2008trans}, we have
     \label{eq:PEP_UB}
 \end{align}
 which is tight in high-SNR regime.
+
 \subsection{Q3AP Solution}
 % Description of the Q3AP solution methods
-
+For Q3AP problems of size $Q = 16$ it is impractical to apply the
+exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also, our tests show
+that 16-QAM does not have enough symmetry to exploit as 16-PSK
+constellation~\cite{mittelmann2015solving}.
+Consequently, the CoRe problem is solved with the ILS
+method~\cite{hahn2008quadratic} extended from its QAP
+version~\cite{stutzle2006iterated}. The basic procedure of this ILS method is
+outlined as follows:
+\begin{enumerate}%\itemsep0pt\parskip0pt\parsep0pt
+    \item[S1] Initialization: starting from a random mapping
+    $\psi_1^{(0)}, \psi_2^{(0)}$.
+    \item[S2] Local search: find a locally optimum solution
+    $\psi_1^{(0)*}, \psi_2^{(0)*}$. Set $n=0$
+    \item[S3] Perturbation: from the last locally optimum solution
+    $\psi_1^{(n)*}, \psi_2^{(n)*}$, generate a new mapping $\psi_1^{(n+1)},
+    \psi_2^{(n+1)}$.
+    \item[S4] Local search: from $\psi_1^{(n+1)}, \psi_2^{(n+1)}$, find a new
+    locally optimum solution $\psi_1^{(n+1)*}, \psi_2^{(n+1)*}$. 
+    \item[S5] Examination of the acceptance criterion: compare $\psi_1^{(n+1)*},
+    \psi_2^{(n+1)*}$ with $\psi_1^{(n)*}, \psi_2^{(n)*}$. If the new mapping is
+    not accepted, reset $\psi_1^{(n+1)*} = \psi_1^{(n)*}$ and $\psi_2^{(n+1)*} =
+    \psi_2^{(n)*}$. Set $n\leftarrow n+1$.
+    \item[S6] Return to S3 until the stopping criterion is satisfied.
+\end{enumerate}
+The local search in S2 and S4 attempts to exchange the mapping of exactly 2
+indices in $\psi_1$ or $\psi_2$ in order to reduce the objective function, i.e.
+a 2-opt neighborhood search. A first-improvement rule is used, which means when
+ever an reduction in objective function is made the mapping is updated. The
+perturbation in S3 is performed by exchanging the mapping of $k_p$ indices,
+where $k_p\in [k_{p,min}, k_{p,max}]$ is adaptively increased if the
+purterbation produces a no better solution or reset to $k_{p,min}$ otherwise.
+For the acceptance criterion examination in S5, $\psi_1^{(n+1)*},
+\psi_2^{(n+1)*}$ is accepted if the objective function $f^{(n+1)} < f^{(n)}$, or
+accepted with probability $\exp(-[f(n+1) - f(n)]/T)$, where $T$ is the
+temperature parameter similar to that of Simulated Annealing (SA).
 \section{Numerical Results}
 \label{sec:simulation}
 % Simulation settings
