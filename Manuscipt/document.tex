@@ -421,17 +421,23 @@
 \begin{abstract}
     %\boldmath
     % (what we do)
-    We study the constellation rearrangement (CoRe) problem in a relay-HARQ
-    network to achieve symbol mapping diversity for reliable communication.
+    Constellation rearrangement (CoRe) is a technique to enhance diversity by
+    using different mapping from bits to a constellation for retransmitted
+    packets in HARQ system.
+    In this paper, we study the CoRe problem in a cooperative relay-HARQ network
+    where the source and relay carry out the retransmission in a coordinated
+    fashion.
     % (how they do)
     % (how we do)
-    Specifically, we formulate the bit error rate (BER) maximization into a
-    quadratic three-dimensional assignment problem (Q3AP) and solve it with an
-    efficient modified Iterated Local Search (ILS) method to find the optimal
-    CoRe solution.
+    By allowing the source and relay use two different remappings, the signal
+    space diversity is exploited more thoroughly.
+    Based on the minimum bit error rate (min-BER) criteria, the CoRe design
+    problem is formulated into a quadratic three-dimensional
+    assignment problem (Q3AP). To solve the NP-complete Q3AP, we adopted
+    an efficient modified Iterated Local Search (ILS) method.
     % (main results)
-    Performance gains on various channel settings are demonstrated with
-    simulations.
+    Performance gains of this CoRe scheme are demonstrated and analyzed with
+    numerical results under various channel settings.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -465,8 +471,9 @@ HARQ combined with relay networks has attracted great research interest in recen
 years~\cite{ngo2014hybrid}. Since in practice the transmitted symbols are modulated
 from a finite-size constellation (e.g., PSK, QAM), the performance of cooperative
 relay-HARQ systems can be further enhanced with Constellation Rearrangement
-(CoRe)~\cite{benelli1992new, wengerter2002advanced}, in which a series of identical
-bits are mapped to different constellation points across different links.
+(CoRe)~\cite{benelli1992new, wengerter2002advanced}, in which a specific
+sequence of bits are mapped to different constellation points across
+different links.
 
 % Survey of existing works on CoRe/relay channel. Shortcomings: 1. orthogonal
 % links assumption leads to low bandwidth efficiency; 2. Heuristic algorithms
@@ -477,46 +484,55 @@ For the simple three-node single hop relay network, CoRe is designed to minimize
 symbol error rate (SER) in~\cite{seddik2008trans} and the bit error rate (BER)
 in~\cite{khormuji2007improving}. The rate-optimized CoRe is studied
 in~\cite{khormuji2008rate}. For relay-HARQ systems, CoRe is designed based
-on BER maximization in~\cite{kim2009design}. CoRe is also studied for the
+on BER minimization in~\cite{kim2009design}. CoRe is also studied for the
 Nakagami-$m$ channel~\cite{ryu2011ber} and in combination with power
-allocation~\cite{yu2012power}. Nevertheless, all the abovementioned
+allocation~\cite{yu2012power}. Note that the above-mentioned
 works assume cooperative relay-HARQ schemes with orthogonality between the
 source-to-destination (S-D) link and the relay-to-destination (R-D) links, i.e.
 the (re)transmissions on the S-D link and the R-D links can not be on the same
-time slot or band, resulting in low bandwidth efficiency.
+time slot or band, resulting in low bandwidth efficiency. However,
+three-terminal relay networks where the S-D and R-D links are additive instead
+of orthogonal have long been proposed~\cite{cover1979capacity} and extensively
+studied~\cite{nabar2004fading,azarian2005achievable}. It would be interesting to
+extend CoRe for HARQ to this kind of relay networks.
 % Q3AP/QAP solution for HARQ model (going to add more references and
 % descriptions)
 
-Historically, various CoRe problems for HARQ systems fall within the realm of the
-Quadratic Assignment Problem (QAP) or its extensions, such as the Quadratic
-3-dimensional Assignment Problem (Q3AP)~\cite{harvind2005symbol}. Since the
-CoRe problem is usually formulated into an NP-complete binary linear programming
-(BIP) problem, existing CoRe implementations are mostly based on a fixed
-rearrangement~\cite{seddik2008trans, yu2012power}, or by impractically dropping
-the binary constellation mapping constraints~\cite{sediq2011optimized}.
-Other works apply heuristic/metaheuristic approaches such as simulated
-annealing~\cite{khormuji2008rate} and genetic algorithms~\cite{kim2009design}.
-It has been reported that some heuristic QAP
-solvers~\cite{stutzle2006iterated, drezner2008extensive, james2009multistart,
+One major difficulty for CoRe problems is rooted in the fact that they are
+hard to solve exactly. Historically, various CoRe problems for HARQ
+systems fall within the realm of the Quadratic Assignment Problem
+(QAP)~\cite{harvind2005symbol}, which finds a its applications in
+VLSI design, facility lay-out planning and analysis of chemical reactions,
+etc~\cite{finke1987quadratic}. As a special case of binary programming problem,
+QAP is known to be NP-hard and finding an approximate solution is NP-hard,
+too~\cite{sahni1976pcomplete}. Some of the existing CoRe implementations work
+around this difficulty by adopting a fixed remapping scheme~\cite{seddik2008trans,
+yu2012power}, or by impractically dropping the binary constellation mapping
+constraints~\cite{sediq2011optimized}. Other works apply heuristic/metaheuristic
+approaches such as simulated annealing (SA)~\cite{khormuji2008rate} and genetic
+algorithms~\cite{kim2009design}. It has been reported that some heuristic QAP
+solvers~\cite{drezner2008extensive, james2009multistart,
 benlic2015memetic} provide very high-quality solutions over the cases in
-QAPLIB~\cite{burkard1997qaplib}.
+QAPLIB~\cite{burkard1997qaplib}. The joint optimization of the two
+remappings on the S-D and R-D link, respectively, results in an even harder
+Quadratic 3-dimensional Assignment Problem (Q3AP). Consequently, it is more
+challenging to find an efficient algorithm that gives high-quality solutions.
 
 % Our contribution: 1. CoRe in new cooperative relay-HARQ settings; 2. apply
 % QAP/Q3AP for near-optimal rearrangement.
-In this work, we study the CoRe for cooperative relay-HARQ channel based on BER
-maximization. The main contributions of this paper are as follows:
-\begin{itemize}
-    \item We propose to use CoRe for the relay-HARQ scheme similar
+In this work, we study the CoRe for cooperative relay-HARQ networks based on BER
+minimization. The main contributions of this paper are as follows:
+\begin{itemize}\itemsep0pt\parskip0pt\parsep0pt
+    \item We propose a novel CoRe scheme for the relay-HARQ network similar
     to~\cite{qi2011h2arq}. As depicted in Fig.~\ref{fig:system_model}, the
     source and the relay jointly perform the Chase Combining retransmission to
     the destination in a coordinated fashion, practically forming a 2-by-1
     multiple-input single-output MISO system.
     \item In our cooperative relay-HARQ settings, we formulate the CoRe design
-    into a Q3AP problem. Since Q3AP/QAP formulations are NP-complete, we adopt
-    an efficient iterated local search (ILS) method to solve it numerically.
-    Simulation results demonstrate that the optimized mapping rearrangement
-    provides significant performance gain by exploring the signal-space
-    diversity.
+    into a Q3AP problem, then solve it with an efficient iterated local search
+    (ILS) method. The performance gains by fully exploiting the signal-space
+    diversity with the optimized mapping rearrangement are demonstrated with
+    simulation results under various channel settings.
 \end{itemize}
 
 \begin{figure}[!t]
@@ -537,32 +553,31 @@ maximization. The main contributions of this paper are as follows:
 
 The rest of this paper is organized as follows. Section~\ref{sec:model}
 describes the cooperative relay-HARQ system model. Section~\ref{sec:core}
-formulates the CoRe design into a Q3AP solution and provides a brief description
-of the numerical algorithm. The numerical results are presented in
+formulates the CoRe design into a Q3AP solution and provides an outline
+of the modified ILS algorithm. The numerical results are presented in
 Section~\ref{sec:simulation}. Finally, Section~\ref{sec:conclusion} concludes
 the paper.
 %\hfill mds
 
-\section{System Model and Problem Formulation}
+\section{System Model}
 \label{sec:model}
 % Cooperative relay-HARQ channel 
-We consider the cooperative relay-HARQ network depicted in
+We consider the cooperative relay-HARQ network shown in
 Fig.~\ref{fig:system_model}. Denote $\mathcal{C}$ as the constellation used by
 this relay network whose size is $Q = |\mathcal{C}|$. In the first phase, the
 source converts a bit sequence of length $\log_2Q$ into symbols with
-Gray mapping $\psi_0:
-\{0,\ldots,Q - 1\}\rightarrow \mathcal{C}$. The bit sequence is
-indexed by its decimal equivalence $p\in \{0,\ldots,Q - 1\}$.
+Gray mapping $\psi_0: \{0,\ldots,Q - 1\}\rightarrow \mathcal{C}$. The bit
+sequence is indexed by its decimal equivalence $p\in \{0,\ldots,Q - 1\}$.
 Then the source transmits $\psi_0[p]$ to the destination via channel $h_0$
 which is also overheard by the decode-and-forward (DF) relay.
 We assume that this relay is placed strategically so that it has
 negligible decoding error rate as in~\cite{ryu2011ber, kim2009design}. Upon
 receiving a request for retransmission, the second phase is started. This time
-the source and the relay adopt a remap $p$ into $\psi_1[p]$ and $\psi_2[p]$,
+the source and the relay remap $p$ into $\psi_1[p]$ and $\psi_2[p]$,
 respectively, where potentially $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The
 remapped symbols are transmitted simultaneously on the same band to the
 destination via channel $h_1$ and $h_2$. In summary, the received signals at the
-destination during the 2 phases are
+destination during the two phases are
 \begin{subequations}
     \begin{align}
        y_1 & = h_0\psi_0[p] + v_1, \\
@@ -575,11 +590,12 @@ we assume the channels $h_0$, $h_1$ and $h_2$ follows independent Rician
 distribution.
 
 % ML demodulator
-Assuming that the destination has perfect channel state information (CSI), it
-decides on the index $p$ with the maximum likelihood (ML) rule
+Assuming that the destination has perfect channel state information (CSI). Based
+on the received symbols $y_1$ and $y_2$ from the two phases, it decides on the
+index $p$ with the maximum likelihood (ML) rule
 \begin{align}
-    \min_{\hat{p}} |y_1 - \hat{h}_0\psi_0[\hat{p}]|^2 + |y_2-
-    \hat{h}_1\psi_1[\hat{p}] - \hat{h}_2\psi_2[\hat{p}]|^2.
+    \min_{\hat{p}} |y_1 - h_0\psi_0[\hat{p}]|^2 + |y_2-
+    h_1\psi_1[\hat{p}] - h_2\psi_2[\hat{p}]|^2.
     \label{eq:ML}
 \end{align}
 
@@ -671,30 +687,30 @@ In this section we first formulate the min-BER CoRe design into a Q3AP problem,
 and explain the numerical approach to compute the input cost matrix of the Q3AP
 problem. Then we provide an efficient algorithm to determine the Q3AP solution.
 
-\subsection{BER Maximization via Q3AP solution}
+\subsection{BER Minimization via Q3AP solution}
 % Q3AP formulation 
 Assume that the information-bearing index $p$ follows a uniform distribution,
-the BER can be upper-bounded using pair-wise error probability
-(PEP)~\cite{harvind2005symbol}
+the BER can be upper-bounded and approximated using the pair-wise error
+probability (PEP)~\cite{harvind2005symbol}
 \begin{align}
-    P_{BER} = \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
+    P_{BER} \approx \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
     q]}{Q}P_{PEP}(q | p), \label{eq:P_BER}
 \end{align}
 where $B[p,q]$ is the Hamming distance between the binary representation of $p$
 and $q$ and $P_{PEP}(q | p)$ is the probability for the ML decoder to prefer $q$
 over $p$ when $p$ is actually transmitted. According to~(\ref{eq:ML}), we have
 \begin{align}
-    P_{PEP}(q | p) = P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,q,\psi_1,\psi_2) < 0\},
+    P_{PEP}(q | p) = P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,q,\psi_1,\psi_2) < 0\},
     \label{eq:P_PEP}
 \end{align}
 i.e. given indices $p, q$ and the remapping scheme $\psi_1$, $\psi_2$, the
 probability of the random variable $\delta<0$ being evaluated over the random
-variables $h_0,h_1,h_2,v_0,v_1$, and $\delta$ is defined as
+variables $h_0,h_1,h_2,v_1,v_2$, and $\delta$ is defined as
 \begin{align}
-    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_0|^2 - |v_0|^2 +\notag\\ 
+    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 +\notag\\ 
     &
-    |h_1(\psi_1[p] - \psi_1[q])+h_2(\psi_2[p] - \psi_2[q])+v_1|^2 -
-    |v_1|^2.
+    |h_1(\psi_1[p] - \psi_1[q])+h_2(\psi_2[p] - \psi_2[q])+v_2|^2 -
+    |v_2|^2.
     \label{eq:delta}
 \end{align}
 In order to formulate the Q3AP problem, we introduce the binary variable
@@ -725,31 +741,34 @@ CoRe scheme $\min_{\psi_1, \psi_2}P_{BER}$ can be reformulated as
 \end{align}
 in which
 \begin{align}
-    c_{pijqkl} & = \frac{B[p, q]}{Q}P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)
+    c_{pijqkl} & = \frac{B[p, q]}{Q}P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)
     < 0\},
     \label{eq:cpijqkl}
 \end{align}
 \begin{align}
-    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_0|^2 - |v_0|^2 +\notag
+    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 +\notag
     \\
     &
-    |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_1|^2 -
-    |v_1|^2.\label{eq:delta_pijqkl}
+    |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_2|^2 -
+    |v_2|^2.\label{eq:delta_pijqkl}
 \end{align}
+A Q3AP instance is fully defined by the 6-dimensional matrix $\{c_{pijqkl}\}$.
 
 \subsection{Computation of the Pair-wise Symbol Rate}
 
 % serial expansion method
 In this section we focus on the computation of the parameters $\{c_{pijqkl}\}$
-of the Q3AP problem. According to~\ref{eq:cpijqkl}, the key to compute $c_{pijqkl}$
-lies in the evaluation of $P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l)$, i.e.
-the CDF of the random variable $\delta(p,i,j,q,k,l)$ as in~(\ref{eq:delta}).
+of the Q3AP problem. According to~(\ref{eq:cpijqkl}), the key to compute
+$c_{pijqkl}$ lies in the evaluation of
+$P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)$, i.e. the cumulative distribution
+function (CDF) of the random variable $\delta(p,i,j,q,k,l)$ as
+in~(\ref{eq:delta}).
 Under the general Rician channel assumption
 $h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we extend the method
 in~\cite{harvind2005symbol, taricco2002exact} to compute
-$P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$:
+$P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
 \begin{align}
-    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
+    & P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
     & \approx \frac{1}{2v}\sum_{t=1}^v \Re\left\{\Phi_{\delta}(\xi +
     j\xi\tau_t)\right\} + \tau_t\Im\left\{\Phi_{\delta}(\xi +
     j\xi\tau_t)\right\},
@@ -759,13 +778,13 @@ with the moment generating function (MGF) $\Phi_{\delta}(\omega) =
 \mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_t = \tan((t- 1/2)\pi/v)$
 and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denoting its real and image part,
 respectively. The parameter $\xi$ is selected to ensure convergence of the
-integration and \cite{taricco2002exact} it is suggested to use $\xi = 1/4$. The
-size $u$ of the expansion~(\ref{eq:expansion}) needs to be larger when $
-P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$ is smaller in order to
+integration and \cite{taricco2002exact} suggests $\xi = 1/4$. The
+size $v$ of the expansion~(\ref{eq:expansion}) needs to be larger when $
+P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ is smaller in order to
 maintain an acceptable numerical accuracy.
 
 To compute $\Phi_{\delta}(\omega)$, denote the Gaussian random vectors
-$\mathbf{z}_1 = [h_0, v_0]^T$, $\mathbf{z}_{2} = [h_1, h_2, v_1]^T$, such
+$\mathbf{z}_1 = [h_0, v_1]^T$, $\mathbf{z}_{2} = [h_1, h_2, v_2]^T$, such
 that $\mathbf{z}_m\sim\mathcal{CN}(\bm{\mu}_m, \mathbf{\Sigma}_m)$, $m=1,2$,
 where
 \begin{align}
@@ -807,14 +826,23 @@ as~\cite{schwartz1995communication}
     \omega\mathbf{\Sigma}_m\mathbf{A}_m)}.
 \end{align}
 
+Note that for any instance of Q3AP a total number of $Q^6$ coefficients must be
+computed. Fortunately, the CoRe design is based on statistical CSI and does not
+require an online computation. In our simulation, we implement the above
+procedure for 16-QAM and 32-QAM with Armadillo
+library~\cite{sanderson2010armadillo} on a workstation with 48 cores and
+finished the computation in a few days for a $Q=32$ case and a few hours for a
+$16-QAM$ case. For larger constellation such as 64-QAM, however, the time and
+spacial complexity would be too high. We will address in future works to
+reduce this complexity by adding a few rules to restrict the remapping schemes.
 
 % special case of Rayleigh fading
 When the Rician-fading channel reduces to the Rayleigh-fading channel, i.e.
 when $\mu_{h_m}=0, m = 0, 1, 2$ there is a simple upper bound of
-$P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}$ similar
+$P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ similar
 to~\cite{seddik2008trans}. Note that
 \begin{align}
-    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\}  \notag \\
+    & P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}  \notag \\
     & = \mathbb{E}_{h_0,h_1,h_2}
     \left\{Q\left(\sqrt{\frac{\left|h_0e_{pq}\right|^2
     + \left|h_1e_{ik} + h_2e_{jl}\right|^2}
@@ -822,7 +850,7 @@ to~\cite{seddik2008trans}. Note that
 \end{align}
 Applying the same relaxation as in~\cite{seddik2008trans}, we have
 \begin{align}
-    & P_{h_0,h_1,h_2,v_0,v_1}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
+    & P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
     & \leq \frac{3\sigma_v^4}{\sigma_{h_0}^2|e_{pq}|^2 (\sigma_{h_1}^2|e_{ik}|^2
     +\sigma_{h_2}^2|e_{jl}|^2)}.
     \label{eq:PEP_UB}
@@ -831,15 +859,15 @@ which is tight in the high-SNR regime.
 
 \subsection{Q3AP Solution}
 % Description of the Q3AP solution methods
-For Q3AP problems of size $Q = 16$ it is impractical to apply the
-exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also, our tests show
-that 16-QAM does not have enough symmetry to exploit as does the 16-PSK
-constellation~\cite{mittelmann2015solving}.
+For practical-sized constellation such as 16-QAM and 32-QAM, it is impractical
+to apply the exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also,
+our tests show that even the smaller 16-QAM does not have enough symmetry to
+exploit as does the 16-PSK constellation~\cite{mittelmann2015solving}.
 Consequently, the CoRe problem is solved with the ILS
 method~\cite{hahn2008quadratic} extended from its QAP
 version~\cite{stutzle2006iterated}. The basic procedure of this ILS method is
 outlined as follows:
-\begin{enumerate}%\itemsep0pt\parskip0pt\parsep0pt
+\begin{enumerate}\itemsep0pt\parskip0pt\parsep0pt
     \item[S1] Initialization: starting from a random mapping
     $\psi_1^{(0)}, \psi_2^{(0)}$.
     \item[S2] Local search: find a locally optimum solution
@@ -864,28 +892,30 @@ where $k_p\in [k_{p,min}, k_{p,max}]$ is adaptively increased if the
 perturbation does not produce a better solution or is reset to $k_{p,min}$
 otherwise. For the acceptance criterion examination in S5, $\psi_1^{(n+1)*},
 \psi_2^{(n+1)*}$ is accepted if the objective function $f^{(n+1)} < f^{(n)}$, or
-accepted with probability $\exp(-[f(n+1) - f(n)]/T)$, where $T$ is the
-temperature parameter similar to that of Simulated Annealing (SA).
+accepted with probability $\exp(-[f^{(n+1)} - f^{(n)}]/T)$, where $T$ is the
+temperature parameter similar to that of simulated annealing.
+
 \section{Numerical Results}
 \label{sec:simulation}
 % Simulation settings
-In this section we present the numerical results of CoRe under various channel
-settings. In our simulation, all Rician channels are assumed to have the same
-Rician parameter $K$. Also we assume that during the second phase, the phases of
-channels $h_1$ and $h_2$ can be aligned at the source and relay, respectively.
+In this section we present the numerical results of CoRe for the relay-HARQ
+network under various channel settings. In our simulation, all Rician channels
+are assumed to have the same Rician parameter $K$. Also we assume that during
+the second phase, the phases of the line of sight (LOS) components of channels
+$h_1$ and $h_2$ can be aligned at the source and relay, respectively.
 Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$,
 $\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
 $\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ represents the ratio
-between the amplitude of the line of sight (LOS) components of the
-relay-to-destination and the source-to-destination link. Throughout the
+between the amplitude of the LOS component of the
+relay-to-destination and the S-D link. Throughout the
 simulation we consider 16-QAM constellation thus $Q=16$. The noise power is
-parameterized with $E_b/N_0$ of the source-to-destination link.
+parameterized with $E_b/N_0$ of the S-D link.
 
 % Example of Q3AP mapping
 First, we provide an example of Q3AP optimized CoRe. When $E_b/N_0 =
 2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme of $\psi_0$
 (Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in Fig.~\ref{fig:example}. We
-note that for the chase combining HARQ scheme and the joint ML demodulator, the
+note that for the Chase combining HARQ scheme and the joint ML demodulator, the
 optimal $\psi_1$ and $\psi_2$ are no longer a Gray mapping. A general pattern of
 $\psi_1$ and $\psi_2$ is that the indices whose constellation points are close
 to each other during the first phase are remapped to constellation points far
@@ -909,7 +939,7 @@ individual constellations at the source and relay are kept unchanged.
     \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=4.0cm]{./figs/karim.eps}}
-      \centerline{(b) Seddik's heuristic remapping~\cite{seddik2008trans}}\medskip
+      \centerline{(b) $\psi_S$}\medskip
     \end{minipage}
     \begin{minipage}[b]{0.48\linewidth}
       \centering
@@ -929,8 +959,8 @@ individual constellations at the source and relay are kept unchanged.
 % BER Upper bound comparison
 Next we compare the BER upper bound $P_{BER}$, which is also the Q3AP objective
 function, for three mapping schemes: the Q3AP optimized CoRe, the extension of
-Seddik's remapping $\psi_1 = \psi_2 = \psi_S$, and no CoRe at all i.e. $\psi_1 =
-\psi_2 = \psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable
+Seddik's remapping $\psi_1 = \psi_2 = \psi_S$, and no CoRe at all, i.e. $\psi_1
+= \psi_2 = \psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable
 performance gain for CoRe versus no CoRe at all. Moreover, the gain of the Q3AP
 optimized CoRe over $\psi_1 = \psi_2 = \psi_S$ indicates that in cooperative
 relay-HARQ networks, the BER performance can be further improved by using
@@ -958,7 +988,7 @@ becomes less random.
 
 % Monte-Carlo BER comparison
 The performance gain of Q3AP optimized CoRe for the cooperative relay-HARQ
-system is further justified in Fig.~\ref{fig:montecarlo}, where we evaluate the
+system is further verified in Fig.~\ref{fig:montecarlo}, where we evaluate the
 actual BER by running a Monte-Carlo simulation. We implement the ML demodulator
 in~(\ref{eq:ML}) and evaluate the average BER of $M=10^7$ randomly generated
 indices $p$. The actual BER curves demonstrate a similar pattern as the BER
@@ -985,13 +1015,14 @@ upper bound curves in Fig.~\ref{fig:BERupperbound}.
 % Monte-Carlo BER mismatch comparison
 Finally, we test the robustness of the Q3AP CoRe solution against mismatch in
 channel settings. The intuition is that in practical, the CSI may not be
-perfectly accurate. Also, the Q3AP CoRe scheme can only be computed off-line for
-a finite number of channel settings. We deliberately test the BER performance of
-the Q3AP CoRe solution for $a=1$, $K=5$ in the actual channel settings $a =
-\sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upper bound and Monte-Carlo simulated
-BER are plotted in Fig.~\ref{fig:mismatch}. Apparently, the Q3AP CoRe solution
-is not sensitive to the relative amplitude and the phase alignment error between
-the relay-to-destination and source-to-destination links.
+perfectly accurate and the phase of the LOS component of the S-D and R-D links
+may not be perfectly aligned. Also, the Q3AP CoRe scheme can only be computed
+off-line for a finite number of channel settings. We deliberately test the BER
+performance of the Q3AP CoRe solution for $a=1$, $K=5$ in the actual channel
+settings $a = \sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upper bound and
+Monte-Carlo simulated BER are plotted in Fig.~\ref{fig:mismatch}. Apparently,
+the Q3AP CoRe solution is not sensitive to the relative amplitude and the phase
+alignment error between the S-D and R-D links.
 
 \begin{figure}[!t]
     \centering
@@ -1004,15 +1035,16 @@ the relay-to-destination and source-to-destination links.
 
 \section{Conclusion}
 \label{sec:conclusion}
-In this work we have investigated the constellation rearrangement (CoRe) problem in
-cooperative relay-HARQ systems. Based on the maximization of the bit error rate
-(BER) upper bound, the CoRe design was formulated into a quadratic
-three-dimensional assignment problem (Q3AP), then solved with an efficient
-modified iterated local search (ILS) method. Our numerical tests have
-demonstrated the performance gain of the Q3AP-based CoRe which allows the source
-and relay to use different remapping schemes during the retransmission other
-than Gray mapping and verified its robustness against channel state information
-(CSI) imperfection.
+In this work, we have investigated the constellation rearrangement (CoRe)
+problem in a three-terminal cooperative relay-HARQ systems featured by the
+coordinated retransmission from both the source and the relay. Based on the
+minimization of the bit error rate (BER) upper bound, the CoRe design was
+formulated into a quadratic three-dimensional assignment problem (Q3AP), then
+solved with an efficient modified iterated local search (ILS) method. Our
+numerical tests have demonstrated the performance gain of the Q3AP-based CoRe
+which allows the source and relay to use two different remapping schemes during
+the retransmission other than Gray mapping and verified its robustness against
+channel state information (CSI) imperfection.
 
 
 
