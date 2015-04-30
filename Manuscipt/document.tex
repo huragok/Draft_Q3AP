@@ -1,68 +1,3 @@
-
-%% bare_conf.tex
-%% V1.3
-%% 2007/01/11
-%% by Michael Shell
-%% See:
-%% http://www.michaelshell.org/
-%% for current contact information.
-%%
-%% This is a skeleton file demonstrating the use of IEEEtran.cls
-%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
-%%
-%% Support sites:
-%% http://www.michaelshell.org/tex/ieeetran/
-%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
-%% and
-%% http://www.ieee.org/
-
-%%*************************************************************************
-%% Legal Notice:
-%% This code is offered as-is without any warranty either expressed or
-%% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE! 
-%% User assumes all risk.
-%% In no event shall IEEE or any contributor to this code be liable for
-%% any damages or losses, including, but not limited to, incidental,
-%% consequential, or any other damages, resulting from the use or misuse
-%% of any information contained here.
-%%
-%% All comments are the opinions of their respective authors and are not
-%% necessarily endorsed by the IEEE.
-%%
-%% This work is distributed under the LaTeX Project Public License (LPPL)
-%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
-%% distributed and modified. A copy of the LPPL, version 1.3, is included
-%% in the base LaTeX documentation of all distributions of LaTeX released
-%% 2003/12/01 or later.
-%% Retain all contribution notices and credits.
-%% ** Modified files should be clearly indicated as such, including  **
-%% ** renaming them and changing author support contact information. **
-%%
-%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
-%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
-%%*************************************************************************
-
-% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
-% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
-% *** with production work. IEEE's font choices can trigger bugs that do  ***
-% *** not appear when using other class files.                            ***
-% The testflow support page is at:
-% http://www.michaelshell.org/tex/testflow/
-
-
-
-% Note that the a4paper option is mainly intended so that authors in
-% countries using A4 can easily print to A4 and see how their papers will
-% look in print - the typesetting of the document will not typically be
-% affected with changes in paper size (but the bottom and side margins will).
-% Use the testflow package mentioned above to verify correct handling of
-% both paper sizes by the user's LaTeX system.
-%
-% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
-% should be used if it is desired that the figures are to be displayed in
-% draft mode.
-%
 \documentclass[conference]{IEEEtran}
 % Add the compsoc option for Computer Society conferences.
 %
@@ -71,60 +6,6 @@
 % \documentclass[conference]{../sty/IEEEtran}
 
 
-
-
-
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
-
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-
-
-
-
-
-% *** CITATION PACKAGES ***
-%
-%\usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
-% not currently provide for hyperlinked citations.
-% The latest version can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
-% The documentation is contained in the cite.sty file itself.
-
-
-
-
-
-
-% *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
    %\usepackage[pdftex]{graphicx}
@@ -172,48 +53,7 @@
 %
 \usepackage[cmex10]{amsmath}
 \usepackage{amssymb}
-\usepackage{bm}
-% A popular package from the American Mathematical Society that provides
-% many useful and powerful commands for dealing with mathematics. If using
-% it, be sure to load this package with the cmex10 option to ensure that
-% only type 1 fonts will utilized at all point sizes. Without this option,
-% it is possible that some math symbols, particularly those within
-% footnotes, will be rendered in bitmap form which will result in a
-% document that can not be IEEE Xplore compliant!
-%
-% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
-% thus preventing page breaks from occurring within multiline equations. Use:
-%\interdisplaylinepenalty=2500
-% after loading amsmath to restore such page breaks as IEEEtran.cls normally
-% does. amsmath.sty is already installed on most LaTeX systems. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
-
-
-
-
-
-% *** SPECIALIZED LIST PACKAGES ***
-%
-%\usepackage{algorithmic}
-% algorithmic.sty was written by Peter Williams and Rogerio Brito.
-% This package provides an algorithmic environment fo describing algorithms.
-% You can use the algorithmic environment in-text or within a figure
-% environment to provide for a floating algorithm. Do NOT use the algorithm
-% floating environment provided by algorithm.sty (by the same authors) or
-% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
-% algorithm float types and packages that provide these will not provide
-% correct IEEE style captions. The latest version and documentation of
-% algorithmic.sty can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
-% There is also a support site at:
-% http://algorithms.berlios.de/index.html
-% Also of interest may be the (relatively newer and more customizable)
-% algorithmicx.sty package by Szasz Janos:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
-
-
-
+\usepackage{bm} 
 
 % *** ALIGNMENT PACKAGES ***
 %
@@ -251,8 +91,6 @@
 
 
 
-
-
 % *** SUBFIGURE PACKAGES ***
 %\usepackage[tight,footnotesize]{subfigure}
 % subfigure.sty was written by Steven Douglas Cochran. This package makes it
@@ -264,97 +102,22 @@
 % http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
 % subfigure.sty has been superceeded by subfig.sty.
 
-
-
-%\usepackage[caption=false]{caption}
-%\usepackage[font=footnotesize]{subfig}
-% subfig.sty, also written by Steven Douglas Cochran, is the modern
-% replacement for subfigure.sty. However, subfig.sty requires and
-% automatically loads Axel Sommerfeldt's caption.sty which will override
-% IEEEtran.cls handling of captions and this will result in nonIEEE style
-% figure/table captions. To prevent this problem, be sure and preload
-% caption.sty with its "caption=false" package option. This is will preserve
-% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
-% (recommended due to many improvements over 1.2) of subfig.sty supports
-% the caption=false option directly:
-%\usepackage[caption=false,font=footnotesize]{subfig}
-%
-% The latest version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
-% The latest version and documentation of caption.sty can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
-
-
-
-
-% *** FLOAT PACKAGES ***
-%
-%\usepackage{fixltx2e}
-% fixltx2e, the successor to the earlier fix2col.sty, was written by
-% Frank Mittelbach and David Carlisle. This package corrects a few problems
-% in the LaTeX2e kernel, the most notable of which is that in current
-% LaTeX2e releases, the ordering of single and double column floats is not
-% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
-% single column figure to be placed prior to an earlier double column
-% figure. The latest version and documentation can be found at:
-% http://www.ctan.org/tex-archive/macros/latex/base/
-
-
-
-%\usepackage{stfloats}
-% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% the ability to do double column floats at the bottom of the page as well
-% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% LaTeX2e). It also provides a command:
-%\fnbelowfloat
-% to enable the placement of footnotes below bottom floats (the standard
-% LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% which rewrites many portions of the LaTeX2e float routines. It may not work
-% with other packages that modify the LaTeX2e float routines. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
-% Documentation is contained in the stfloats.sty comments as well as in the
-% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
-% does not allow \baselineskip to stretch. Authors submitting work to the
-% IEEE should note that IEEE rarely uses double column equations and
-% that authors should try to avoid such use. Do not be tempted to use the
-% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
-% not format its papers in such ways.
-
-
-
-
-
-% *** PDF, URL AND HYPERLINK PACKAGES ***
-%
-%\usepackage{url}
-% url.sty was written by Donald Arseneau. It provides better support for
-% handling and breaking URLs. url.sty is already installed on most LaTeX
-% systems. The latest version can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
-% Read the url.sty source comments for usage information. Basically,
-% \url{my_url_here}.
-
-
-
-
-
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
 \usepackage{graphicx}
 \usepackage{float}
 % correct bad hyphenation here
 \hyphenation{}
+\newcommand{\PEP}{\rm{PEP}}
+\newcommand{\BER}{\rm{BER}}
+\renewcommand{\Re}{\rm Re}
+\renewcommand{\Im}{\rm Im}
+
 
 
 \begin{document}
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Constellation Rearrangement in Cooperative Relay-HARQ Network}
+\title{Modulation Diversity Design in Cooperative Relay-HARQ Network}
 
 
 % author names and affiliations
@@ -421,23 +184,27 @@
 \begin{abstract}
     %\boldmath
     % (what we do)
-    Constellation rearrangement (CoRe) is a technique to enhance diversity by
-    using different mapping from bits to a constellation for retransmitted
-    packets in HARQ system.
-    In this paper, we study the CoRe problem in a cooperative relay-HARQ network
-    where the source and relay carry out the retransmission in a coordinated
-    fashion.
+Modulation diversity (MoDiv) is a practically useful diversity enhancement
+technique that utilizes different modulation
+mappings from bits to constellation symbols.  
+This approach is particularly effective when retransmitting
+packets in hybrid-ARQ  (HARQ) systems. 
+In this paper, we study the optimization of MoDiv in a cooperative relay-HARQ network
+where the source and relay jointly share the task of
+retransmission through coordination. 
     % (how they do)
     % (how we do)
-    By allowing the source and relay use two different remappings, the signal
-    space diversity is exploited more thoroughly.
-    Based on the minimum bit error rate (min-BER) criteria, the CoRe design
-    problem is formulated into a quadratic three-dimensional
-    assignment problem (Q3AP). To solve the NP-complete Q3AP, we adopted
-    an efficient modified Iterated Local Search (ILS) method.
+ By allowing different nodes to adopt different modulation mapping, 
+ we can better exploit signal
+    space diversity to reduce the bit error rate (BER) at the
+HARQ receiver. 
+To minimize the receiver BER, the MoDiv design optimization
+    problem becomes a quadratic three-dimensional
+    assignment problem (Q3AP). In order to solve the NP-complete Q3AP, we adopt
+an efficient modified Iterated local search method.
     % (main results)
-    Performance gains of this CoRe scheme are demonstrated and analyzed with
-    numerical results under various channel settings.
+Numerical results under various channel settings demonstrate the
+    Performance gains of the proposed MoDiv scheme for HARQ. 
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -447,9 +214,6 @@
 % math in the abstract anyway.
 
 % no keywords
-
-
-
 
 % For peer review papers, you can put extra information on the cover
 % page as needed:
@@ -461,78 +225,85 @@
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
+%\baselineskip=11pt
 
 \section{Introduction}
-% Why are we interested in the cooperative relay-HARQ channel? Why CoRe?
-In modern wireless communication systems, Automatic Repeat reQuest (ARQ) or
-Hybrid ARQ (HARQ) are recognized as key technologies for reliable transmission.
-HARQ combined with relay networks has attracted great research interest in recent
-years~\cite{ngo2014hybrid}. Since in practice the transmitted symbols are modulated
-from a finite-size constellation (e.g., PSK, QAM), the performance of cooperative
-relay-HARQ systems can be further enhanced with Constellation Rearrangement
-(CoRe)~\cite{benelli1992new, wengerter2002advanced}, in which a specific
-sequence of bits are mapped to different constellation points across
-different links.
+% Why are we interested in the cooperative relay-HARQ channel? Why MoDiv?
+In modern wireless communication, high rate data transmission often leads
+to reception errors. To overcome packet loss due to transmission errors, 
+Automatic Repeat reQuest (ARQ) or
+Hybrid ARQ (HARQ) are important mechanism for better reliability.
+HARQ in conjunction with relay networks has attracted great deal of 
+research interest in recent
+years~\cite{ngo2014hybrid}. Because symbols transmitted in practice often
+utilize linear modulations  of  finite-size constellation (e.g., Q-ary PSK, or Q-ary QAM), 
+the performance of cooperative
+relay-HARQ systems can benefit from Modulation Diversity 
+(MoDiv)~\cite{benelli1992new, wengerter2002advanced}, in which each
+group of $\log_2 Q$ bits are mapped to different constellation points across
+different links and in different transmissions. 
 
-% Survey of existing works on CoRe/relay channel. Shortcomings: 1. orthogonal
+% Survey of existing works on MoDiv/relay channel. Shortcomings: 1. orthogonal
 % links assumption leads to low bandwidth efficiency; 2. Heuristic algorithms
 % performance not guaranteed
-There is a wide variety of works on CoRe for cooperative relay
+A number of research works have already focused on MoDiv for cooperative relay
 systems with different channel settings and design criteria.
-For the simple three-node single hop relay network, CoRe is designed to minimize
+For the simple three-node single hop relay network, MoDiv was designed to minimize
 symbol error rate (SER) in~\cite{seddik2008trans} and the bit error rate (BER)
-in~\cite{khormuji2007improving}. The rate-optimized CoRe is studied
-in~\cite{khormuji2008rate}. For relay-HARQ systems, CoRe is designed based
-on BER minimization in~\cite{kim2009design}. CoRe is also studied for the
-Nakagami-$m$ channel~\cite{ryu2011ber} and in combination with power
-allocation~\cite{yu2012power}. Note that the above-mentioned
-works assume cooperative relay-HARQ schemes with orthogonality between the
-source-to-destination (S-D) link and the relay-to-destination (R-D) links, i.e.
-the (re)transmissions on the S-D link and the R-D links can not be on the same
-time slot or band, resulting in low bandwidth efficiency. However,
+in~\cite{khormuji2007improving}. The rate-optimized MoDiv is studied
+in~\cite{khormuji2008rate}. For relay-HARQ systems, MoDiv is designed for
+BER minimization in~\cite{kim2009design}. MoDiv is also studied under wireless
+Nakagami-$m$ channels~\cite{ryu2011ber} and in combination with power
+allocation~\cite{yu2012power}. Note that the afore-mentioned
+works assume cooperative relay-HARQ schemes with channel orthogonality between the
+source-to-destination (S-D) link and the relay-to-destination (R-D) links. In other
+words, 
+the (re)transmissions on the S-D link and the R-D links occupy orthogonal bands or
+orthogonal time slots, resulting in low bandwidth efficiency. On the other hand,
 three-terminal relay networks where the S-D and R-D links are additive instead
-of orthogonal have long been proposed~\cite{cover1979capacity} and extensively
-studied~\cite{nabar2004fading,azarian2005achievable}. It would be interesting to
-extend CoRe for HARQ to this kind of relay networks.
+of orthogonal have long been proposed in \cite{cover1979capacity} and 
+have been extensively
+studied by\cite{nabar2004fading,azarian2005achievable}. It would 
+be interesting to
+extend MoDiv for HARQ to these co-channel transmission relay networks.
 % Q3AP/QAP solution for HARQ model (going to add more references and
 % descriptions)
 
-One major difficulty for CoRe problems is rooted in the fact that they are
-hard to solve exactly. Historically, various CoRe problems for HARQ
-systems fall within the realm of the Quadratic Assignment Problem
-(QAP)~\cite{harvind2005symbol}, which finds a its applications in
-VLSI design, facility lay-out planning and analysis of chemical reactions,
-etc~\cite{finke1987quadratic}. As a special case of binary programming problem,
-QAP is known to be NP-hard and finding an approximate solution is NP-hard,
-too~\cite{sahni1976pcomplete}. Some of the existing CoRe implementations work
-around this difficulty by adopting a fixed remapping scheme~\cite{seddik2008trans,
-yu2012power}, or by impractically dropping the binary constellation mapping
-constraints~\cite{sediq2011optimized}. Other works apply heuristic/metaheuristic
-approaches such as simulated annealing (SA)~\cite{khormuji2008rate} and genetic
+One major difficulty of MoDiv optimization originates from the fact that they are
+hard to solve exactly.  The MoDiv design problems for HARQ
+belong to the realm of the Quadratic Assignment Problem
+(QAP)~\cite{harvind2005symbol}, which has various applications including
+VLSI design, facility planning, or analysis of chemical reactions,\cite{finke1987quadratic}. 
+As a special case of binary programming,
+QAP is known to be NP-hard and so is finding an approximate solution
+\cite{sahni1976pcomplete}. 
+Some existing MoDiv implementations circumvent
+the difficulty by adopting a fixed remapping scheme~\cite{seddik2008trans,
+yu2012power}, or by neglecting the binary constellation mapping
+constraints~\cite{sediq2011optimized}. 
+Other heuristic or metaheuristic
+approaches applied simulated annealing (SA)~\cite{khormuji2008rate} and genetic
 algorithms~\cite{kim2009design}. It has been reported that some heuristic QAP
-solvers~\cite{drezner2008extensive, james2009multistart,
-benlic2015memetic} provide very high-quality solutions over the cases in
-QAPLIB~\cite{burkard1997qaplib}. The joint optimization of the two
-remappings on the S-D and R-D link, respectively, results in an even harder
-Quadratic 3-dimensional Assignment Problem (Q3AP). Consequently, it is more
-challenging to find an efficient algorithm that gives high-quality solutions.
+solvers~\cite{drezner2008extensive, james2009multistart,benlic2015memetic} 
+provide very high-quality solutions over the cases in
+QAPLIB~\cite{burkard1997qaplib}. 
 
-% Our contribution: 1. CoRe in new cooperative relay-HARQ settings; 2. apply
-% QAP/Q3AP for near-optimal rearrangement.
-In this work, we study the CoRe for cooperative relay-HARQ networks based on BER
-minimization. The main contributions of this paper are as follows:
+We note that the joint optimization of two modulation diversity mappings
+on S-D link and R-D link, respectively, leads to an even harder
+Quadratic 3-dimensional Assignment Problem (Q3AP).  It is more 
+challenging to find an efficient Q3AP algorithm that generates high-quality solutions.
+In this work, we study the MoDiv for cooperative relay-HARQ networks based on BER
+minimization. Our main contributions in this paper are as follows:
 \begin{itemize}\itemsep0pt\parskip0pt\parsep0pt
-    \item We propose a novel CoRe scheme for the relay-HARQ network similar
-    to~\cite{qi2011h2arq}. As depicted in Fig.~\ref{fig:system_model}, the
-    source and the relay jointly perform the Chase Combining retransmission to
-    the destination in a coordinated fashion, practically forming a 2-by-1
-    multiple-input single-output MISO system.
-    \item In our cooperative relay-HARQ settings, we formulate the CoRe design
-    into a Q3AP problem, then solve it with an efficient iterated local search
-    (ILS) method. The performance gains by fully exploiting the signal-space
-    diversity with the optimized mapping rearrangement are demonstrated with
-    simulation results under various channel settings.
+    \item We propose a novel MoDiv scheme for a relay-HARQ network similarly considered in
+ \cite{qi2011h2arq}. As depicted in Fig.~\ref{fig:system_model}, the
+ source and the relay jointly execute retransmission to
+ the destination in a coordinated fashion, practically forming a 2-by-1
+multiple-input single-output (MISO) diversity system.
+    \item In our cooperative relay-HARQ environment, we formulate the MoDiv design
+    into a Q3AP problem and solve it with an efficient iterated local search
+    (ILS) method. We demonstrate the performance gains by exploiting the signal-space
+    diversity with the optimized MoDiv mapping for various channel settings.
 \end{itemize}
 
 \begin{figure}[!t]
@@ -551,11 +322,12 @@ minimization. The main contributions of this paper are as follows:
     \label{fig:system_model}
 \end{figure}
 
-The rest of this paper is organized as follows. Section~\ref{sec:model}
-describes the cooperative relay-HARQ system model. Section~\ref{sec:core}
-formulates the CoRe design into a Q3AP solution and provides an outline
-of the modified ILS algorithm. The numerical results are presented in
-Section~\ref{sec:simulation}. Finally, Section~\ref{sec:conclusion} concludes
+We organize the manuscript as follows. Section~\ref{sec:model}
+describes the underlying cooperative relay-HARQ system model. Section~\ref{sec:core}
+formulates the MoDiv design into a Q3AP solution and provides an outline
+of the modified ILS algorithm. Section~\ref{sec:simulation} present 
+ numerical results as performance demonstration. 
+ Finally, Section~\ref{sec:conclusion} concludes
 the paper.
 %\hfill mds
 
@@ -563,21 +335,30 @@ the paper.
 \label{sec:model}
 % Cooperative relay-HARQ channel 
 We consider the cooperative relay-HARQ network shown in
-Fig.~\ref{fig:system_model}. Denote $\mathcal{C}$ as the constellation used by
+Fig.~\ref{fig:system_model}. There are two phases in this transmission
+system. In phase 1, source node broadcasts its packet that can be received
+by both the destination and the relay.  In phase 2 of this HARQ setup, 
+upon packet loss, both
+the relay and the source node cooperatively retransmit the lost packet
+information to the destination.  Our goal is to design the H-ARQ constellation
+mapping for modulation diversity such that the packet BER at the receiver
+is minimized. 
+
+Denote $\mathcal{C}$ as the constellation used by
 this relay network whose size is $Q = |\mathcal{C}|$. In the first phase, the
 source converts a bit sequence of length $\log_2Q$ into symbols with
 Gray mapping $\psi_0: \{0,\ldots,Q - 1\}\rightarrow \mathcal{C}$. The bit
 sequence is indexed by its decimal equivalence $p\in \{0,\ldots,Q - 1\}$.
-Then the source transmits $\psi_0[p]$ to the destination via channel $h_0$
+The source transmits $\psi_0[p]$ to the destination via channel $h_0$
 which is also overheard by the decode-and-forward (DF) relay.
-We assume that this relay is placed strategically so that it has
+We assume that this relay is placed strategically such that it has
 negligible decoding error rate as in~\cite{ryu2011ber, kim2009design}. Upon
-receiving a request for retransmission, the second phase is started. This time
-the source and the relay remap $p$ into $\psi_1[p]$ and $\psi_2[p]$,
-respectively, where potentially $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The
-remapped symbols are transmitted simultaneously on the same band to the
-destination via channel $h_1$ and $h_2$. In summary, the received signals at the
-destination during the two phases are
+receiving a request for retransmission, the second phase begins with
+the source and the relay remapping $p$ into $\psi_1[p]$ and $\psi_2[p]$,
+respectively.  In general,  $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The
+remapped symbols are transmitted simultaneously on the same frequency band to the
+destination via channels $h_1$ and $h_2$. In summary, the received signals at the
+destination during the two phases are, respectively, 
 \begin{subequations}
     \begin{align}
        y_1 & = h_0\psi_0[p] + v_1, \\
@@ -585,14 +366,15 @@ destination during the two phases are
     \end{align}
 \end{subequations}
 where $v_1\sim\mathcal{CN}(0,\sigma_v^2)$ and
-$v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are the additive noise. Throughout this work,
+$v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are additive channel noises. Throughout this work,
 we assume the channels $h_0$, $h_1$ and $h_2$ follows independent Rician
 distribution.
 
 % ML demodulator
 Assuming that the destination has perfect channel state information (CSI). Based
-on the received symbols $y_1$ and $y_2$ from the two phases, it decides on the
-index $p$ with the maximum likelihood (ML) rule
+on the received symbols $y_1$ and $y_2$ from the two phases, 
+the destination decodes the data by identifying the
+index $p$ via maximum likelihood (ML) detection:
 \begin{align}
     \min_{\hat{p}} |y_1 - h_0\psi_0[\hat{p}]|^2 + |y_2-
     h_1\psi_1[\hat{p}] - h_2\psi_2[\hat{p}]|^2.
@@ -681,11 +463,11 @@ index $p$ with the maximum likelihood (ML) rule
 % footnotes above bottom floats. This can be corrected via the \fnbelowfloat
 % command of the stfloats package.
 
-\section{Optimal Constellation Rearrangement}
+\section{Optimal Constellation Mapping for Modulation Diversity}
 \label{sec:core}
-In this section we first formulate the min-BER CoRe design into a Q3AP problem,
-and explain the numerical approach to compute the input cost matrix of the Q3AP
-problem. Then we provide an efficient algorithm to determine the Q3AP solution.
+In this section we first formulate the minimum BER design of MoDiv into a Q3AP problem.
+We then elaborate on the numerical approach for computing the input cost matrix of the Q3AP
+problem. We then provide an efficient algorithm to obtain the Q3AP solution.
 
 \subsection{BER Minimization via Q3AP solution}
 % Q3AP formulation 
@@ -693,17 +475,17 @@ Assume that the information-bearing index $p$ follows a uniform distribution,
 the BER can be upper-bounded and approximated using the pair-wise error
 probability (PEP)~\cite{harvind2005symbol}
 \begin{align}
-    P_{BER} \approx \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
-    q]}{Q}P_{PEP}(q | p), \label{eq:P_BER}
+    P_{\BER} \approx \sum_{p=0}^{Q - 1}\sum_{q=0}^{Q - 1}\frac{B[p,
+    q]}{Q}P_{\PEP}(q | p), \label{eq:P_BER}
 \end{align}
 where $B[p,q]$ is the Hamming distance between the binary representation of $p$
-and $q$ and $P_{PEP}(q | p)$ is the probability for the ML decoder to prefer $q$
+and $q$ and $P_{\PEP}(q | p)$ is the probability for the ML decoder to prefer $q$
 over $p$ when $p$ is actually transmitted. According to~(\ref{eq:ML}), we have
 \begin{align}
-    P_{PEP}(q | p) = P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,q,\psi_1,\psi_2) < 0\},
+    P_{\PEP}(q | p) = P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,q,\psi_1,\psi_2) < 0\}.
     \label{eq:P_PEP}
 \end{align}
-i.e. given indices $p, q$ and the remapping scheme $\psi_1$, $\psi_2$, the
+In other words, given indices $p, q$ and the remapping scheme $\psi_1$, $\psi_2$, the
 probability of the random variable $\delta<0$ being evaluated over the random
 variables $h_0,h_1,h_2,v_1,v_2$, and $\delta$ is defined as
 \begin{align}
@@ -713,13 +495,15 @@ variables $h_0,h_1,h_2,v_1,v_2$, and $\delta$ is defined as
     |v_2|^2.
     \label{eq:delta}
 \end{align}
-In order to formulate the Q3AP problem, we introduce the binary variable
-$x_{pij} = 1$ if $\psi_1[p] = \psi_0[i]$ and $\psi_2[p] = \psi_0[j]$ and
-$x_{pij} = 0$ otherwise.
-Denote $\mathbf{x} = \{x_{pij}|p,i,j=0,\ldots,Q-1\}$, and the
-constraint sets:
+In order to formulate the Q3AP problem, we introduce binary variables
+\[
+x_{pij}= \left\{\begin{array}{ll}
+1,& \mbox{if $\psi_1[p] = \psi_0[i]$ and $\psi_2[p] = \psi_0[j]$}\\
+ 0,& \mbox{otherwise.} \end{array} \right. \]
+Denote sets
 \begin{subequations}
     \begin{align}
+    \mathbf{x} &= \{x_{pij}|\quad p,i,j=0,\ldots,Q-1\} \\
         \mathcal{P} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij} = 1,
         x_{pij}\in\{0, 1\}\right\},
         \\
@@ -730,8 +514,8 @@ constraint sets:
         x_{pij}\in\{0, 1\}\right\}.
     \end{align}
 \end{subequations}
-Then from~(\ref{eq:P_BER})(\ref{eq:P_PEP})(\ref{eq:delta}), the BER-minimization
-CoRe scheme $\min_{\psi_1, \psi_2}P_{BER}$ can be reformulated as
+Then from~(\ref{eq:P_BER})(\ref{eq:P_PEP})(\ref{eq:delta}), the BER minimization
+MoDiv scheme $\min_{\psi_1, \psi_2}P_{\BER}$ can be reformulated as
 \begin{align}
     & \min_{\mathbf{x}}\sum_{p=0}^{Q-1}\sum_{i=0}^{Q-1}\sum_{j=0}^{Q-1}
     \sum_{q=0}^{Q-1}\sum_{k=0}^{Q-1}\sum_{l=0}^{Q-1}c_{pijqkl}x_{pij}x_{qkl},
@@ -746,15 +530,17 @@ in which
     \label{eq:cpijqkl}
 \end{align}
 \begin{align}
-    \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 +\notag
+    \delta & = |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_2|^2 
+ \notag
     \\
     &
-    |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_2|^2 -
+       + |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 -
     |v_2|^2.\label{eq:delta_pijqkl}
 \end{align}
-A Q3AP instance is fully defined by the 6-dimensional matrix $\{c_{pijqkl}\}$.
+Here a Q3AP instance is fully defined by the 6-dimensional matrix $\{c_{pijqkl}\}$
+which must be determined for our MoDiv design. 
 
-\subsection{Computation of the Pair-wise Symbol Rate}
+\subsection{Computation of the Pair-wise Symbol Error Rate}
 
 % serial expansion method
 In this section we focus on the computation of the parameters $\{c_{pijqkl}\}$
@@ -763,8 +549,13 @@ $c_{pijqkl}$ lies in the evaluation of
 $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)$, i.e. the cumulative distribution
 function (CDF) of the random variable $\delta(p,i,j,q,k,l)$ as
 in~(\ref{eq:delta}).
-Under the general Rician channel assumption
-$h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we extend the method
+
+Define the moment generating function (MGF) 
+\[\Phi_{\delta}(\omega) =
+\mathbb{E}_{\delta}[\exp(-\omega\delta)].\]
+Under the well known Rician channel model, 
+$h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we 
+can extend the method
 in~\cite{harvind2005symbol, taricco2002exact} to compute
 $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
 \begin{align}
@@ -774,13 +565,13 @@ $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
     j\xi\tau_t)\right\},
     \label{eq:expansion}
 \end{align}
-with the moment generating function (MGF) $\Phi_{\delta}(\omega) =
-\mathbb{E}_{\delta}[\exp(-\omega\delta)]$, $\tau_t = \tan((t- 1/2)\pi/v)$
-and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denoting its real and image part,
-respectively. The parameter $\xi$ is selected to ensure convergence of the
-integration and \cite{taricco2002exact} suggests $\xi = 1/4$. The
-size $v$ of the expansion~(\ref{eq:expansion}) needs to be larger when $
-P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ is smaller in order to
+where $\tau_t = \tan((t- 1/2)\pi/v)$
+and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote the real and image parts,
+respectively. 
+The parameter $\xi$ is selected to ensure convergence of the
+integration and $\xi = 1/4$ was suggested in \cite{taricco2002exact}. The
+size $v$ of the expansion~(\ref{eq:expansion}) needs to be large when $
+P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ is small in order to
 maintain an acceptable numerical accuracy.
 
 To compute $\Phi_{\delta}(\omega)$, denote the Gaussian random vectors
@@ -817,7 +608,7 @@ Then~(\ref{eq:delta}) can be rewritten as $\delta =
         \right],
     \end{align}
 \end{subequations}
-here $e_{ab} = \psi_0[a] - \psi_0[b]$. Then the MGF can be computed
+here $e_{ab} = \psi_0[a] - \psi_0[b]$, for which the MGF can be computed
 as~\cite{schwartz1995communication}
 \begin{align}
     \Phi_{\delta}(\omega) & = \sum_{m=1,2}
@@ -827,16 +618,21 @@ as~\cite{schwartz1995communication}
 \end{align}
 
 Note that for any instance of Q3AP a total number of $Q^6$ coefficients must be
-computed. Fortunately, the CoRe design is based on statistical CSI and does not
-require an online computation. In our simulation, we implement the above
+computed. Fortunately, the MoDiv design is based on statistical CSI 
+which does not require online computation of the $Q^6$ coefficients.
+In fact, the optimized MoDiv can be precomputed and stored a priori 
+in our network nodes. 
+
+In our simulation, we implement the above
 procedure for 16-QAM and 32-QAM with Armadillo
 library~\cite{sanderson2010armadillo} on a workstation with 48 cores and
-finished the computation in a few days for a $Q=32$ case and a few hours for a
+finished the computation in several days for a $Q=32$ case and a few hours for a
 $16-QAM$ case. For larger constellation such as 64-QAM, however, the time and
-spacial complexity would be too high. We will address in future works to
+spacial complexity may still be too high. We will address in future works to
 reduce this complexity by adding a few rules to restrict the remapping schemes.
 
-% special case of Rayleigh fading
+\subsection{Rayleigh Fading Channel Model}
+
 When the Rician-fading channel reduces to the Rayleigh-fading channel, i.e.
 when $\mu_{h_m}=0, m = 0, 1, 2$ there is a simple upper bound of
 $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ similar
@@ -855,18 +651,21 @@ Applying the same relaxation as in~\cite{seddik2008trans}, we have
     +\sigma_{h_2}^2|e_{jl}|^2)}.
     \label{eq:PEP_UB}
 \end{align}
-which is tight in the high-SNR regime.
+which is tight in the high-SNR regime and simplifies the evaluation of the 
+$Q^6$ coefficients. 
 
 \subsection{Q3AP Solution}
 % Description of the Q3AP solution methods
 For practical-sized constellation such as 16-QAM and 32-QAM, it is impractical
 to apply the exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also,
 our tests show that even the smaller 16-QAM does not have enough symmetry to
-exploit as does the 16-PSK constellation~\cite{mittelmann2015solving}.
-Consequently, the CoRe problem is solved with the ILS
+exploit for faster solution as 
+does the 16-PSK constellation~\cite{mittelmann2015solving}.
+Consequently, the MoDiv problem is solved with the ILS
 method~\cite{hahn2008quadratic} extended from its QAP
-version~\cite{stutzle2006iterated}. The basic procedure of this ILS method is
-outlined as follows:
+version~\cite{stutzle2006iterated}. 
+
+The basic procedure of ILS is outlined as follows:
 \begin{enumerate}\itemsep0pt\parskip0pt\parsep0pt
     \item[S1] Initialization: starting from a random mapping
     $\psi_1^{(0)}, \psi_2^{(0)}$.
@@ -883,14 +682,17 @@ outlined as follows:
     \psi_2^{(n)*}$. Set $n\leftarrow n+1$.
     \item[S6] Return to S3 until the stopping criterion is satisfied.
 \end{enumerate}
-The local search in S2 and S4 attempts to exchange the mapping of exactly 2
-indices in $\psi_1$ or $\psi_2$ in order to reduce the objective function, i.e.
+
+The local search in steps S2 and S4 attempts to exchange the mapping of exactly 2
+indices in $\psi_1$ or $\psi_2$ in order to lower the objective function, i.e.
 a 2-opt neighborhood search. A first-improvement rule is used, which means that
 whenever a reduction in the objective function is made the mapping is updated.
-The perturbation in S3 is performed by exchanging the mapping of $k_p$ indices,
+The perturbation in S3 is executed 
+by exchanging the mapping of $k_p$ indices,
 where $k_p\in [k_{p,min}, k_{p,max}]$ is adaptively increased if the
-perturbation does not produce a better solution or is reset to $k_{p,min}$
-otherwise. For the acceptance criterion examination in S5, $\psi_1^{(n+1)*},
+perturbation does not produce a better solution, or it is reset to $k_{p,min}$
+otherwise. 
+For the acceptance criterion examination in S5, $\psi_1^{(n+1)*},
 \psi_2^{(n+1)*}$ is accepted if the objective function $f^{(n+1)} < f^{(n)}$, or
 accepted with probability $\exp(-[f^{(n+1)} - f^{(n)}]/T)$, where $T$ is the
 temperature parameter similar to that of simulated annealing.
@@ -898,7 +700,7 @@ temperature parameter similar to that of simulated annealing.
 \section{Numerical Results}
 \label{sec:simulation}
 % Simulation settings
-In this section we present the numerical results of CoRe for the relay-HARQ
+In this section we present the numerical results of MoDiv for the relay-HARQ
 network under various channel settings. In our simulation, all Rician channels
 are assumed to have the same Rician parameter $K$. Also we assume that during
 the second phase, the phases of the line of sight (LOS) components of channels
@@ -908,24 +710,26 @@ $\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
 $\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ represents the ratio
 between the amplitude of the LOS component of the
 relay-to-destination and the S-D link. Throughout the
-simulation we consider 16-QAM constellation thus $Q=16$. The noise power is
+simulation we consider 16-QAM constellation, i.e.,  $Q=16$. The noise power is
 parameterized with $E_b/N_0$ of the S-D link.
 
 % Example of Q3AP mapping
-First, we provide an example of Q3AP optimized CoRe. When $E_b/N_0 =
+First, we provide an example of Q3AP optimized MoDiv. When $E_b/N_0 =
 2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme of $\psi_0$
-(Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in Fig.~\ref{fig:example}. We
-note that for the Chase combining HARQ scheme and the joint ML demodulator, the
+(using Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in Fig.~\ref{fig:example}. We
+note that for the cooperative HARQ combining  scheme and the joint ML demodulator, the
 optimal $\psi_1$ and $\psi_2$ are no longer a Gray mapping. A general pattern of
-$\psi_1$ and $\psi_2$ is that the indices whose constellation points are close
-to each other during the first phase are remapped to constellation points far
-away from each other during the second phase, and vice versa. Both $\psi_1$ and
-$\psi_2$ are essentially the same as Seddik's heuristic result
-in~\cite{seddik2008trans}, denoted as $\psi_S$. However, it is noted
+$\psi_1$ and $\psi_2$ is that the indices whose constellation points were close
+to on other during the first phase are then remapped to constellation points far
+apart from each other during the second phase, and vice versa. Both $\psi_1$ and
+$\psi_2$ are essentially very close to the heuristic result proposed by Seddik
+in~\cite{seddik2008trans}, which we denote as $\psi_S$. 
+However, we note that
 $\psi_1\not=\psi_2$.
-In this special example or Rician channel with strong LOS component, an
-explanation is that the cooperative transmission is equivalent to transmission
-from a single transmitter with mapping $\psi_1+\psi_2$. In this aspect, CoRe in
+
+In this special example of Rician channel model with strong LOS component, an
+interpretation is that the cooperative transmission is equivalent to transmission
+from a single transmitter with mapping $\psi_1+\psi_2$. In this aspect, MoDiv in
 effect results in a new constellation different from 16-QAM, while the
 individual constellations at the source and relay are kept unchanged.
 
@@ -952,17 +756,17 @@ individual constellations at the source and relay are kept unchanged.
       \centerline{\includegraphics[width=4.0cm]{./figs/psi2.eps}}
       \centerline{(d) $\psi_2$}\medskip
     \end{minipage}
-    \caption{Q3AP optimized CoRe schemes.}
+    \caption{Q3AP optimized MoDiv schemes.}
     \label{fig:example}
 \end{figure}
 
 % BER Upper bound comparison
-Next we compare the BER upper bound $P_{BER}$, which is also the Q3AP objective
-function, for three mapping schemes: the Q3AP optimized CoRe, the extension of
-Seddik's remapping $\psi_1 = \psi_2 = \psi_S$, and no CoRe at all, i.e. $\psi_1
+Next we compare the BER upper bound $P_{\BER}$, which is also the Q3AP objective
+function, for three mapping schemes: the Q3AP optimized MoDiv, the extension of
+Seddik's remapping $\psi_1 = \psi_2 = \psi_S$, and no MoDiv at all, i.e. $\psi_1
 = \psi_2 = \psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable
-performance gain for CoRe versus no CoRe at all. Moreover, the gain of the Q3AP
-optimized CoRe over $\psi_1 = \psi_2 = \psi_S$ indicates that in cooperative
+performance gain for MoDiv versus no MoDiv at all. Moreover, the gain of the Q3AP
+optimized MoDiv over $\psi_1 = \psi_2 = \psi_S$ indicates that in cooperative
 relay-HARQ networks, the BER performance can be further improved by using
 different rearrangements at the source and relay during the cooperative
 transmission. This gain increases as $K$ increases, i.e. when the channel
@@ -971,80 +775,87 @@ becomes less random.
 \begin{figure}[!t]
     \begin{minipage}[b]{0.49\linewidth}
       \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/bound_10.eps}}
+      \centerline{\includegraphics[width=4.2cm]{./figs/bound_10.eps}}
       \centerline{(a) $ K = 10$}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.49\linewidth}
       \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/bound_5.eps}}
+      \centerline{\includegraphics[width=4.2cm]{./figs/bound_5.eps}}
       \centerline{(b) $K=5$}\medskip
     \end{minipage}
-    \caption{BER upper bounds of (1) Q3AP optimized CoRe (2) $\psi_1 = \psi_2 =
+    \caption{BER upper bounds of (1) Q3AP optimized MoDiv (2) $\psi_1 = \psi_2 =
     \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt{2},
     2$.}
     \label{fig:BERupperbound}
 \end{figure}
 
 % Monte-Carlo BER comparison
-The performance gain of Q3AP optimized CoRe for the cooperative relay-HARQ
-system is further verified in Fig.~\ref{fig:montecarlo}, where we evaluate the
+The performance gain of Q3AP optimized MoDiv for the cooperative relay-HARQ
+system is further verified in Fig.~\ref{fig:montecarlo}. In this figure, we evaluate the
 actual BER by running a Monte-Carlo simulation. We implement the ML demodulator
 in~(\ref{eq:ML}) and evaluate the average BER of $M=10^7$ randomly generated
-indices $p$. The actual BER curves demonstrate a similar pattern as the BER
+indices $p$. The actual BER curves demonstrate a similar trend as the BER
 upper bound curves in Fig.~\ref{fig:BERupperbound}.
 
 \begin{figure}[!t]
     \begin{minipage}[b]{0.49\linewidth}
       \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/MC_10.eps}}
+      \centerline{\includegraphics[width=4.2cm]{./figs/MC_10.eps}}
       \centerline{(a) $ K = 10$}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{0.49\linewidth}
       \centering
-      \centerline{\includegraphics[width=4.0cm]{./figs/MC_5.eps}}
+      \centerline{\includegraphics[width=4.2cm]{./figs/MC_5.eps}}
       \centerline{(b) $K=5$}\medskip
     \end{minipage}
-    \caption{Monte-Carlo simulated BER of (1) Q3AP optimized CoRe
+    \caption{Monte-Carlo simulated BER of (1) Q3AP optimized MoDiv
     (2) $\psi_1 = \psi_2 = \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5,
     10$, $a = 1, \sqrt{2}, 2$.}
     \label{fig:montecarlo}
 \end{figure}
 
 % Monte-Carlo BER mismatch comparison
-Finally, we test the robustness of the Q3AP CoRe solution against mismatch in
-channel settings. The intuition is that in practical, the CSI may not be
+Finally, we test the robustness of the Q3AP MoDiv solution against mismatch in
+channel information. The intuition is that in practical systems, the CSI may not be
 perfectly accurate and the phase of the LOS component of the S-D and R-D links
-may not be perfectly aligned. Also, the Q3AP CoRe scheme can only be computed
-off-line for a finite number of channel settings. We deliberately test the BER
-performance of the Q3AP CoRe solution for $a=1$, $K=5$ in the actual channel
-settings $a = \sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upper bound and
+may not be perfectly aligned. Also, the Q3AP MoDiv scheme can only be computed
+off-line for a limited number of channel settings a priori, instead of for all possible
+combinations. We deliberately test the BER
+performance of the Q3AP MoDiv solution for channel parameters $a=1$, $K=5$ 
+while
+the actual channel
+setting is $a = \sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upper bound and
 Monte-Carlo simulated BER are plotted in Fig.~\ref{fig:mismatch}. Apparently,
-the Q3AP CoRe solution is not sensitive to the relative amplitude and the phase
-alignment error between the S-D and R-D links.
+the Q3AP MoDiv solution is not sensitive to the relative amplitude and the phase
+alignment error between S-D and R-D links.
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=3.0in]{./figs/mismatch.eps}
-    \caption{BER performance under channel mismatch. Q3AP CoRe solution for
-    $a=1$, $K=5$ in the actual channel settings $a = \sqrt{2}\exp(j\pi/12)$, $K
+    \caption{BER performance under channel mismatch. Q3AP MoDiv solution for
+    CSI
+    $a=1$, $K=5$ while the actual CSIX is $a = \sqrt{2}\exp(j\pi/12)$, $K
     = 10$.}
     \label{fig:mismatch}
 \end{figure}
 
 \section{Conclusion}
 \label{sec:conclusion}
-In this work, we have investigated the constellation rearrangement (CoRe)
-problem in a three-terminal cooperative relay-HARQ systems featured by the
-coordinated retransmission from both the source and the relay. Based on the
-minimization of the bit error rate (BER) upper bound, the CoRe design was
-formulated into a quadratic three-dimensional assignment problem (Q3AP), then
-solved with an efficient modified iterated local search (ILS) method. Our
-numerical tests have demonstrated the performance gain of the Q3AP-based CoRe
-which allows the source and relay to use two different remapping schemes during
-the retransmission other than Gray mapping and verified its robustness against
-channel state information (CSI) imperfection.
+In this work, we  investigated the modulation diversity (MoDiv) design
+problem in a three-node cooperative relay-HARQ systems featured by the
+coordinated retransmission from both the source and the relay. 
+Aiming to minimized the bit error rate (BER) upper bound, 
+we formulated the MoDiv design into a quadratic three-dimensional assignment 
+problem (Q3AP),  and presented an efficient modified iterative local search (ILS) 
+solution. Our
+numerical tests have demonstrated the performance advantage of the Q3AP-based MoDiv
+design.  By allowing the source and relay to use two different remapping schemes during
+the retransmission, instead of repeating the use of Gray mapping, 
+we demonstrated the effective reduction of BER and the
+method's robustness against
+channel state information (CSI) inaccuracy.
 
 
 
