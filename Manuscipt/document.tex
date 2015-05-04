@@ -229,7 +229,7 @@ deal of research interest in recent years~\cite{ngo2014hybrid}. Because symbols
 transmitted in practice often utilize linear modulations of finite-size
 constellation (e.g., Q-ary PSK, or Q-ary QAM), the performance of cooperative
 relay-HARQ systems can benefit from Modulation Diversity 
-(MoDiv)~\cite{benelli1992new, wengerter2002advanced}, in which each
+(MoDiv)~\cite{benelli1992new}, in which each
 group of $\log_2 Q$ bits are mapped to different constellation points across
 different links and in different transmissions. 
 
@@ -313,9 +313,8 @@ independent Rician distribution.
 
 % ML demodulator
 Assuming that the destination has perfect channel state information (CSI). Based
-on the received symbols $y_1$ and $y_2$ from the two phases, 
-the destination decodes the data by identifying the
-index $p$ via maximum likelihood (ML) detection:
+on the received symbols $y_1$ and $y_2$,  the destination decodes the data by
+identifying the index $p$ via maximum likelihood (ML) detection:
 \begin{align}
     \min_{\hat{p}} |y_1 - h_0\psi_0[\hat{p}]|^2 + |y_2-
     h_1\psi_1[\hat{p}] - h_2\psi_2[\hat{p}]|^2.
@@ -538,7 +537,7 @@ Then~(\ref{eq:delta}) can be rewritten as $\delta =
     \end{align}
 \end{subequations}
 here $e_{ab} = \psi_0[a] - \psi_0[b]$. Then the MGF
-is~\cite{schwartz1995communication}
+is
 \begin{align}
     \Phi_{\delta}(\omega) & = \sum_{m=1,2}
     \frac{\exp(-\omega\bm{\mu}_m^H\mathbf{A}_m(\mathbf{I} +
@@ -712,20 +711,15 @@ alignment error between S-D and R-D links.
 
 \section{Conclusion}
 \label{sec:conclusion}
-In this work, we  investigated the modulation diversity (MoDiv) design
-problem in a three-node cooperative relay-HARQ systems featured by the
-coordinated retransmission from both the source and the relay. 
-Aiming to minimized the bit error rate (BER) upper bound, 
-we formulated the MoDiv design into a quadratic three-dimensional assignment 
-problem (Q3AP),  and presented an efficient modified iterative local search (ILS) 
-solution. Our
-numerical tests have demonstrated the performance advantage of the Q3AP-based MoDiv
-design.  By allowing the source and relay to use two different remapping schemes during
-the retransmission, instead of repeating the use of Gray mapping, 
-we demonstrated the effective reduction of BER and the
-method's robustness against
-channel state information (CSI) inaccuracy.
-
+In this work, we investigated the modulation diversity (MoDiv) design problem in
+a three-node cooperative relay-HARQ systems featured by the coordinated
+retransmission from both the source and the relay. Aiming to minimize the bit
+error rate (BER) upper bound, we formulated the MoDiv design into a quadratic
+three-dimensional assignment problem (Q3AP), and presented an efficient modified
+iterative local search (ILS) solution. Our numerical tests have demonstrated the
+performance advantage of the Q3AP-based MoDiv design over simply repeating the
+use of Gray mapping, and when the channel is heavily fading, a comparable
+performance gain can be achieved with a heuristic MoDiv design. 
 
 
 % conference papers do not normally have an appendix
