@@ -235,19 +235,19 @@ different links and in different transmissions.
 
 There is a number of research works on MoDiv for relay
 network~\cite{seddik2008trans, khormuji2008rate} and relay-HARQ
-system~\cite{kim2009design, ryu2011ber, yu2012power}. Despite the encouraging
+system~\cite{kim2009design, ryu2011ber}. Despite the encouraging
 performance gain, the afore-mentioned works all assume a low bandwidth
 efficiency scheme where (re)transmissions on the Source-Destination (S-D) link
 and the Relay-Destination (R-D) links occupy orthogonal bands or time slots.
 From this point of view, we study the MoDiv design in a relay-HARQ networks in
 Fig.~\ref{fig:system_model} where the S-D and R-D links are coordinatedly additive as in
-\cite{cover1979capacity, nabar2004fading,azarian2005achievable}, practically
+\cite{cover1979capacity, nabar2004fading}, practically
 forming a 2-by-1 multiple-input single-output (MISO) diversity system. In this
 context, we formulate the bit error rate (BER) minimization MoDiv design into a
 quadratic three-dimensional assignment problem (Q3AP). Though Q3AP is NP-hard so
 that the MoDiv design problem can not be solved exactly in practice even for a
 middle size constellation such as 16-QAM, there are a number of heuristic
-algorithms~\cite{drezner2008extensive, james2009multistart,benlic2015memetic}
+algorithms~\cite{benlic2015memetic}
 for its reduced form, Quadratic Assignment Problem (QAP), that results in
 high-quality solutions over the QAPLIB dataset~\cite{burkard1997qaplib}. In this
 work, we adopt an efficient modified Iterated Local Search (ILS) method to solve
@@ -546,7 +546,7 @@ is
 \end{align}
 
 In our simulation, we implement the above procedure for 16-QAM and 32-QAM with
-Armadillo library~\cite{sanderson2010armadillo} on a workstation with 48 cores and
+in C++ on a workstation with 48 cores and
 finished the computation in several days for a $Q=32$ case and a few hours for a
 $16-QAM$ case. For larger constellation such as 64-QAM, however, the time and
 spacial complexity may still be too high. We will address in future works to
