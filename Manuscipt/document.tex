@@ -1,4 +1,4 @@
-\documentclass[letter]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 % Add the compsoc option for Computer Society conferences.
 %
 % If IEEEtran.cls has not been installed into the LaTeX system files,
@@ -205,7 +205,9 @@ is achieved with a heuristic MoDiv scheme.
 % of the abstract to achieve this. Many IEEE journals/conferences frown on
 % math in the abstract anyway.
 
-% no keywords
+\begin{IEEEkeywords}
+    Modulation diversity, relay, HARQ, Q3AP.
+\end{IEEEkeywords}
 
 % For peer review papers, you can put extra information on the cover
 % page as needed:
@@ -548,7 +550,7 @@ is
 In our simulation, we implement the above procedure for 16-QAM and 32-QAM with
 in C++ on a workstation with 48 cores and
 finished the computation in several days for a $Q=32$ case and a few hours for a
-$16-QAM$ case. For larger constellation such as 64-QAM, however, the time and
+16-QAM case. For larger constellation such as 64-QAM, however, the time and
 spacial complexity may still be too high. We will address in future works to
 reduce this complexity by adding a few rules to restrict the remapping schemes.
 
