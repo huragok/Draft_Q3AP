@@ -241,7 +241,7 @@ system~\cite{kim2009design, ryu2011ber}. Despite the encouraging
 performance gain, the afore-mentioned works all assume a low bandwidth
 efficiency scheme where (re)transmissions on the Source-Destination (S-D) link
 and the Relay-Destination (R-D) links occupy orthogonal bands or time slots.
-From this point of view, we study the MoDiv design in a relay-HARQ networks in
+From this point of view, we study the MoDiv design in a relay-HARQ network in
 Fig.~\ref{fig:system_model} where the S-D and R-D links are additive as in
 \cite{cover1979capacity, nabar2004fading}, practically
 forming a 2-by-1 multiple-input single-output (MISO) diversity system. In this
@@ -310,7 +310,7 @@ destination during the two phases are, respectively,
     \end{align}
 \end{subequations}
 where $v_1, v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are additive channel noises.
-Throughout this work, we assume the channels $h_0$, $h_1$ and $h_2$ follows
+Throughout this work, we assume the channels $h_0$, $h_1$ and $h_2$ follow
 independent Rician distribution.
 
 % ML demodulator
@@ -481,7 +481,7 @@ of the Q3AP problem. According to~(\ref{eq:cpijqkl}), the key to compute
 $c_{pijqkl}$ lies in the evaluation of
 $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)$, i.e. the cumulative distribution
 function (CDF) of the random variable $\delta(p,i,j,q,k,l)$ as
-in~(\ref{eq:delta}).Define the moment generating function (MGF)
+in~(\ref{eq:delta}). Define the moment generating function (MGF)
 \[\Phi_{\delta}(\omega) = \mathbb{E}_{\delta}[\exp(-\omega\delta)].\]
 Under the well known Rician channel model, 
 $h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we 
@@ -495,7 +495,7 @@ $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
     \label{eq:expansion}
 \end{align}
 where $\tau_t = \tan((t- 1/2)\pi/v)$
-and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote the real and image parts,
+and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote the real and imaginary parts,
 respectively. 
 The parameter $\xi$ is selected to ensure convergence of the
 integration and $\xi = 1/4$ was suggested in \cite{taricco2002exact}. The
