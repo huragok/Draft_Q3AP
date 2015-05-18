@@ -640,57 +640,33 @@ Section~\ref{sec:heuristic} and both $\psi_1$ and $\psi_2$ are essentially very
 close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
 
 \begin{figure}[!t]
-    \begin{minipage}[b]{0.24\linewidth}
+    \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=3.2cm]{./figs/psi1.eps}}
-      \centerline{(c) $\psi_1$}\medskip
+      \centerline{(a) $\psi_1$}\medskip
     \end{minipage}
     \hfill
-    \begin{minipage}[b]{.24\linewidth}
+    \begin{minipage}[b]{.48\linewidth}
       \centering
       \centerline{\includegraphics[width=3.2cm]{./figs/psi2.eps}}
-      \centerline{(d) $\psi_2$}\medskip
+      \centerline{(b) $\psi_2$}\medskip
     \end{minipage}
     \caption{Q3AP optimized MoDiv schemes.}
     \label{fig:example}
 \end{figure}
 
-% BER Upper bound comparison
-Next we compare the BER upper bound $P_{\BER}$, which is also the Q3AP objective
-function, for three mapping schemes: the Q3AP optimized MoDiv, the heuristic
-MoDiv $\psi_1 = \psi_2 = \psi_S$, and no MoDiv at all, i.e. $\psi_1 = \psi_2 =
-\psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable performance
-gain for MoDiv versus no MoDiv. Moreover, the gain of the Q3AP optimized MoDiv
-over $\psi_1 = \psi_2 = \psi_S$ indicates that different rearrangements at the
-source and relay during the cooperative transmission can further boost the BER
-performance. However, as $K$ decreases, heuristic MoDiv becomes a good
-approximation as the its performance gap with the Q3AP optimized MoDiv
-diminishes.
-
-\begin{figure}[!t]
-    \begin{minipage}[b]{0.49\linewidth}
-      \centering
-      \centerline{\includegraphics[width=3.0in]{./figs/bound_10.eps}}
-      \centerline{(a) $ K = 10$}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.49\linewidth}
-      \centering
-      \centerline{\includegraphics[width=3.0in]{./figs/bound_5.eps}}
-      \centerline{(b) $K=5$}\medskip
-    \end{minipage}
-    \caption{BER upper bounds of (1) Q3AP optimized MoDiv (2) $\psi_1 = \psi_2 =
-    \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt{2},
-    2$.}
-    \label{fig:BERupperbound}
-\end{figure}
-
 % Monte-Carlo BER comparison
-The performance gain of MoDiv for the cooperative relay-HARQ
-system is further verified with the actual BER evaluated with Monte-Carlo
-simulation in Fig.~\ref{fig:montecarlo}. We implement the ML demodulator
-in~(\ref{eq:ML}) and evaluate the average BER of $M=10^7$ randomly generated
-indices $p$. A similar trend as in Fig.~\ref{fig:BERupperbound} is demonstrated.
+Next we compare the empirical BER for three mapping schemes: the Q3AP optimized
+MoDiv, the heuristic MoDiv $\psi_1 = \psi_2 = \psi_S$  and no MoDiv at all, i.e.
+$\psi_1 = \psi_2 = \psi_0$. The empirical BER is evaluated with the ML
+demodulator in~(\ref{eq:ML}) and over $M=10^7$ randomly generated channel and
+noise instances and indices $p$. In Fig.~\ref{fig:montecarlo}, there is a
+considerable performance gain for MoDiv versus no MoDiv. Moreover, the gain of
+the Q3AP optimized MoDiv over $\psi_1 = \psi_2 = \psi_S$ indicates that
+different rearrangements at the source and relay during the cooperative
+transmission can further boost the BER performance. However, as $K$ decreases,
+heuristic MoDiv becomes a good approximation as the its performance gap with the
+Q3AP optimized MoDiv diminishes.
 
 \begin{figure}[!t]
     \begin{minipage}[b]{0.49\linewidth}
