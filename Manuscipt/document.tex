@@ -561,13 +561,41 @@ restarted from the new mappings until the stopping criterion is satisfied.
 
 \subsection{A Heuristic MoDiv Scheme}
 \label{sec:heuristic}
-The MoDiv design problem can be simplified if we force $\psi_1=\psi_2$. Also,
-from~(\ref{eq:delta}), a simple heuristic is that the two indices mapped to two
-symbols close to each other in Phase 1 should be mapped to two
-symbols far apart in Phase 2. A simple remapping scheme based on this heuristic
-is given by Seddik in~\cite{seddik2008trans}. We will show in the next section
-that when the channels are heavily fading, this heuristic remapping offers
-comparable performance gain as our Q3AP-based MoDiv.
+When the channels are heavily Rician, i.e. there is a strong Line Of Sight (LOS)
+component in $h_1$ and $h_2$,  our Q3AP solution benefits from 2 kinds of gains.
+Firstly, by allowing $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$, we achieves
+the signal space diversity gain just as existing MoDiv schemes. Secondly, by
+jointly designing $\psi_1$ and $\psi_2$ and allowing $\psi_1\not=\psi_2$, we
+achieve the cooperative gain between the source and the relay. When the channels
+are independently heavily Rayleigh, however, there is little cooperative gain to
+exploit and we can greatly simplify the MoDiv design problem by fixing
+$\psi_1=\psi_2$. Though we can solve the resulting QAP problem rigorously, 
+from~(\ref{eq:delta}), we can take a simple heuristic approach noticing that the
+two indices mapped to two symbols close to each other in Phase 1 should be
+mapped to two symbols far apart in Phase 2. Based on this
+heuristic, $\psi_1=\psi_2$ can be designed with the trans-modulation scheme by
+Seddik in~\cite{seddik2008trans} for 16-QAM and 64-QAM. For 32-QAM
+constellation, the MoDiv design is presented in Fig.~\ref{fig:heuristic32}, which is
+derived by remapping the 3 Most Significant Bits (MSBs) and the 2 Least
+Significant Bits (LSBs) separately. We will show in the next section that when
+the channels are heavily fading, this heuristic remapping offers comparable
+performance gain as our Q3AP-based MoDiv.
+
+\begin{figure}[!t]
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.4cm]{./figs/gray32.eps}}
+      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.4cm]{./figs/karim32.eps}}
+      \centerline{(b) $\psi_1=\psi_2$}\medskip
+    \end{minipage}
+    \caption{Heuristic MoDiv schemes for 32-QAM constellation.}
+    \label{fig:heuristic32}
+\end{figure}
 
 \section{Numerical Results}
 \label{sec:simulation}
@@ -586,25 +614,14 @@ parameterized with $E_b/N_0$ of the S-D link.
 
 % Example of Q3AP mapping
 First, we provide an example of Q3AP optimized MoDiv. When $E_b/N_0 =
-2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme of $\psi_0$
-(using Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in
-Fig.~\ref{fig:example}. For comparison we also plot Seddik's heuristic remapping
-$\psi_S$. The results justify the heuristics mentioned in
+2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme $\psi_1$ and $\psi_2$
+are depicted in Fig.~\ref{fig:example}. The Gray mapping $\psi_0$ and the
+heuristic remapping $\psi_1=\psi_2=\psi_S$ are defined as
+in~\cite{seddik2008trans}. The results justify the heuristics mentioned in
 Section~\ref{sec:heuristic} and both $\psi_1$ and $\psi_2$ are essentially very
 close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
 
 \begin{figure}[!t]
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=3.0cm]{./figs/gray.eps}}
-      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=3.0cm]{./figs/karim.eps}}
-      \centerline{(b) $\psi_S$}\medskip
-    \end{minipage}
     \begin{minipage}[b]{0.48\linewidth}
       \centering
       \centerline{\includegraphics[width=3.0cm]{./figs/psi1.eps}}
@@ -616,7 +633,7 @@ close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
       \centerline{\includegraphics[width=3.0cm]{./figs/psi2.eps}}
       \centerline{(d) $\psi_2$}\medskip
     \end{minipage}
-    \caption{Q3AP optimized MoDiv schemes.}
+    \caption{Q3AP optimized MoDiv schemes for 16-QAM.}
     \label{fig:example}
 \end{figure}
 
