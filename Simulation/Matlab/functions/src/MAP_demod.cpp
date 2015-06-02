@@ -122,18 +122,17 @@ void MAP_demod_c(double *LextDemodulation, complex <double> *rx_signal, complex 
     complex <double> *chnl_sym_mod;
 
     int Q = int(pow(2.0, Nbps));
-    chnl_sym_mod = new complex <double> [M * Q]; // Channel multiplied by each of the Q symbols, M-by-Q matrix
+    chnl_sym_mod = new complex <double> [2 * Q]; // Channel multiplied by each of the Q symbols, 2-by-Q matrix
 
 	//calculate extrinsic LLR of each bit
 	for (int i_symbol = 0; i_symbol < n_symbol; i_symbol++) // the "i_symbol" th symbol in rx_signal
 	{
         //calculate h * s, chnl_eq * sym_mod_mat 
-        for(int m = 0; m < M; m++)
+        
+        for(int q = 0; q < Q; q++)
         {
-            for(int q = 0; q < Q; q++)
-            {
-                chnl_sym_mod[m * Q + q] = chnl_eq[m * n_symbol + i_symbol] * sym_mod_mat[q * M + m];
-            }
+			chnl_sym_mod[q] = chnl_eq[i_symbol] * sym_mod_mat[q * 3];
+			chnl_sym_mod[Q + q] = chnl_eq[n_symbol + i_symbol] * sym_mod_mat[q * 3 + 1] + chnl_eq[2 * n_symbol + i_symbol] * sym_mod_mat[q * 3 + 2];
         }
 	
 		for (int i_bit = 0; i_bit < Nbps; i_bit++) // the "i_bit" th bit corresponding to this symbol
@@ -151,7 +150,7 @@ void MAP_demod_c(double *LextDemodulation, complex <double> *rx_signal, complex 
 					Le_p1_tmp1 = Le_p1_tmp1 / 2;
 					////calculate -||y- h.*s||^2/sigma^2
 					Le_p1_tmp2 = 0;
-					for(int m = 0; m < M; m++)
+					for(int m = 0; m < 2; m++)
 					{
 						cmplx_tmp = rx_signal[m * n_symbol + i_symbol] - chnl_sym_mod[m * Q + q]; //y(m)- h(m) * s(m) 
 						real_tmp = real(cmplx_tmp);
@@ -170,7 +169,7 @@ void MAP_demod_c(double *LextDemodulation, complex <double> *rx_signal, complex 
 					Le_n1_tmp1 = Le_n1_tmp1 / 2;
 					////calculate -||y- h.*s||^2/sigma^2
 					Le_n1_tmp2 = 0;
-					for (int m = 0; m < M; m++)
+					for (int m = 0; m < 2; m++)
 					{
 						cmplx_tmp = rx_signal[m * n_symbol + i_symbol] - chnl_sym_mod[m * Q + q]; //y(m)- h(m) * s(m)
 						real_tmp = real(cmplx_tmp);
@@ -242,7 +241,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 	rx_signal_real = mxGetPr(prhs[0]);     
 	rx_signal_imag = mxGetPi(prhs[0]);
-	rx_signal_cmplx = new complex <double> [M * n_symbol];
+	rx_signal_cmplx = new complex <double> [2 * n_symbol];
 	for(int i_symbol = 0; i_symbol < n_symbol; i_symbol++)
 	{
 		for(int m = 0; m < 2; m++)

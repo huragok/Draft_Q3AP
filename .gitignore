@@ -5,3 +5,5 @@ tmp
 .project
 .texlipse
 *.asv
+*.mexw64
+*.mexw32
