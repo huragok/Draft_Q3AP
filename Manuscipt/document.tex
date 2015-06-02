@@ -124,26 +124,10 @@
 % use a multiple column layout for up to three different
 % affiliations
 \author{
-     \IEEEauthorblockN{Wenhao Wu, Hans Mittelmann, and Zhi Ding}
-%     \IEEEauthorblockA{
-%         School of Electrical and\\Computer Engineering\\
-%         Georgia Institute of Technology\\
-%         Atlanta, Georgia 30332--0250\\
-%         Email: http://www.michaelshell.org/contact.html
-%     }
-%     \and
-%     \IEEEauthorblockN{Homer Simpson}
-%     \IEEEauthorblockA{Twentieth Century Fox\\
-%         Springfield, USA\\
-%         Email: homer@thesimpsons.com
-%     }
-%     \and
-%     \IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
-%     \IEEEauthorblockA{Starfleet Academy\\
-%         San Francisco, California 96678-2391\\
-%         Telephone: (800) 555--1212\\
-%         Fax: (888) 555--1212
-%     }
+    \IEEEauthorblockN{Wenhao Wu, Hans Mittelmann, and Zhi Ding}
+    \thanks{The work of the second author was supported in part by AFOSR under
+    grant FA9550-12-1-0153.
+    }% <-this % stops a space
 }
 
 % conference papers do not typically use \thanks and this command
@@ -241,7 +225,7 @@ system~\cite{kim2009design, ryu2011ber}. Despite the encouraging
 performance gain, the afore-mentioned works all assume a low bandwidth
 efficiency scheme where (re)transmissions on the Source-Destination (S-D) link
 and the Relay-Destination (R-D) links occupy orthogonal bands or time slots.
-From this point of view, we study the MoDiv design in a relay-HARQ networks in
+From this point of view, we study the MoDiv design in a relay-HARQ network in
 Fig.~\ref{fig:system_model} where the S-D and R-D links are additive as in
 \cite{cover1979capacity, nabar2004fading}, practically
 forming a 2-by-1 multiple-input single-output (MISO) diversity system. In this
@@ -310,7 +294,7 @@ destination during the two phases are, respectively,
     \end{align}
 \end{subequations}
 where $v_1, v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are additive channel noises.
-Throughout this work, we assume the channels $h_0$, $h_1$ and $h_2$ follows
+Throughout this work, we assume the channels $h_0$, $h_1$ and $h_2$ follow
 independent Rician distribution.
 
 % ML demodulator
@@ -481,7 +465,7 @@ of the Q3AP problem. According to~(\ref{eq:cpijqkl}), the key to compute
 $c_{pijqkl}$ lies in the evaluation of
 $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)$, i.e. the cumulative distribution
 function (CDF) of the random variable $\delta(p,i,j,q,k,l)$ as
-in~(\ref{eq:delta}).Define the moment generating function (MGF)
+in~(\ref{eq:delta}). Define the moment generating function (MGF)
 \[\Phi_{\delta}(\omega) = \mathbb{E}_{\delta}[\exp(-\omega\delta)].\]
 Under the well known Rician channel model, 
 $h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we 
@@ -496,7 +480,7 @@ $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
     \label{eq:expansion}
 \end{align}
 where $\tau_t = \tan((t- 1/2)\pi/v)$
-and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote the real and image parts,
+and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote the real and imaginary parts,
 respectively. 
 The parameter $\xi$ is selected to ensure convergence of the
 integration and $\xi = 1/4$ was suggested in \cite{taricco2002exact}. The
@@ -577,13 +561,41 @@ restarted from the new mappings until the stopping criterion is satisfied.
 
 \subsection{A Heuristic MoDiv Scheme}
 \label{sec:heuristic}
-The MoDiv design problem can be simplified if we force $\psi_1=\psi_2$. Also,
-from~(\ref{eq:delta}), a simple heuristic is that the two indices mapped to two
-symbols close to each other in Phase 1 should be mapped to two
-symbols far apart in Phase 2. A simple remapping scheme based on this heuristic
-is given by Seddik in~\cite{seddik2008trans}. We will show in the next section
-that when the channels are heavily fading, this heuristic remapping offers
-comparable performance gain as our Q3AP-based MoDiv.
+When the channels are heavily Rician, i.e. there is a strong Line Of Sight (LOS)
+component in $h_1$ and $h_2$,  our Q3AP solution benefits from 2 kinds of gains.
+Firstly, by allowing $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$, we achieves
+the signal space diversity gain just as existing MoDiv schemes. Secondly, by
+jointly designing $\psi_1$ and $\psi_2$ and allowing $\psi_1\not=\psi_2$, we
+achieve the cooperative gain between the source and the relay. When the channels
+are independently heavily Rayleigh, however, there is little cooperative gain to
+exploit and we can greatly simplify the MoDiv design problem by fixing
+$\psi_1=\psi_2$. Though we can solve the resulting QAP problem rigorously, 
+from~(\ref{eq:delta}), we can take a simple heuristic approach noticing that the
+two indices mapped to two symbols close to each other in Phase 1 should be
+mapped to two symbols far apart in Phase 2. Based on this
+heuristic, $\psi_1=\psi_2$ can be designed with the trans-modulation scheme by
+Seddik in~\cite{seddik2008trans} for 16-QAM and 64-QAM. For 32-QAM
+constellation, the MoDiv design is presented in Fig.~\ref{fig:heuristic32}, which is
+derived by remapping the 3 Most Significant Bits (MSBs) and the 2 Least
+Significant Bits (LSBs) separately. We will show in the next section that when
+the channels are heavily fading, this heuristic remapping offers comparable
+performance gain as our Q3AP-based MoDiv.
+
+\begin{figure}[!t]
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.4cm]{./figs/gray32.eps}}
+      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\linewidth}
+      \centering
+      \centerline{\includegraphics[width=4.4cm]{./figs/karim32.eps}}
+      \centerline{(b) $\psi_1=\psi_2$}\medskip
+    \end{minipage}
+    \caption{Heuristic MoDiv schemes for 32-QAM constellation.}
+    \label{fig:heuristic32}
+\end{figure}
 
 \section{Numerical Results}
 \label{sec:simulation}
@@ -602,76 +614,41 @@ parameterized with $E_b/N_0$ of the S-D link.
 
 % Example of Q3AP mapping
 First, we provide an example of Q3AP optimized MoDiv. When $E_b/N_0 =
-2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme of $\psi_0$
-(using Gray-mapping), $\psi_1$ and $\psi_2$ is depicted in
-Fig.~\ref{fig:example}. For comparison we also plot Seddik's heuristic remapping
-$\psi_S$. The results justify the heuristics mentioned in
+2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme $\psi_1$ and $\psi_2$
+are depicted in Fig.~\ref{fig:example}. The Gray mapping $\psi_0$ and the
+heuristic remapping $\psi_1=\psi_2=\psi_S$ are defined as
+in~\cite{seddik2008trans}. The results justify the heuristics mentioned in
 Section~\ref{sec:heuristic} and both $\psi_1$ and $\psi_2$ are essentially very
 close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
 
 \begin{figure}[!t]
     \begin{minipage}[b]{0.48\linewidth}
       \centering
-      \centerline{\includegraphics[width=3.0cm]{./figs/gray.eps}}
-      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=3.0cm]{./figs/karim.eps}}
-      \centerline{(b) $\psi_S$}\medskip
-    \end{minipage}
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
       \centerline{\includegraphics[width=3.0cm]{./figs/psi1.eps}}
-      \centerline{(c) $\psi_1$}\medskip
+      \centerline{(a) $\psi_1$}\medskip
     \end{minipage}
     \hfill
     \begin{minipage}[b]{.48\linewidth}
       \centering
       \centerline{\includegraphics[width=3.0cm]{./figs/psi2.eps}}
-      \centerline{(d) $\psi_2$}\medskip
+      \centerline{(b) $\psi_2$}\medskip
     \end{minipage}
-    \caption{Q3AP optimized MoDiv schemes.}
+    \caption{Q3AP optimized MoDiv schemes for 16-QAM.}
     \label{fig:example}
 \end{figure}
 
-% BER Upper bound comparison
-Next we compare the BER upper bound $P_{\BER}$, which is also the Q3AP objective
-function, for three mapping schemes: the Q3AP optimized MoDiv, the heuristic
-MoDiv $\psi_1 = \psi_2 = \psi_S$, and no MoDiv at all, i.e. $\psi_1 = \psi_2 =
-\psi_0$. In Fig.~\ref{fig:BERupperbound}, there is a considerable performance
-gain for MoDiv versus no MoDiv. Moreover, the gain of the Q3AP optimized MoDiv
-over $\psi_1 = \psi_2 = \psi_S$ indicates that different rearrangements at the
-source and relay during the cooperative transmission can further boost the BER
-performance. However, as $K$ decreases, heuristic MoDiv becomes a good
-approximation as the its performance gap with the Q3AP optimized MoDiv
-diminishes.
-
-\begin{figure}[!t]
-    \begin{minipage}[b]{0.49\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.2cm]{./figs/bound_10.eps}}
-      \centerline{(a) $ K = 10$}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.49\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.2cm]{./figs/bound_5.eps}}
-      \centerline{(b) $K=5$}\medskip
-    \end{minipage}
-    \caption{BER upper bounds of (1) Q3AP optimized MoDiv (2) $\psi_1 = \psi_2 =
-    \psi_S$ (3) $\psi_1 = \psi_2 = \psi_0$ for $K = 5, 10$, $a = 1, \sqrt{2},
-    2$.}
-    \label{fig:BERupperbound}
-\end{figure}
-
 % Monte-Carlo BER comparison
-The performance gain of MoDiv for the cooperative relay-HARQ
-system is further verified with the actual BER evaluated with Monte-Carlo
-simulation in Fig.~\ref{fig:montecarlo}. We implement the ML demodulator
-in~(\ref{eq:ML}) and evaluate the average BER of $M=10^7$ randomly generated
-indices $p$. A similar trend as in Fig.~\ref{fig:BERupperbound} is demonstrated.
+Next we compare the empirical BER for three mapping schemes: the Q3AP optimized
+MoDiv, the heuristic MoDiv $\psi_1 = \psi_2 = \psi_S$  and no MoDiv at all, i.e.
+$\psi_1 = \psi_2 = \psi_0$. The empirical BER is evaluated with the ML
+demodulator in~(\ref{eq:ML}) and over $M=10^7$ randomly generated channel and
+noise instances and indices $p$. In Fig.~\ref{fig:montecarlo}, there is a
+considerable performance gain for MoDiv versus no MoDiv. Moreover, the gain of
+the Q3AP optimized MoDiv over $\psi_1 = \psi_2 = \psi_S$ indicates that
+different rearrangements at the source and relay during the cooperative
+transmission can further boost the BER performance. However, as $K$ decreases,
+heuristic MoDiv becomes a good approximation as the its performance gap with the
+Q3AP optimized MoDiv diminishes.
 
 \begin{figure}[!t]
     \begin{minipage}[b]{0.49\linewidth}
