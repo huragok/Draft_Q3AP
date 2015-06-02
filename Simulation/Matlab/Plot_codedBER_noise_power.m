@@ -6,9 +6,9 @@ addpath('./functions');
 
 %% 1. Simulation settings
 % 16QAM
-Eb2N0_noncore = [-4]; % 1/sigma2 in dB
-Eb2N0_seddik = [-5];
-Eb2N0_Q3AP = [-6];
+Eb2N0_noncore = [-5, -4.5, -3.5, -3, -2.8, -2.6, -2.4, -2.3, -2.2, -2, -1.9, -1.85]; % 1/sigma2 in dB
+Eb2N0_seddik = [-5.5, -5, -4.5, -4.2, -4, -3.8, -3.6, -3.5, -3.4, -3.2, -3.15];
+Eb2N0_Q3AP = [-6, -5.5, -5, -4.6, -4.4, -4.2, -4.1, -4, -3.9, -3.8, -3.75];
 
 Nbps = 4;
 type_mod = 'QAM';
@@ -76,7 +76,7 @@ for i_Eb2N0 = 1 : n_Eb2N0_Q3AP
 end
 
 %% 4. Visualization
-% The BER upperbound
+% The coded BER
 h = figure;
 semilogy(Eb2N0_noncore, codedBER_noncore, 'k+-', 'linewidth', 2), hold on;
 semilogy(Eb2N0_seddik, codedBER_seddik, 'b^--', 'linewidth', 2);
