@@ -575,27 +575,11 @@ two indices mapped to two symbols close to each other in Phase 1 should be
 mapped to two symbols far apart in Phase 2. Based on this
 heuristic, $\psi_1=\psi_2$ can be designed with the trans-modulation scheme by
 Seddik in~\cite{seddik2008trans} for 16-QAM and 64-QAM. For 32-QAM
-constellation, the MoDiv design is presented in Fig.~\ref{fig:heuristic32}, which is
-derived by remapping the 3 Most Significant Bits (MSBs) and the 2 Least
-Significant Bits (LSBs) separately. We will show in the next section that when
-the channels are heavily fading, this heuristic remapping offers comparable
-performance gain as our Q3AP-based MoDiv.
-
-\begin{figure}[!t]
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.4cm]{./figs/gray32.eps}}
-      \centerline{(a) $\psi_0$ (Gray-mapping)}\medskip
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.48\linewidth}
-      \centering
-      \centerline{\includegraphics[width=4.4cm]{./figs/karim32.eps}}
-      \centerline{(b) $\psi_1=\psi_2$}\medskip
-    \end{minipage}
-    \caption{Heuristic MoDiv schemes for 32-QAM constellation.}
-    \label{fig:heuristic32}
-\end{figure}
+constellation, a similar heuristic MoDiv design can be derived by remapping the
+3 Most Significant Bits (MSBs) and the 2 Least Significant Bits (LSBs)
+separately. We will show in the next section that when the channels are heavily
+fading, this heuristic remapping offers comparable performance gain as our
+Q3AP-based MoDiv.
 
 \section{Numerical Results}
 \label{sec:simulation}
@@ -608,12 +592,11 @@ Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$,
 $\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
 $\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ represents the ratio
 between the amplitude of the LOS component of the
-relay-to-destination and the S-D link. Throughout the
-simulation we consider 16-QAM constellation, i.e.,  $Q=16$. The noise power is
+relay-to-destination and the S-D link. The noise power is
 parameterized with $E_b/N_0$ of the S-D link.
 
 % Example of Q3AP mapping
-First, we provide an example of Q3AP optimized MoDiv. When $E_b/N_0 =
+First, we provide an example of Q3AP optimized MoDiv for 16-QAM. When $E_b/N_0 =
 2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme $\psi_1$ and $\psi_2$
 are depicted in Fig.~\ref{fig:example}. The Gray mapping $\psi_0$ and the
 heuristic remapping $\psi_1=\psi_2=\psi_S$ are defined as
@@ -669,26 +652,30 @@ Q3AP optimized MoDiv diminishes.
 \end{figure}
 
 % Monte-Carlo BER mismatch comparison
-Finally, we test the robustness of the Q3AP MoDiv solution against mismatch in
-channel information. The intuition is that in practical systems, the CSI may not
-be perfectly accurate and the phase of the LOS component of the S-D and R-D
-links may not be perfectly aligned. Also, the Q3AP MoDiv scheme can only be
-computed off-line for a limited number of channel settings a priori, instead of
-for all possible combinations. We deliberately test the BER performance of the
-Q3AP MoDiv solution for channel parameters $a=1$, $K=5$ while the actual channel
-setting is $a = \sqrt{2}\exp(j\pi/12)$, $K = 10$. The BER upper bound and
-Monte-Carlo simulated BER are plotted in Fig.~\ref{fig:mismatch}. Apparently,
-the Q3AP MoDiv solution is not sensitive to the relative amplitude and the phase
-alignment error between S-D and R-D links.
+Finally, we test the coded BER performance and the robustness of the Q3AP MoDiv
+design with a LDPC coded system based on~\cite{}, where we use a LDPC code with
+length $L=2400$, coding rate of $0.75$. Despite that our Q3AP MoDiv scheme
+depends on noise power and statistical CSI, in this simulation we deliberately
+uses Q3AP MoDiv schemes designed for $E_b/N_0=-2dB$, AWGN channel and test it
+on Rician channel where $K=10$, $a=1$ and varying $E_b/N_0$. The coded BER
+results for 16-QAM and 32-QAM are plotted in Fig.~\ref{fig:coded_BER16QAM} and
+Fig.~\ref{fig:coded_BER32QAM}, respectively. We can see that the Q3AP MoDiv
+solution provides additional gain over the heuristic MoDiv and no MoDiv scheme even under imperfect design
+parameters. Also we notice that the Q3AP MoDiv provides larger performance
+gain for 32-QAM than 16-QAM constellation.
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=3.0in]{./figs/mismatch.eps}
-    \caption{BER performance under channel mismatch. Q3AP MoDiv solution for
-    CSI
-    $a=1$, $K=5$ while the actual CSI is $a = \sqrt{2}\exp(j\pi/12)$, $K
-    = 10$.}
-    \label{fig:mismatch}
+    \includegraphics[width=3.0in]{./figs/coded_BER16QAM.eps}
+    \caption{Coded BER for 16-QAM constellation.}
+    \label{fig:coded_BER16QAM}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=3.0in]{./figs/coded_BER32QAM.eps}
+    \caption{Coded BER for 32-QAM constellation.}
+    \label{fig:coded_BER16QAM}
 \end{figure}
 
 \section{Conclusion}
