@@ -1,8 +1,8 @@
 /** 
  * file: Map_demod.cpp
- * description: function of Chase combining HARQ MAP detector, and its mex function 
+ * description: function of Chase combining HARQ MAP detector for the diamond relay model, and its mex function 
  * edited by: Wenhao Wu
- * created date: 05/26/15
+ * created date: 06/01/15
  *
  * replaced file: Map_demod.cpp
  * description: function of MIMO MAP detector, and its mex function 
@@ -97,15 +97,14 @@ inline double jacln(double x, double y)
 }
 
 /**
- * The worker function of Chase combining HARQ MAP detector. 
+ * The worker function of Chase combining HARQ MAP detector.
  * @param LextDemodulation 1-by-(Nbps * n_symbol) double matrix, the extrinsic LLR 
- * @param rx_signal M-by-n_symbol complex<double> matrix, the received signal corresponding to 1 LDPC frame and M (re)transmisstions
- * @param chnl_eq M-by-n_symbol complex<double> matrix, equivalent channel when the noises or the M (re)transmissions are normalized to have equal power
+ * @param rx_signal 2-by-n_symbol complex<double> matrix, the received signal corresponding during the first and the second stage
+ * @param chnl_eq 3-by-n_symbol complex<double> matrix, the first row corresponds to the S-D channel during the first stage, the second and third row correspond to the S-D, R-D channels during the second stage
  * @param bit_mat_anti Q-by-Nbps double matrix, take value in {-1, 1}, the antipodal matrix of all possible bit vectors corresponding to 1 constellation points, logic 1 is mapped to -1, and logic 0 is mapped to 1
  * @param prio_LLR_vec prior 1-by-(Nbps * n_symbol) double matrix, the a priori knowledge on each inner coded bit  
- * @param sym_mod_mat Q-by-M complex<double> matrix, each row corresponding to the M symbols across all (re)transmissions corresponding to the same row in bit_mat_anti, 
+ * @param sym_mod_mat Q-by-3 complex<double> matrix, each row corresponding to the 3 symbols across all (re)transmissions corresponding to the same row in bit_mat_anti, 
  * @param noise power double scalar, the noise power for each (re)transmission
- * @param M int scalar, number of transmissions
  * @param Nbps int scalar number of bits per symbol
  * @param n_symbol number of symbols in one LDPC frame
  * @see 
@@ -114,7 +113,7 @@ inline double jacln(double x, double y)
  *  [3] C.Xiao, and Y.R. Zheng, "on the mutual information and power allocation for vector gaussian channels with finite discrete inputs"
  *  [4] matlab function written by Mingxi Wang. LextDemodulation = MAP_demodulate(y, LextC, chnl_eq, 2*variance, bit_mat_anti, sym_mod_mat, Nr, Ns, Ntime, M)
  */
-void MAP_demod_c(double *LextDemodulation, complex <double> *rx_signal, complex <double> *chnl_eq, double *bit_mat_anti, double *prio_LLR_vec, complex <double> *sym_mod_mat, double noise_power, int M, int Nbps, int n_symbol)
+void MAP_demod_c(double *LextDemodulation, complex <double> *rx_signal, complex <double> *chnl_eq, double *bit_mat_anti, double *prio_LLR_vec, complex <double> *sym_mod_mat, double noise_power, int Nbps, int n_symbol)
 {
 	double Le_p1_tmp1, Le_p1_tmp2, Log_sum_p1; 
 	double Le_n1_tmp1, Le_n1_tmp2, Log_sum_n1; 
@@ -194,13 +193,13 @@ void MAP_demod_c(double *LextDemodulation, complex <double> *rx_signal, complex 
 
 
 /**
- * LextDemodulation = MAP_demod(rx_signal, chnl_eq, bit_mat_anti, LextC, sym_mod_mat, noise_power)
+ * LextDemodulation = MAP_demod(rx_signal, h, bit_mat_anti, LextC, sym_mod_mat, noise_power)
  * The cmex gateway routine to the function of Chase combining HARQ MAP detector 
- * @param rx_signal M-by-n_symbol complex matrix, the received signal corresponding to 1 LDPC frame and M (re)transmisstions
- * @param chnl_eq M-by-n_symbol complex matrix, equivalent channel when the noises or the M (re)transmissions are normalized to have equal power
+ * @param rx_signal 2-by-n_symbol complex matrix, the received signal corresponding during the first and the second stage
+ * @param chnl_eq 3-by-n_symbol complex<double> matrix, the first row corresponds to the S-D channel during the first stage, the second and third row correspond to the S-D, R-D channels during the second stage
  * @param bit_mat_anti Q-by-Nbps real matrix, take value in {-1, 1}, the antipodal matrix of all possible bit vectors corresponding to 1 constellation points, logic 1 is mapped to -1, and logic 0 is mapped to 1
  * @param prio_LLR_vec prior 1-by-(Nbps * n_symbol) real matrix, the a priori knowledge on each inner coded bit  
- * @param sym_mod_mat Q-by-M complex matrix, each row corresponding to the M symbols across all (re)transmissions corresponding to the same row in bit_mat_anti, 
+ * @param sym_mod_mat Q-by-3 complex matrix, each row corresponding to the 3 symbols across all (re)transmissions corresponding to the same row in bit_mat_anti, 
  * @param noise power real scalar, the noise power for each (re)transmission
  * @return 1-by-(Nbps * n_symbol) matrix, the extrinsic LLR 
  */
@@ -223,14 +222,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	}
 
 	// Retrieve the dimensions of the index data and check for consistency
-	int M = mxGetM(prhs[0]);
 	int n_symbol = mxGetN(prhs[0]);
 	int Nbps = mxGetN(prhs[2]);
 	int Q = int(pow(2.0, Nbps));
-	if (mxGetM(prhs[1]) != M || mxGetN(prhs[1]) != n_symbol ||
+	if (mxGetM(prhs[0]) != 2 ||
+		mxGetM(prhs[1]) != 3 || mxGetN(prhs[1]) != n_symbol ||
 		mxGetM(prhs[2]) != Q || mxGetN(prhs[2]) != Nbps ||
 		mxGetM(prhs[3]) != 1 || mxGetN(prhs[3]) != Nbps * n_symbol ||
-		mxGetM(prhs[4]) != Q || mxGetN(prhs[4]) != M ||
+		mxGetM(prhs[4]) != Q || mxGetN(prhs[4]) != 3 ||
 		mxGetM(prhs[5]) != 1 || mxGetN(prhs[5]) != 1)
 	{
 		mexErrMsgTxt("Input arguments sizes are not consistent!");
@@ -246,9 +245,9 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	rx_signal_cmplx = new complex <double> [M * n_symbol];
 	for(int i_symbol = 0; i_symbol < n_symbol; i_symbol++)
 	{
-		for(int m = 0; m < M; m++)
+		for(int m = 0; m < 2; m++)
 		{
-			rx_signal_cmplx[m * n_symbol + i_symbol] = complex <double>(rx_signal_real[i_symbol * M + m], rx_signal_imag[i_symbol * M + m]); 
+			rx_signal_cmplx[m * n_symbol + i_symbol] = complex <double>(rx_signal_real[i_symbol * 2 + m], rx_signal_imag[i_symbol * 2 + m]); 
 		}	
 	}
 
@@ -259,12 +258,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	chnl_eq_real = mxGetPr(prhs[1]);     
 	chnl_eq_imag = mxGetPi(prhs[1]);
 
-	chnl_eq_cmplx = new complex <double> [M * n_symbol];
-	for(int m = 0; m < M; m++) // convert to complex class with order in C
+	chnl_eq_cmplx = new complex <double> [3 * n_symbol];
+	for(int m = 0; m < 3; m++) // convert to complex class with order in C
 	{
         for(int i_symbol = 0; i_symbol < n_symbol; i_symbol++)
         {
-            chnl_eq_cmplx[m * n_symbol + i_symbol] = complex <double>(chnl_eq_real[i_symbol * M + m], chnl_eq_imag[i_symbol * M + m]);
+            chnl_eq_cmplx[m * n_symbol + i_symbol] = complex <double>(chnl_eq_real[i_symbol * 3 + m], chnl_eq_imag[i_symbol * 3 + m]);
         }
 	}	
 
@@ -302,12 +301,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	sym_mod_mat_real = mxGetPr(prhs[4]);     
 	sym_mod_mat_imag = mxGetPi(prhs[4]);	
 
-	sym_mod_mat_cmplx = new complex <double> [Q * M];
-    for(int m = 0; m < M; m++)   // convert to complex class
+	sym_mod_mat_cmplx = new complex <double> [Q * 3];
+    for(int m = 0; m < 3; m++)   // convert to complex class
 	{
 		for(int q = 0; q < Q; q++)
 		{
-			sym_mod_mat_cmplx[q * M + m]= complex <double>(sym_mod_mat_real[m * Q + q], sym_mod_mat_imag[m * Q + q]); 
+			sym_mod_mat_cmplx[q * 3 + m]= complex <double>(sym_mod_mat_real[m * Q + q], sym_mod_mat_imag[m * Q + q]); 
 		}	
 	}
 
@@ -316,7 +315,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     plhs[0] = mxCreateDoubleMatrix(1, n_symbol * Nbps, mxREAL); //Create an mxArray for the output data 
 	double *LextDemodulation = mxGetPr(plhs[0]); // Create a pointer to the output data
 	
-	MAP_demod_c(LextDemodulation, rx_signal_cmplx, chnl_eq_cmplx, bit_mat_anti_c, prio_LLR_vec, sym_mod_mat_cmplx, noise_power, M, Nbps, n_symbol);
+	MAP_demod_c(LextDemodulation, rx_signal_cmplx, chnl_eq_cmplx, bit_mat_anti_c, prio_LLR_vec, sym_mod_mat_cmplx, noise_power, Nbps, n_symbol);
 
     delete [] rx_signal_cmplx;
     delete [] chnl_eq_cmplx;
