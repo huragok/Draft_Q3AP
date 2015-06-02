@@ -235,7 +235,7 @@ that the MoDiv design problem can not be solved exactly in practice even for a
 middle size constellation such as 16-QAM, there are a number of heuristic
 algorithms~\cite{benlic2015memetic}
 for its reduced form, Quadratic Assignment Problem (QAP), that results in
-high-quality solutions over the QAPLIB dataset~\cite{burkard1997qaplib}. In this
+high-quality solutions over the QAPLIB dataset. In this
 work, we adopt an efficient modified Iterated Local Search (ILS) method to solve
 the Q3AP formulated from BER-minimization MoDiv design problem. Our numerical
 results demonstrate significant BER reduction over non-MoDiv HARQ schemes.
@@ -653,16 +653,18 @@ Q3AP optimized MoDiv diminishes.
 
 % Monte-Carlo BER mismatch comparison
 Finally, we test the coded BER performance and the robustness of the Q3AP MoDiv
-design with a LDPC coded system based on~\cite{}, where we use a LDPC code with
-length $L=2400$, coding rate of $0.75$. Despite that our Q3AP MoDiv scheme
-depends on noise power and statistical CSI, in this simulation we deliberately
-uses Q3AP MoDiv schemes designed for $E_b/N_0=-2dB$, AWGN channel and test it
-on Rician channel where $K=10$, $a=1$ and varying $E_b/N_0$. The coded BER
-results for 16-QAM and 32-QAM are plotted in Fig.~\ref{fig:coded_BER16QAM} and
-Fig.~\ref{fig:coded_BER32QAM}, respectively. We can see that the Q3AP MoDiv
-solution provides additional gain over the heuristic MoDiv and no MoDiv scheme even under imperfect design
-parameters. Also we notice that the Q3AP MoDiv provides larger performance
-gain for 32-QAM than 16-QAM constellation.
+design with a LDPC coded system based on~\cite{hochwald2003achieving}, where we
+use a LDPC code with length $L=2400$, coding rate of $0.75$ and a Monte-Carlo
+run of up to 2000 LDPC frames. Despite that our Q3AP MoDiv scheme depends on
+noise power and statistical CSI, in this simulation we deliberately uses Q3AP
+MoDiv schemes designed for $E_b/N_0=-2dB$, AWGN channel and test it on Rician
+channel where $K=10$, $a=1$ and varying $E_b/N_0$ to demonstrate its robustness.
+The coded BER results for 16-QAM and 32-QAM are plotted in
+Fig.~\ref{fig:coded_BER16QAM} and Fig.~\ref{fig:coded_BER32QAM}, respectively.
+We can see that the Q3AP MoDiv solution provides additional gain over the
+heuristic MoDiv and no MoDiv scheme even under imperfect design parameters. Also
+we notice that the Q3AP MoDiv provides larger performance gain for 32-QAM than
+for 16-QAM constellation.
 
 \begin{figure}[!t]
     \centering
@@ -675,7 +677,7 @@ gain for 32-QAM than 16-QAM constellation.
     \centering
     \includegraphics[width=3.0in]{./figs/coded_BER32QAM.eps}
     \caption{Coded BER for 32-QAM constellation.}
-    \label{fig:coded_BER16QAM}
+    \label{fig:coded_BER32QAM}
 \end{figure}
 
 \section{Conclusion}
