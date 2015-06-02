@@ -7,3 +7,5 @@ tmp
 *.asv
 *.mexw64
 *.mexw32
+*.fig
+*.mat
