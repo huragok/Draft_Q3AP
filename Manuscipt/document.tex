@@ -117,7 +117,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Modulation Diversity Design in Cooperative Relay-HARQ Network}
+\title{Modulation Diversity Design in Cooperative Relay and HARQ Transmission}
 
 
 % author names and affiliations
@@ -125,8 +125,9 @@
 % affiliations
 \author{
     \IEEEauthorblockN{Wenhao Wu, Hans Mittelmann, and Zhi Ding}
-    \thanks{The work of the second author was supported in part by AFOSR under
-    grant FA9550-12-1-0153.
+    \thanks{This work was supported in part by the National Science Foundation
+        under Grants CNS-1443870, ECCS-1307820, and CCF-1321143. The work of the
+        second author was supported in part by AFOSR under grant FA9550-12-1-0153.
     }% <-this % stops a space
 }
 
@@ -168,18 +169,17 @@
 \begin{abstract}
     %\boldmath
     % (what we do)
-Modulation diversity (MoDiv) is a practically useful diversity enhancement
-technique that utilizes different modulation mappings from bits to constellation
-symbols. This approach is particularly effective in hybrid-ARQ (HARQ) systems.
-In this paper, we study the optimization of MoDiv in a coordinated relay-HARQ
-network to reduce the bit error rate (BER).
+Modulation diversity (MoDiv) is a practically useful transmission enhancement
+technique that utilizes different modulation mappings to reduce packet loss rate
+and achieve higher transmission efficiency. MoDiv is particularly effective in
+hybrid-ARQ (HARQ) systems. In this paper, we study the optimization of MoDiv in
+a coordinated relay-HARQ network to reduce packet loss.
     % (how they do)
     % (how we do)
-We formulate the MoDiv design optimization problem into a quadratic
-three-dimensional assignment problem (Q3AP) solved with a modified iterated
-local search (ILS) method. Numerical results demonstrate its performance gain,
-and show that when the channels are heavily fading, a comparable BER reduction
-is achieved with a heuristic MoDiv scheme.
+We formulate the design optimization of MoDiv into a quadratic three-dimensional
+assignment problem (Q3AP), which we solve using a modified iterated local search
+(ILS) method. Numerical results demonstrate clear performance gain over simple
+relay/retransmissions and a heuristic design under fading channels.
     % (main results)
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
@@ -207,40 +207,46 @@ is achieved with a heuristic MoDiv scheme.
 
 \section{Introduction}
 % Why are we interested in the cooperative relay-HARQ channel? Why MoDiv?
-In modern wireless communication, high rate data transmission often leads
-to reception errors. To overcome packet loss due to transmission errors, 
-Automatic Repeat reQuest (ARQ) or Hybrid ARQ (HARQ) are important mechanism for
-better reliability. HARQ in conjunction with relay networks has attracted great
-deal of research interest in recent years~\cite{ngo2014hybrid}. Because symbols
-transmitted in practice often utilize linear modulations of finite-size
+In wireless data communication systems, high rate transmission and poor channel
+conditions often lead to reception errors. To recover lost packet due to
+transmission errors, Automatic Repeat reQuest (ARQ) or Hybrid ARQ (HARQ) are
+important mechanism for better reliability at network layer \cite{TS36.331} and
+PHY layer \cite{TS36.213}. HARQ in conjunction with relay networks has attracted
+great deal of research interest in recent years~\cite{ngo2014hybrid}. Because
+symbols transmitted in practice often utilize linear modulations of finite-size
 constellation (e.g., Q-ary PSK, or Q-ary QAM), the performance of cooperative
-relay-HARQ systems can benefit from Modulation Diversity 
-(MoDiv)~\cite{benelli1992new}, in which each
-group of $\log_2 Q$ bits are mapped to different constellation points across
-different links and in different transmissions. 
+relay-HARQ systems can benefit from Modulation Diversity
+(MoDiv)~\cite{benelli1992new}, in which each group of $\log_2 Q$ bits are mapped
+to different constellation points across different links and in different
+transmissions to better exploit channel diversity.
 
-There is a number of research works on MoDiv for relay
-network~\cite{seddik2008trans, khormuji2008rate} and relay-HARQ
-system~\cite{kim2009design, ryu2011ber}. Despite the encouraging
-performance gain, the afore-mentioned works all assume a low bandwidth
-efficiency scheme where (re)transmissions on the Source-Destination (S-D) link
-and the Relay-Destination (R-D) links occupy orthogonal bands or time slots.
-From this point of view, we study the MoDiv design in a relay-HARQ network in
-Fig.~\ref{fig:system_model} where the S-D and R-D links are additive as in
-\cite{cover1979capacity, nabar2004fading}, practically
-forming a 2-by-1 multiple-input single-output (MISO) diversity system. In this
-context, we formulate the bit error rate (BER) minimization MoDiv design into a
-quadratic three-dimensional assignment problem (Q3AP). Though Q3AP is NP-hard so
-that the MoDiv design problem can not be solved exactly in practice even for a
-middle size constellation such as 16-QAM, there are a number of heuristic
-algorithms~\cite{benlic2015memetic}
-for its reduced form, Quadratic Assignment Problem (QAP), that results in
-high-quality solutions over the QAPLIB dataset. In this
-work, we adopt an efficient modified Iterated Local Search (ILS) method to solve
-the Q3AP formulated from BER-minimization MoDiv design problem. Our numerical
-results demonstrate significant BER reduction over non-MoDiv HARQ schemes.
-Moreover, we also show that when the channels are heavily fading, a comparable
-performance gain is offered by an effortless heuristic MoDiv scheme.
+There are a number of existing research works on MoDiv for HARQ
+\cite{harvind2005symbol}, relay network~\cite{seddik2008trans, khormuji2008rate}
+and relay-HARQ system~\cite{kim2009design, ryu2011ber}. Despite the encouraging
+performance gain, these works all consume substantial bandwidth for which
+(re)transmissions on the Source-Destination (S-D) link and the Relay-Destination
+(R-D) links occupy orthogonal bands or time slots. For better spectral
+efficiency, we study MoDiv design in a relay-HARQ scenario of
+Fig.~\ref{fig:system_model} where the S-D and R-D links are co-channel and
+additive as in \cite{cover1979capacity, nabar2004fading}, specifically
+forming a 2-by-1 multiple-input single-output (MISO) diversity transmission. 
+For this system, we formulate the bit error rate (BER) minimization MoDiv
+design into a quadratic three-dimensional assignment problem (Q3AP). 
+Q3AP is NP-hard, which means that our MoDiv design cannot be solved exactly 
+even for a moderate size constellation such as 16-QAM. Fortunately, there are
+a number of heuristic algorithms~\cite{benlic2015memetic} for its reduced form,
+known as Quadratic Assignment Problem (QAP), that results in high-quality
+solutions over the QAPLIB dataset. In this work, we adopt a modified Iterated
+Local Search (ILS) method that is efficient in solving the Q3AP formulated from
+the  MoDiv design problem for minimizing BER. Our numerical results demonstrate
+significant BER reduction over non-MoDiv (simple ) HARQ re-transmissions.
+Moreover, we also show that when network channels are in heavy fading,
+comparable performance gain is offered by a low complexity heuristic MoDiv scheme.
+
+In this manuscript, Section II first describes the relay-HARQ cooperation model.
+Section III presents the optimal MoDiv design problem and propose different
+solutions. Section IV provides and compares the numerical results to illustrate
+the benefit of MoDiv. Finally, Section V concludes this work. 
 
 \begin{figure}[!t]
     \begin{minipage}[b]{0.48\linewidth}
@@ -265,28 +271,28 @@ performance gain is offered by an effortless heuristic MoDiv scheme.
 \label{sec:model}
 % Cooperative relay-HARQ channel 
 We consider the cooperative relay-HARQ network shown in
-Fig.~\ref{fig:system_model}. There are two phases in this transmission system.
-In phase 1, source node broadcasts its packet that can be received by both the
-destination and the relay. In phase 2 of this HARQ setup, upon packet loss,
-both the relay and the source node cooperatively retransmit the lost packet
-information to the destination. Our goal is to design the H-ARQ constellation
-mapping for modulation diversity such that the packet BER at the receiver is
-minimized.
+Fig.~\ref{fig:system_model}, in which there are two transmission phases.
+In phase 1, source node broadcasts its packet to both destination and relay. In
+phase 2 of this HARQ setup, upon packet loss notification, both the relay and
+the source nodes cooperatively retransmit the lost packet information to the
+destination. Our goal is to optimize  H-ARQ constellation mappings to achieve
+modulation diversity so as to minimize the packet BER at the receiver.
 
-Denote $\mathcal{C}$ as the constellation used by this relay network whose size
-is $Q = |\mathcal{C}|$. In the first phase, the source converts a bit sequence
-of length $\log_2Q$ into symbols with Gray mapping $\psi_0: \{0,\ldots,Q -
-1\}\rightarrow \mathcal{C}$. The bit sequence is indexed by its decimal
-equivalence $p\in \{0,\ldots,Q - 1\}$. The source transmits $\psi_0[p]$ to the
-destination via channel $h_0$ which is also overheard by the decode-and-forward
-(DF) relay. We assume that this relay is placed strategically such that it has
-negligible decoding error rate as in~\cite{ryu2011ber, kim2009design}. Upon
-receiving a request for retransmission, the second phase begins with
-the source and the relay remapping $p$ into $\psi_1[p]$ and $\psi_2[p]$,
-respectively.  In general,  $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The
-remapped symbols are transmitted simultaneously on the same frequency band to the
-destination via channels $h_1$ and $h_2$. In summary, the received signals at the
-destination during the two phases are, respectively, 
+Denote $\mathcal{C}$ as fixed constellation used by this relay network whose
+size is $Q = |\mathcal{C}|$. In the first phase, the source converts a bit
+sequence of length $\log_2Q$ into symbols with Gray mapping $\psi_0:
+\{0,\ldots,Q - 1\}\rightarrow \mathcal{C}$. The bit sequence can be indexed by
+its decimal equivalence $p\in \{0,\ldots,Q - 1\}$. The source transmits
+$\psi_0[p]$ to the destination via channel $h_0$, though $\psi_0[p]$ is
+simultaneously received by the decode-and-forward (DF) relay. We assume that the
+relay is placed strategically such that it has negligible decoding error rate as
+in~\cite{ryu2011ber, kim2009design}. Upon receiving a request for
+retransmission, the second phase begins with the source and the relay remapping
+$p$ into $\psi_1[p]$ and $\psi_2[p]$, respectively. In general, we have 3
+distinct mappings $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$. The remapped
+symbols are transmitted simultaneously on the same frequency band to the
+destination via channels $h_1$ and $h_2$. In summary, the received signals at
+the destination during the two phases are, respectively,
 \begin{subequations}
     \begin{align}
        y_1 & = h_0\psi_0[p] + v_1, \\
@@ -294,13 +300,13 @@ destination during the two phases are, respectively,
     \end{align}
 \end{subequations}
 where $v_1, v_2\sim\mathcal{CN}(0,\sigma_v^2)$ are additive channel noises.
-Throughout this work, we assume the channels $h_0$, $h_1$ and $h_2$ follow
-independent Rician distribution.
+Throughout this work, we assume fading wireless channels $h_0$, $h_1$ and $h_2$ 
+to follow independent Rician distribution.
 
 % ML demodulator
-Assuming that the destination has perfect channel state information (CSI). Based
-on the received symbols $y_1$ and $y_2$,  the destination decodes the data by
-identifying the index $p$ via maximum likelihood (ML) detection:
+Assuming that the destination acquires perfect channel state information (CSI).
+Based on the received symbols $y_1$ and $y_2$,  the destination decodes the data
+by identifying index $p$ via maximum likelihood (ML) detection:
 \begin{align}
     \min_{\hat{p}} |y_1 - h_0\psi_0[\hat{p}]|^2 + |y_2-
     h_1\psi_1[\hat{p}] - h_2\psi_2[\hat{p}]|^2.
@@ -391,9 +397,10 @@ identifying the index $p$ via maximum likelihood (ML) detection:
 
 \section{Optimal Constellation Mapping for Modulation Diversity}
 \label{sec:core}
-In this section we first formulate the minimum BER design of MoDiv into a Q3AP problem.
-We then elaborate on the numerical approach for computing the input cost matrix of the Q3AP
-problem. We then provide an efficient algorithm to obtain the Q3AP solution.
+In this section we first formulate the minimum BER design of MoDiv into a Q3AP
+problem. We then elaborate on the numerical approach for computing the input
+cost matrix of the Q3AP problem. We then provide an efficient algorithm to
+obtain numerical Q3AP solution.
 
 \subsection{BER Minimization via Q3AP solution}
 % Q3AP formulation 
@@ -406,14 +413,14 @@ probability (PEP)~\cite{harvind2005symbol}
 \end{align}
 where $B[p,q]$ is the Hamming distance between the binary representation of $p$
 and $q$ divided by $\log_2Q$ and $P_{\PEP}(q | p)$ is the probability for the ML
-decoder to prefer $q$ over $p$ when $p$ is actually transmitted. According to~(\ref{eq:ML}), we have
+decoder to prefer $q$ over $p$ when $p$ is actually transmitted. According
+to~(\ref{eq:ML}), we have
 \begin{align}
     P_{\PEP}(q | p) = P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,q,\psi_1,\psi_2) < 0\}.
     \label{eq:P_PEP}
 \end{align}
-In other words, given indices $p, q$ and the remapping scheme $\psi_1$, $\psi_2$, the
-probability of the random variable $\delta<0$ being evaluated over the random
-variables $h_0,h_1,h_2,v_1,v_2$, and $\delta$ is defined as
+in which, given random channels and random noise variables 
+$h_0,h_1,h_2,v_1,v_2$, $\delta$ is defined as
 \begin{align}
     \delta & = |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 +\notag\\ 
     &
@@ -421,22 +428,24 @@ variables $h_0,h_1,h_2,v_1,v_2$, and $\delta$ is defined as
     |v_2|^2.
     \label{eq:delta}
 \end{align}
-In order to formulate the Q3AP problem, we introduce binary variables
+In other words, given indices $p, q$ and the remapping scheme $\psi_1$,
+$\psi_2$, the pairwise error event is equivalent to $\delta<0$. In order to
+formulate the Q3AP problem, we introduce binary variables
 \[
-x_{pij}= \left\{\begin{array}{ll}
-1,& \mbox{if $\psi_1[p] = \psi_0[i]$ and $\psi_2[p] = \psi_0[j]$}\\
- 0,& \mbox{otherwise.} \end{array} \right. \]
-Denote $\mathbf{x} = \{x_{pij}|\;p,i,j=0,\ldots,Q-1\}$
-and constraint set
+    x_{pij}= \left\{\begin{array}{ll}
+        1,& \mbox{if $\psi_1[p] = \psi_0[i]$ and $\psi_2[p] = \psi_0[j]$}\\
+        0,& \mbox{otherwise.} 
+   \end{array} \right.
+ \]
+Denote $\mathbf{x} = \{x_{pij}|\;p,i,j=0,\ldots,Q-1\}$ and constraint set
 \begin{align}
     \mathcal{P} & = \left\{\mathbf{x}:\,\sum_{p=0}^{Q-1}x_{pij} = 1,
-    x_{pij}\in\{0, 1\}\right\}, \label{eq:constraint_p}
+    x_{pij}\in\{0, 1\}\right\}, \label{eq:constraint_p}.
 \end{align}
-and $\mathcal{I}$ and $\mathcal{J}$ which are defined as
-in~(\ref{eq:constraint_p}) by replacing the summation index $p$ with $i$ and
-$j$, respectively. Then from~(\ref{eq:P_BER})(\ref{eq:P_PEP})(\ref{eq:delta}),
-the BER minimization MoDiv scheme $\min_{\psi_1, \psi_2}P_{\BER}$ can be
-reformulated as
+We further denote $\mathcal{I}$ and $\mathcal{J}$ as in~(\ref{eq:constraint_p})
+by replacing the summation index $p$ with $i$ and $j$, respectively. Then
+from~(\ref{eq:P_BER})(\ref{eq:P_PEP})(\ref{eq:delta}), the BER minimization
+MoDiv scheme $\min_{\psi_1, \psi_2}P_{\BER}$ becomes
 \begin{align}
     & \min_{\mathbf{x}}\sum_{p=0}^{Q-1}\sum_{i=0}^{Q-1}\sum_{j=0}^{Q-1}
     \sum_{q=0}^{Q-1}\sum_{k=0}^{Q-1}\sum_{l=0}^{Q-1}c_{pijqkl}x_{pij}x_{qkl},
@@ -452,26 +461,25 @@ in which
     \delta & = |h_1(\psi_0[i] - \psi_0[k])+h_2(\psi_0[j] - \psi_0[l])+v_2|^2 
  \notag
     \\
-    &
-       + |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 -
+    & + |h_0(\psi_0[p] - \psi_0[q]) + v_1|^2 - |v_1|^2 -
     |v_2|^2.\label{eq:delta_pijqkl}
 \end{align}
 
 \subsection{Computation of the Pair-wise Symbol Error Rate}
 
 % serial expansion method
-In this section we focus on the computation of the parameters $\{c_{pijqkl}\}$
-of the Q3AP problem. According to~(\ref{eq:cpijqkl}), the key to compute
-$c_{pijqkl}$ lies in the evaluation of
-$P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)$, i.e. the cumulative distribution
-function (CDF) of the random variable $\delta(p,i,j,q,k,l)$ as
-in~(\ref{eq:delta}). Define the moment generating function (MGF)
-\[\Phi_{\delta}(\omega) = \mathbb{E}_{\delta}[\exp(-\omega\delta)].\]
+In this section we focus on computing parameters $\{c_{pijqkl}\}$ of the Q3AP
+problem. According to~(\ref{eq:cpijqkl}), the key to evaluating $c_{pijqkl}$
+lies in the evaluation of $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l)$, i.e.
+the cumulative distribution function (CDF) of the random variable
+$\delta(p,i,j,q,k,l)$ of (\ref{eq:delta}). Define the moment generating function
+(MGF)
+\[
+    \Phi_{\delta}(\omega) = \mathbb{E}_{\delta}[\exp(-\omega\delta)].
+\]
 Under the well known Rician channel model, 
-$h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we 
-can extend the method
-in~\cite{harvind2005symbol, taricco2002exact} to compute
-$P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
+$h_m\sim\mathcal{CN}(\mu_{h_m},\sigma_{h_m}^2), m=0,1,2$, we can extend the
+method proposed in~\cite{harvind2005symbol, taricco2002exact} to compute
 \begin{align}
     & P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\} \notag \\
     & \approx \frac{1}{2v}\sum_{t=1}^v \Re\left\{\Phi_{\delta}(\xi +
@@ -479,16 +487,14 @@ $P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$:
     j\xi\tau_t)\right\},
     \label{eq:expansion}
 \end{align}
-where $\tau_t = \tan((t- 1/2)\pi/v)$
-and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote the real and imaginary parts,
-respectively. 
-The parameter $\xi$ is selected to ensure convergence of the
-integration and $\xi = 1/4$ was suggested in \cite{taricco2002exact}. The
-size $v$ of the expansion~(\ref{eq:expansion}) needs to be large when $
-P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ is small in order to
-maintain an acceptable numerical accuracy.
+where $\tau_t = \tan((t- 1/2)\pi/v)$ and $\Re\{\cdot\}$, $\Im\{\cdot\}$ denote
+the real and imaginary parts, respectively. The parameter $\xi$ is selected to
+ensure convergence of the integration and $\xi = 1/4$ was suggested in
+\cite{taricco2002exact}. The size $v$ of the expansion~(\ref{eq:expansion})
+needs to be large when $ P_{h_0,h_1,h_2,v_1,v_2}\{\delta(p,i,j,q,k,l) < 0\}$ is
+small in order to maintain an acceptable numerical accuracy.
 
-To compute $\Phi_{\delta}(\omega)$, denote the Gaussian random vectors
+To compute $\Phi_{\delta}(\omega)$, let us denote Gaussian random vectors
 $\mathbf{z}_1 = [h_0, v_1]^T$, $\mathbf{z}_{2} = [h_1, h_2, v_2]^T$, such
 that $\mathbf{z}_m\sim\mathcal{CN}(\bm{\mu}_m, \mathbf{\Sigma}_m)$, $m=1,2$,
 where
@@ -522,8 +528,7 @@ Then~(\ref{eq:delta}) can be rewritten as $\delta =
         \right],
     \end{align}
 \end{subequations}
-here $e_{ab} = \psi_0[a] - \psi_0[b]$. Then the MGF
-is
+where $e_{ab} = \psi_0[a] - \psi_0[b]$. Thus, the MGF is
 \begin{align}
     \Phi_{\delta}(\omega) & = \sum_{m=1,2}
     \frac{\exp(-\omega\bm{\mu}_m^H\mathbf{A}_m(\mathbf{I} +
@@ -532,18 +537,18 @@ is
 \end{align}
 Note that for any instance of Q3AP a total number of $Q^6$ coefficients must be
 computed. Fortunately, the MoDiv design is based on statistical CSI which does
-not require online computation of the $Q^6$ coefficients. In fact, the optimized
-MoDiv can be precomputed and stored a priori in our network nodes. In our
-simulation, we implement the above procedure for 16-QAM and 32-QAM with in C++
-on a workstation with 48 cores and finished the computation in several days for
-a $Q=32$ case and a few hours for a 16-QAM case. For larger constellation such
-as 64-QAM, however, the time and spacial complexity may still be too high. We
-will address in future works to reduce this complexity by adding a few rules to
-restrict the remapping schemes.
+not require online computation of the $Q^6$ coefficients in real time. In fact,
+the optimized MoDiv can be precomputed and stored a priori in our network nodes.
+In our simulation, we implement the above procedure for 16-QAM and 32-QAM with
+in C++ on a workstation with 48 cores and finished the computation in several
+days for a $Q=32$ case and a few hours for a 16-QAM case. For larger
+constellation such as 64-QAM, however, the time and spacial complexity may still
+be impractical. We will address in future works new means to reduce this complexity by 
+imposing rules to restrict the remapping schemes.
 
 \subsection{Q3AP Solution}
 % Description of the Q3AP solution methods
-For practical-sized constellation such as 16-QAM and 32-QAM, it is impractical
+For modest constellation sizes such as 16-QAM and 32-QAM, it is impractical
 to apply the exact branch-and-bound algorithm~\cite{hahn2008quadratic}. Also,
 our tests show that they do not have enough symmetry to exploit for faster
 solution as does the 16-PSK constellation~\cite{mittelmann2015solving}.
@@ -551,57 +556,57 @@ Consequently, the MoDiv problem is solved with the ILS
 method~\cite{hahn2008quadratic} extended from its QAP
 version~\cite{stutzle2006iterated}. Starting from two random initial mappings
 $\psi_1^{(0)}, \psi_2^{(0)}$, the algorithm executes a local search by
-attempting to exchange the mapping of exactly 2 indices in order to lower the
-objective function and whenever a reduction in the objective function is made
-the mapping is updated. When it hits a local minimum, it executes a perturbation
-step by exchanging the mapping of $k_p$ indices, where $k_p$ is adaptively
-adjusted within $[k_{p,min}, k_{p,max}]$. The perturbation is accepted with a
-probability defined as in simulated annealing, after which the local search is
-restarted from the new mappings until the stopping criterion is satisfied.
+exchanging the mapping of exactly 2 indices whenever a reduction in the
+objective function is made. This approach can lower the objective function and
+update the mapping locally. When the process hits a local minimum, it executes a
+perturbation step by exchanging the mapping of $k_p$ indices, where $k_p$ is
+adaptively adjusted within $[k_{p,min}, k_{p,max}]$. The perturbation is
+accepted with a probability defined as in simulated annealing, after which the
+local search is restarted from the new mappings until the stopping criterion is
+satisfied.
 
 \subsection{A Heuristic MoDiv Scheme}
 \label{sec:heuristic}
-When the channels are heavily Rician, i.e. there is a strong Line Of Sight (LOS)
-component in $h_1$ and $h_2$,  our Q3AP solution benefits from 2 kinds of gains.
-Firstly, by allowing $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$, we achieves
-the signal space diversity gain just as existing MoDiv schemes. Secondly, by
-jointly designing $\psi_1$ and $\psi_2$ and allowing $\psi_1\not=\psi_2$, we
-achieve the cooperative gain between the source and the relay. When the channels
-are independently heavily Rayleigh, however, there is little cooperative gain to
-exploit and we can greatly simplify the MoDiv design problem by fixing
-$\psi_1=\psi_2$. Though we can solve the resulting QAP problem rigorously, 
-from~(\ref{eq:delta}), we can take a simple heuristic approach noticing that the
-two indices mapped to two symbols close to each other in Phase 1 should be
-mapped to two symbols far apart in Phase 2. Based on this
-heuristic, $\psi_1=\psi_2$ can be designed with the trans-modulation scheme by
-Seddik in~\cite{seddik2008trans} for 16-QAM and 64-QAM. For 32-QAM
-constellation, a similar heuristic MoDiv design can be derived by remapping the
-3 Most Significant Bits (MSBs) and the 2 Least Significant Bits (LSBs)
-separately. We will show in the next section that when the channels are heavily
-fading, this heuristic remapping offers comparable performance gain as our
-Q3AP-based MoDiv.
+For Rician fading channels, there is a strong Line Of Sight (LOS) component in
+$h_1$ and $h_2$. Our Q3AP solution benefits from 2 different gains. Firstly, by
+allowing $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$, we achieves the signal
+space diversity gain just as existing MoDiv schemes. Secondly, by jointly
+designing $\psi_1$ and $\psi_2$ and allowing $\psi_1\not=\psi_2$, we achieve the
+cooperative gain between the source and the relay. When the channels are
+independently Rayleigh, however, there is little cooperative gain to exploit and
+we can greatly simplify the MoDiv design problem by fixing $\psi_1=\psi_2$.
+Though we can solve the resulting QAP problem rigorously, from~(\ref{eq:delta}),
+we can take a simple heuristic approach noticing that the two indices mapped to
+two symbols close to each other in Phase 1 should be mapped to two symbols far
+apart in Phase 2. Based on such heuristic, $\psi_1=\psi_2$ can be designed by
+adapting the trans-modulation scheme of Seddik~\cite{seddik2008trans} for 16-QAM
+and 64-QAM. For 32-QAM constellation, a similar heuristic MoDiv design may be
+extended by remapping the 3 Most Significant Bits (MSBs) and the 2 Least
+Significant Bits (LSBs) separately. We will show in the next section that when
+the channels experience deep fade, such heuristic remapping method offers
+comparable performance gain as our Q3AP-based MoDiv.
 
 \section{Numerical Results}
 \label{sec:simulation}
 % Simulation settings
-In our simulation, all Rician channels are assumed to have the same Rician
-parameter $K$. Also we assume that during the second phase, the phases of the
+In our simulation, all Rician fading channels are assumed to have the same
+Rician parameter $K$. Also we assume that during the second phase, the phases of the
 line of sight (LOS) components of channels $h_1$ and $h_2$ can be aligned at the
 source and relay, respectively.
 Consequently, we define $\mu_{h_0} = \mu_{h_1} = \sqrt{K/(K + 1)}$,
 $\mu_{h_2}=a\sqrt{K/(K + 1)}$,  $\sigma_{h_0}^2 = \sigma_{h_1}^2 = 1/(K+1)$ and
-$\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ represents the ratio
+$\sigma_{h_2}^2 = |a|^2/(K+1)$, where $a$ denotes the ratio
 between the amplitude of the LOS component of the
 relay-to-destination and the S-D link. The noise power is
 parameterized with $E_b/N_0$ of the S-D link.
 
 % Example of Q3AP mapping
-First, we provide an example of Q3AP optimized MoDiv for 16-QAM. When $E_b/N_0 =
+First, we provide an example of Q3AP optimized MoDiv for 16-QAM. For $E_b/N_0 =
 2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme $\psi_1$ and $\psi_2$
 are depicted in Fig.~\ref{fig:example}. The Gray mapping $\psi_0$ and the
-heuristic remapping $\psi_1=\psi_2=\psi_S$ are defined as
-in~\cite{seddik2008trans}. The results justify the heuristics mentioned in
-Section~\ref{sec:heuristic} and both $\psi_1$ and $\psi_2$ are essentially very
+heuristic remapping $\psi_1=\psi_2=\psi_S$ are defined according to
+\cite{seddik2008trans}. The results justify the use of heuristics discussed in
+Section~\ref{sec:heuristic} as both $\psi_1$ and $\psi_2$ are essentially very
 close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
 
 \begin{figure}[!t]
@@ -621,17 +626,17 @@ close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
 \end{figure}
 
 % Monte-Carlo BER comparison
-Next we compare the empirical BER for three mapping schemes: the Q3AP optimized
-MoDiv, the heuristic MoDiv $\psi_1 = \psi_2 = \psi_S$  and no MoDiv at all, i.e.
-$\psi_1 = \psi_2 = \psi_0$. The empirical BER is evaluated with the ML
-demodulator in~(\ref{eq:ML}) and over $M=10^7$ randomly generated channel and
-noise instances and indices $p$. In Fig.~\ref{fig:montecarlo}, there is a
+Next we compare the empirical BER for three mapping schemes: Q3AP-optimized
+MoDiv, the heuristic MoDiv $\psi_1 = \psi_2 = \psi_S$  and zero MoDiv at all,
+i.e. $\psi_1 = \psi_2 = \psi_0$. The empirical BER is evaluated by applying the
+ML demodulator in~(\ref{eq:ML}) and over $M=10^7$ randomly generated channels, 
+noise instances and data symbols. In Fig.~\ref{fig:montecarlo}, there is a
 considerable performance gain for MoDiv versus no MoDiv. Moreover, the gain of
 the Q3AP optimized MoDiv over $\psi_1 = \psi_2 = \psi_S$ indicates that
 different rearrangements at the source and relay during the cooperative
-transmission can further boost the BER performance. However, as $K$ decreases,
-heuristic MoDiv becomes a good approximation as the its performance gap with the
-Q3AP optimized MoDiv diminishes.
+transmission can further reduce BER to boost performance. However, as $K$
+decreases, heuristic MoDiv becomes a good approximate solution with diminishing
+performance gap from Q3AP-optimized MoDiv.
 
 \begin{figure}[!t]
     \begin{minipage}[b]{0.49\linewidth}
@@ -653,18 +658,18 @@ Q3AP optimized MoDiv diminishes.
 
 % Monte-Carlo BER mismatch comparison
 Finally, we test the coded BER performance and the robustness of the Q3AP MoDiv
-design with a LDPC coded system based on~\cite{hochwald2003achieving}, where we
-use a LDPC code with length $L=2400$, coding rate of $0.75$ and a Monte-Carlo
-run of up to 2000 LDPC frames. Despite that our Q3AP MoDiv scheme depends on
-noise power and statistical CSI, in this simulation we deliberately uses Q3AP
-MoDiv schemes designed for $E_b/N_0=-2dB$, AWGN channel and test it on Rician
-channel where $K=10$, $a=1$ and varying $E_b/N_0$ to demonstrate its robustness.
-The coded BER results for 16-QAM and 32-QAM are plotted in
-Fig.~\ref{fig:coded_BER16QAM} and Fig.~\ref{fig:coded_BER32QAM}, respectively.
-We can see that the Q3AP MoDiv solution provides additional gain over the
-heuristic MoDiv and no MoDiv scheme even under imperfect design parameters. Also
-we notice that the Q3AP MoDiv provides larger performance gain for 32-QAM than
-for 16-QAM constellation.
+design with a typical LDPC coded system based on~\cite{hochwald2003achieving}.
+We use a LDPC code with length $L=2400$, coding rate of $0.75$ and a
+Monte-Carlo run of up to 2000 LDPC frames. Although our Q3AP MoDiv scheme
+depends on noise power and statistical CSI, in this simulation we only use Q3AP
+MoDiv schemes designed for the condition of $E_b/N_0=-2dB$ under AWGN channel.
+We test the MoDiv design on Rician channels of $K=10$, $a=1$, and various
+$E_b/N_0$ to demonstrate its robustness. The coded BER results for 16-QAM and
+32-QAM are plotted in Fig.~\ref{fig:coded_BER16QAM} and
+Fig.~\ref{fig:coded_BER32QAM}, respectively. We can see that the Q3AP MoDiv
+solution provides additional gain over the heuristic MoDiv and no MoDiv even for
+mismatched design conditions. Also we notice that the Q3AP MoDiv provides larger
+performance gain for 32-QAM than for 16-QAM constellation.
 
 \begin{figure}[!t]
     \centering
@@ -680,17 +685,22 @@ for 16-QAM constellation.
     \label{fig:coded_BER32QAM}
 \end{figure}
 
+The robustness is important in scalable extensions of the present simple network
+model. For multiple cooperative relays, our natural extension is to allow
+different relay nodes to randomly select between the two Q3AP-optimized mappings
+$\psi_1$ and $\psi_2$ to ensure sufficient MoDiv and channel diversity. 
+
 \section{Conclusion}
 \label{sec:conclusion}
 In this work, we investigated the modulation diversity (MoDiv) design problem in
-a three-node cooperative relay-HARQ systems featured by the coordinated
-retransmission from both the source and the relay. Aiming to minimize the bit
-error rate (BER) upper bound, we formulated the MoDiv design into a quadratic
-three-dimensional assignment problem (Q3AP), and presented an efficient modified
-iterative local search (ILS) solution. Our numerical tests have demonstrated the
-performance advantage of the Q3AP-based MoDiv design over simply repeating the
-use of Gray mapping, and when the channel is heavily fading, a comparable
-performance gain can be achieved with a heuristic MoDiv design. 
+a three-node cooperative relay-HARQ system driven by coordinated retransmission
+from both the source and the relay. Aiming to minimize the bit error rate (BER)
+upper bound, we formulated the MoDiv design into a quadratic three-dimensional
+assignment problem (Q3AP), and presented an efficient modified iterative local
+search (ILS) solution. Our numerical tests demonstrate the performance advantage
+and robustness of the Q3AP-based MoDiv design over simply repeating the use of
+Gray mapping. When the channel experiences deep fades, a heuristic MoDiv design
+can also achieve comparable performance gains at low complexity.
 
 
 % conference papers do not normally have an appendix
