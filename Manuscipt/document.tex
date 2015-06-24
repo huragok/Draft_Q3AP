@@ -172,13 +172,13 @@
 Modulation diversity (MoDiv) is a simple and practical transmission enhancement
 technique that utilizes different modulation mappings to reduce packet loss rate
 and achieve higher link throughput. MoDiv is particularly meaningful and
-effective in hybrid-ARQ (HARQ) systems. In this paper, we study the deployment
+effective in hybrid-ARQ (HARQ) systems. We study the deployment
 and optimization of MoDiv in a coordinated relay-HARQ network to mitigate packet
 loss.
     % (how they do)
     % (how we do)
 We formulate the design optimization of MoDiv into a quadratic three-dimensional
-assignment problem (Q3AP), which we solve using a modified iterated local search
+assignment problem (Q3AP), then solve it using a modified iterated local search
 (ILS) method. Numerical results demonstrate clear performance gain over simple
 relay/retransmissions and over a heuristic design under fading channels.
     % (main results)
@@ -209,9 +209,8 @@ relay/retransmissions and over a heuristic design under fading channels.
 \section{Introduction}
 % Why are we interested in the cooperative relay-HARQ channel? Why MoDiv?
 In wireless data communication systems, high rate transmission under poor
-channel conditions often lead to reception errors. To recover lost packet due to
-transmission errors and packet loss. To recover lost packets, Automatic Repeat
-reQuest (ARQ) or Hybrid ARQ (HARQ) are important mechanisms for improving
+channel conditions often lead to reception errors. To recover lost packets,
+Automatic Repeat reQuest (ARQ) or Hybrid ARQ (HARQ) are important mechanisms for improving
 reliability at both network layer \cite{TS36.331} and PHY layer \cite{TS36.213}.
 HARQ in conjunction with relay networks has attracted substantial research
 interest in recent years~\cite{ngo2014hybrid}. Because data symbols in practical
@@ -242,7 +241,7 @@ known as the Quadratic Assignment Problem (QAP), that results in high-quality
 solutions over the QAPLIB dataset. In this work, we adopt a modified Iterated
 Local Search (ILS) method that is efficient for solving the Q3AP formulated from
 the MoDiv design problem for minimizing reception BER. Our numerical results
-demonstrate significant BER reduction over non-MoDiv (simple ) HARQ re-transmissions.
+demonstrate significant BER reduction over non-MoDiv (simple) HARQ re-transmissions.
 Moreover, we also show that when network channels are in heavy fading
 conditions, comparable performance gain can also be achieved by a low complexity
 heuristic MoDiv scheme.
@@ -281,7 +280,7 @@ In phase 1, source node broadcasts its packet to both destination and relay
 nodes.
 In phase 2 of this HARQ setup, upon packet loss notification, both relay and
 source nodes cooperatively retransmit the lost packet information to the
-destination. Our goal is to optimize H-ARQ constellation mappings to improve
+destination. Our goal is to optimize HARQ constellation mappings to improve
 modulation diversity so as to minimize the packet BER at the receiver.
 
 Denote $\mathcal{C}$ as the primary constellation used by this relay
@@ -545,7 +544,7 @@ Note that for any instance of Q3AP a total number of $Q^6$ coefficients must be
 computed. Fortunately, the MoDiv design is based on statistical CSI which does
 not require online computation of the $Q^6$ coefficients in real time. In fact,
 the optimized MoDiv can be precomputed and stored a priori in our network nodes.
-In our simulation, we implement the above procedure for 16-QAM and 32-QAM with
+In our simulation, we implement the above procedure for 16-QAM and 32-QAM
 in C++ on a workstation with 48 cores and finished the computation in several
 days for a $Q=32$ case and a few hours for a 16-QAM case. For larger
 constellation such as 64-QAM, however, the time and spacial complexity may still
@@ -575,7 +574,7 @@ satisfied.
 \label{sec:heuristic}
 For Rician fading channels, there is a strong Line Of Sight (LOS) component in
 $h_1$ and $h_2$. Our Q3AP solution benefits from 2 different gains. Firstly, by
-allowing $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$, we achieves the signal
+allowing $\psi_1\not=\psi_0$ and $\psi_2\not=\psi_0$, we achieve the signal
 space diversity gain just as existing MoDiv schemes. Secondly, by jointly
 designing $\psi_1$ and $\psi_2$ and allowing $\psi_1\not=\psi_2$, we achieve the
 cooperative gain between the source and the relay. When the channels are
@@ -590,8 +589,9 @@ adapting the trans-modulation proposal of Seddik~\cite{seddik2008trans} for
 16-QAM and 64-QAM. For 32-QAM constellation, a similar heuristic MoDiv design may be
 extended by remapping the 3 Most Significant Bits (MSBs) and the 2 Least
 Significant Bits (LSBs) separately. We will show in the next section that, when
-channels experience deep fading, such heuristic remapping method offers
-comparable performance gain as our Q3AP-based MoDiv.
+channels experience deep fading, such heuristic remapping method, denoted as
+$\psi_1 = \psi_2 = \psi_S$, offers comparable performance gain as our Q3AP-based
+MoDiv.
 
 \section{Numerical Results}
 \label{sec:simulation}
@@ -610,9 +610,7 @@ parameterized with $E_b/N_0$ of the S-D link.
 % Example of Q3AP mapping
 First, we provide an example of Q3AP optimized MoDiv for 16-QAM. For $E_b/N_0 =
 2\mbox{dB}$, $K = 10$ and $a = 1$, the remapping scheme $\psi_1$ and $\psi_2$
-are depicted in Fig.~\ref{fig:example}. The Gray mapping $\psi_0$ and the
-heuristic remapping $\psi_1=\psi_2=\psi_S$ are defined according to
-\cite{seddik2008trans}. The results support the use of heuristics discussed in
+are depicted in Fig.~\ref{fig:example}. The results support the use of heuristics discussed in
 Section~\ref{sec:heuristic} as both $\psi_1$ and $\psi_2$ are essentially very
 close to $\psi_S$. However, we note that in general $\psi_1\not=\psi_2$.
 
@@ -669,7 +667,7 @@ design with a typical LDPC coded system based on~\cite{hochwald2003achieving}.
 We use a LDPC code with length $L=2400$, coding rate of $0.75$ and a
 Monte-Carlo run of up to 2000 LDPC frames. Although our Q3AP MoDiv scheme
 depends on noise power and statistical CSI, in this simulation we only use Q3AP
-MoDiv schemes designed for the specific channel condition of $E_b/N_0=-2dB$
+MoDiv schemes designed for the specific channel condition of $E_b/N_0=-2$dB
 under AWGN channel.
 We test the MoDiv design on Rician channels of $K=10$, $a=1$, and various
 $E_b/N_0$ to demonstrate its robustness. The coded BER results for 16-QAM and
